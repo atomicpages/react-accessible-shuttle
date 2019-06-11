@@ -21,6 +21,7 @@
             border-color: #999;
             cursor: not-allowed;
         }
+        &:focus { outline: 0 none; }
         &--selected,
         &:hover {
             border-color: lighten(blue, 30%);

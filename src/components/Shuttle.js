@@ -160,6 +160,24 @@ function Shuttle({
                     } else {
                         payload.selections.splice(foundIndex, 1);
                     }
+                } else if (shiftKeyPressed.current) {
+                    type = `${source ? 'SOURCE' : 'TARGET'}_RANGE_SELECTED`;
+
+                    payload.selections = Array.from(
+                        state.selected[source ? 'source' : 'target'].selected
+                    );
+
+                    const peek = payload.selections[payload.selections.length - 1];
+
+                    if (index < peek) {
+                        for (let i = peek - 1; i >= 0; i--) {
+                            payload.selections.push(i);
+                        }
+                    } else if (index > peek) {
+                        for (let i = peek + 1; i <= index; i++) {
+                            payload.selections.push(i);
+                        }
+                    }
                 }
 
                 dispatch({
