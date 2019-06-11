@@ -7,16 +7,6 @@ import { ShuttleContext } from './ShuttleContext';
 
 let id_int = 0;
 
-/**
- * Pass the props to the item as you render it.
- * This is important to include since it contains
- * optimizations for click events on the shuttle
- * item.
- */
-const getItemProps = index => {
-    return { 'data-index': index };
-};
-
 type Props = {
     children: (
         store: Array<Object>,
@@ -36,6 +26,19 @@ function ShuttleContainer({ children, className, ...rest }: Props) {
     const id = React.useRef(
         containers[Math.floor(id_int++ % containers.length)]
     );
+
+    /**
+     * Pass the props to the item as you render it.
+     * This is important to include since it contains
+     * optimizations for click events on the shuttle
+     * item.
+     */
+    const getItemProps = React.useCallback(index => {
+        return {
+            'data-index': index,
+            selected: state.selected[id.current].selected.has(index)
+        };
+    }, [state]);
 
     return (
         <div

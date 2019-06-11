@@ -41,8 +41,7 @@ function App() {
                         <Shuttle.Item
                             key={item}
                             value={item}
-                            {...getItemProps(index)}
-                            selected={selected.source.selected.has(index)}>
+                            {...getItemProps(index)}>
                             {item}
                         </Shuttle.Item>
                     ))
@@ -55,8 +54,7 @@ function App() {
                         <Shuttle.Item
                             key={item}
                             value={item}
-                            {...getItemProps(index)}
-                            selected={selected.target.selected.has(index)}>
+                            {...getItemProps(index)}>
                             {item}
                         </Shuttle.Item>
                     ))

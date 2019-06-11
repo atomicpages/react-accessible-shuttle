@@ -20,8 +20,7 @@ storiesOf('Shuttle', module).add('basic shuttle', () => (
                     <Shuttle.Item
                         key={kebabCase(item)}
                         value={kebabCase(item)}
-                        {...getItemProps(index)}
-                        selected={selected.source.selected.has(index)}>
+                        {...getItemProps(index)}>
                         {item}
                     </Shuttle.Item>
                 ))
@@ -34,8 +33,7 @@ storiesOf('Shuttle', module).add('basic shuttle', () => (
                     <Shuttle.Item
                         key={kebabCase(item)}
                         value={kebabCase(item)}
-                        {...getItemProps(index)}
-                        selected={selected.target.selected.has(index)}>
+                        {...getItemProps(index)}>
                         {item}
                     </Shuttle.Item>
                 ))
