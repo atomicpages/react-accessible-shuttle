@@ -70,6 +70,7 @@
     },
     "dependencies": {
         "classnames": "^2.2.6",
-        "hoist-non-react-statics": "^3.3.0"
+        "hoist-non-react-statics": "^3.3.0",
+        "lodash.compact": "^3.0.1"
     }
 }
