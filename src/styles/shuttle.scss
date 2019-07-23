@@ -1,4 +1,6 @@
-.shuttle {
+$base-class-name: "shuttle" !default;
+
+.#{$base-class-name} {
     display: flex;
     &__container {
         width: 250px;
