@@ -5,21 +5,27 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "npm run clean && concurrently 'pack build' 'npm run build:css'",
-        "build:css": "mkdirp pkg/styles && sass --embed-source-map src/styles/** pkg/styles/shuttle.css",
+        "build": "npm run clean && pack build && npm run build:css",
+        "build:css": "mkdirp pkg/styles && sass -s compressed --embed-source-map src/styles/** pkg/css/shuttle.css",
         "build:test": "npm run clean && tsc src/index.ts --pretty --jsx react --esModuleInterop --outDir pkg",
         "clean": "rimraf pkg/**"
     },
     "@pika/pack": {
         "pipeline": [
             [
-                "@pika/plugin-ts-standard-pkg"
+                "@pika/plugin-ts-standard-pkg",
+                {
+                    "excludes": "playground/**"
+                }
+            ],
+            [
+                "@pika/plugin-build-web"
             ],
             [
                 "pika-plugin-legacy-browser",
                 {
                     "name": "ReactShuttle",
-                    "externals": [
+                    "external": [
                         "react"
                     ],
                     "globals": {
@@ -27,15 +33,12 @@
                     },
                     "sourcemap": true
                 }
-            ],
-            [
-                "@pika/plugin-build-web"
             ]
         ]
     },
     "keywords": [],
     "author": "",
-    "license": "ISC",
+    "license": "MIT",
     "devDependencies": {
         "@babel/cli": "^7.5.5",
         "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
@@ -47,9 +50,11 @@
         "@pika/pack": "^0.4.0",
         "@pika/plugin-build-umd": "^0.4.0",
         "@pika/plugin-build-web": "^0.4.0",
+        "@pika/plugin-copy-assets": "^0.4.0",
         "@pika/plugin-ts-standard-pkg": "^0.4.0",
         "@types/classnames": "^2.2.9",
         "@types/react": "^16.8.23",
+        "@types/react-dom": "^16.8.5",
         "classnames": "^2.2.6",
         "concurrently": "^4.1.1",
         "core-js": "^3.1.4",
@@ -63,5 +68,6 @@
         "rimraf": "^2.6.3",
         "sass": "^1.22.7",
         "typescript": "^3.5.3"
-    }
+    },
+    "dependencies": {}
 }
