@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import * as faker from 'faker';
 
-import { Shuttle, useShuttleState } from '../../src/index';
+import { Shuttle, useShuttleState, useShuttleKeyboardControls } from '../../src/index';
 import '../../src/styles/shuttle.scss';
 
 if (process.env.NODE_ENV === 'development') {
@@ -13,14 +14,24 @@ if (process.env.NODE_ENV === 'development') {
     })();
 }
 
+const start = performance.now();
+
+const state = {
+    source: new Array(100).fill(null).map(() => faker.fake('{{name.lastName}}, {{name.firstName}}')),
+    target: new Array(25).fill(null).map(() => faker.fake('{{name.lastName}}, {{name.firstName}}')),
+};
+
+const end = performance.now() - start;
+
+console.log(`Data generation offset ${Number(end).toFixed(4)}ms`);
+
 function App() {
-    const shuttle = useShuttleState({
-        source: ['a', 'b', 'c'],
-        target: ['d', 'e'],
-    });
+    const shuttle = useShuttleState(state);
+
+    const controls = useShuttleKeyboardControls(shuttle);
 
     return (
-        <Shuttle {...shuttle}>
+        <Shuttle {...shuttle} {...controls} enableUserSelectionHack>
             <Shuttle.Container>
                 {({ source, selected }, getItemProps) =>
                     source.map((item, index) => (
@@ -28,7 +39,7 @@ function App() {
                             {...getItemProps(index)}
                             key={item}
                             value={item}
-                            selected={selected.source.has(item)}>
+                            selected={selected.source.has(index)}>
                             {item}
                         </Shuttle.Item>
                     ))
@@ -41,7 +52,7 @@ function App() {
                             {...getItemProps(index)}
                             key={item}
                             value={item}
-                            selected={selected.target.has(item)}>
+                            selected={selected.target.has(index)}>
                             {item}
                         </Shuttle.Item>
                     ))

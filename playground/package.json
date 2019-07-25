@@ -1,7 +1,8 @@
 {
-    "name": "playgrouund",
+    "name": "playground",
     "version": "1.0.0",
     "description": "",
+    "private": true,
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,9 +10,10 @@
     },
     "keywords": [],
     "author": "",
-    "license": "ISC",
+    "license": "MIT",
     "devDependencies": {
         "@hot-loader/react-dom": "^16.8.6",
+        "@types/faker": "^4.1.5",
         "@types/react-dom": "^16.8.4",
         "css-loader": "^3.1.0",
         "html-webpack-plugin": "^3.2.0",
@@ -26,6 +28,8 @@
         "webpack-dev-server": "^3.7.2"
     },
     "dependencies": {
-        "react-dom": "^16.8.6"
+        "faker": "^4.1.0",
+        "react-dom": "^16.8.6",
+        "react-window": "^1.8.5"
     }
 }

@@ -4,7 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import { ShuttleContext } from './ShuttleContext';
-import { SHUTTLE_CONTAINERS } from './globals';
+import { NUMBER_OF_CONTAINERS, SHUTTLE_CONTAINERS_ARRAY } from './globals';
 import { ShuttleState } from './Shuttle';
 
 let id_int = 0;
@@ -12,9 +12,11 @@ let id_int = 0;
 type ShuttleContainerProps = {
     children: (
         store: ShuttleState,
-        getItemProps: (index: number) => {
-            'data-index': number,
-            selected: boolean,
+        getItemProps: (
+            index: number
+        ) => {
+            'data-index': number;
+            selected: boolean;
         }
     ) => React.ReactNode;
     className?: string;
@@ -31,7 +33,7 @@ export const ShuttleContainer = React.memo(function({
     const { shuttleState } = React.useContext(ShuttleContext);
 
     // mod needed for HMR updates
-    const id = React.useRef(SHUTTLE_CONTAINERS[Math.floor(id_int++ % SHUTTLE_CONTAINERS.length)]);
+    const id = React.useRef(SHUTTLE_CONTAINERS_ARRAY[Math.floor(id_int++ % NUMBER_OF_CONTAINERS)]);
 
     /**
      * Pass the props to the item as you render it.

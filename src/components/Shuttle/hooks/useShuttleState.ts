@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { toSet } from '../../../utils/utils';
-import { composeReducers, move, moveAll } from '../reducers/index';
+import { composeReducers, move, moveAll, selectItem } from '../reducers/index';
 
 function init({
     source,
@@ -67,7 +67,7 @@ export function useShuttleState(
     reducers: { [key: string]: Function } = {}
 ) {
     const [shuttleState, setShuttleState] = React.useReducer(
-        composeReducers({ move, moveAll, ...reducers }),
+        composeReducers({ move, moveAll, selectItem, ...reducers }),
         // @ts-ignore
         initialState,
         init

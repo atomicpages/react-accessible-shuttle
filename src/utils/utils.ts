@@ -1,7 +1,9 @@
-import { ShuttleState } from "../components/Shuttle/Shuttle";
+import { ShuttleState } from '../components/Shuttle/Shuttle';
+import { SHUTTLE_CONTAINERS } from '../components/Shuttle/globals';
 
 /**
  * Converts the source array to a Set.
+ * Needed because the polyfill for `new Set([1,2,3])` might fail.
  */
 export function toSet(source: string[], length: number) {
     const set = new Set<number>();
@@ -16,33 +18,47 @@ export function toSet(source: string[], length: number) {
 }
 
 /**
- * Gets the index of the item based on the `textContent`
- * of the HTML Element. This is bad, we don't _want_ to
- * use this, but when `data-index` isn't present, we have to.
+ * Gets the index of the HTMLElement. As an escape hatch, if `data-index` was not passed
+ * to the Shuttle.Item we will look through the list to find the item we want.
  */
-export const getIndexFromItem = (e: HTMLElement, state: ShuttleState) => {
-    warnOnce('Did you forget to pass getItemProps on each Shuttle.Item?');
+export const getIndexFromItem = (target: HTMLDivElement, state: ShuttleState) => {
+    if (!target.hasAttribute('data-index')) {
+        warnOnce(
+            'Did you forget to pass getItemProps on each Shuttle.Item? This is sever impact on performance.'
+        );
 
-    const container = e.closest('.shuttle__container');
+        const container = target.closest('.shuttle__container');
 
-    if (container) {
-        const source = container.nextSibling;
+        if (container) {
+            let node: HTMLElement = target;
+            let index = 0;
 
-        let index = -1;
-        const text = e.textContent;
-        const store = state[source ? 'source' : 'target'];
-
-        for (let i = 0; i < store.length; i++) {
-            if (text === store[i]) {
-                index = i;
-                break;
+            // @ts-ignore
+            while ((node = node.previousElementSibling)) {
+                index++;
             }
+
+            return index;
         }
 
-        return index;
+        return -1;
     }
 
-    return -1;
+    const index = parseInt(target.getAttribute('data-index') || '', 10);
+
+    return isNaN(index) ? -1 : index;
+};
+
+/**
+ * Gets relevant metadata from the container including
+ * if the container is the source or target and the name
+ * of the container.
+ */
+export const getContainerMetadata = (container: Element) => {
+    const source = container.getAttribute('data-name') === SHUTTLE_CONTAINERS.SOURCE;
+    const containerName = (source && SHUTTLE_CONTAINERS.SOURCE) || SHUTTLE_CONTAINERS.TARGET;
+
+    return { source, containerName };
 };
 
 /**

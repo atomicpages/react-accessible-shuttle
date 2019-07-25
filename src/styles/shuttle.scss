@@ -4,7 +4,8 @@ $base-class-name: 'shuttle' !default;
     display: flex;
 
     &--ush {
-        .#{$base-class-name}__container {
+        .#{$base-class-name}__container,
+        .#{$base-class-name}__controls {
             user-select: none;
         }
     }
@@ -44,7 +45,8 @@ $base-class-name: 'shuttle' !default;
         }
 
         &--selected,
-        &:hover {
+        &:hover,
+        &:focus {
             border-color: lighten(blue, 30%);
             background-color: lighten(blue, 45%);
         }

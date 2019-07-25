@@ -2,10 +2,12 @@ import { ShuttleState } from '../Shuttle';
 
 export { move } from './moveSelectedReducer';
 export { moveAll } from './moveAllReducer';
+export { selectItem } from './selectItemReducer';
 
 export enum SHUTTLE_CONTROL_TYPES {
     MOVE_SELECTIONS = 'MOVE_SELECTIONS',
     MOVE_ALL = 'MOVE_ALL',
+    SELECT_ITEM = 'SELECT_ITEM',
 }
 
 /**

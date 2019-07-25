@@ -24,18 +24,15 @@ export const move = (state: ShuttleState, action: MOVE_SELECTION_REDUCER_ACTION 
             );
         }
 
-        const nextState = shuttleSelections(
+        state[action.from] = shuttleSelections(
             state[action.from],
             state[action.to],
-            state.selected[action.to]
+            state.selected[action.from]
         );
 
-        state.selected[action.to].clear();
+        state.selected[action.from].clear();
 
-        return {
-            ...state,
-            ...nextState,
-        };
+        return { ...state };
     }
 
     return { ...state };

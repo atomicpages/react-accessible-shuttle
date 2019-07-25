@@ -40,7 +40,6 @@ module.exports = {
                         },
                     },
                     'css-loader',
-                    // 'postcss-loader',
                     'sass-loader',
                 ],
             },

@@ -5,6 +5,7 @@ import { ShuttleItem } from './ShuttleItem';
 import { ShuttleContainer } from './ShuttleContainer';
 import { ShuttleControls } from './ShuttleControls';
 import { ShuttleContext } from './ShuttleContext';
+import { useShuttleItemClick } from './hooks/useShuttleItemClick';
 
 export type ShuttleState = {
     /**
@@ -33,6 +34,8 @@ export type ShuttleState = {
     };
 };
 
+export type ShuttleReducer = { [key: string]: any };
+
 type ShuttleProps = {
     /**
      * The state to pass to the Shuttle.
@@ -41,8 +44,12 @@ type ShuttleProps = {
 
     /**
      * The set state function passed to the shuttle.
+     * Internally this function is a `dispatch` from
+     * `React.useReducer`. If you're not using the
+     * `useShuttleState` hook you **must** provide
+     * a dispatch-compatible function yourself.
      */
-    setShuttleState: (state: ShuttleState) => void;
+    setShuttleState: (state: ShuttleReducer) => void;
 
     /**
      * Optional classNames to pass to the shuttle.
@@ -59,6 +66,8 @@ type ShuttleProps = {
      * in your app.
      */
     enableUserSelectionHack?: boolean;
+
+    onClick?: (e: React.MouseEvent) => void;
 };
 
 export function Shuttle({
@@ -67,7 +76,11 @@ export function Shuttle({
     enableUserSelectionHack,
     className,
     children,
+    onClick,
+    ...rest
 }: ShuttleProps) {
+    const { onClick: defaultClickHandler } = useShuttleItemClick({ setShuttleState, shuttleState });
+
     return (
         <ShuttleContext.Provider value={{ shuttleState, setShuttleState }}>
             <div
@@ -78,7 +91,9 @@ export function Shuttle({
                     },
                     className
                 )}
-                role="presentation">
+                role="presentation"
+                onClick={onClick || defaultClickHandler}
+                {...rest}>
                 {children}
             </div>
         </ShuttleContext.Provider>
