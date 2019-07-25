@@ -1,4 +1,3 @@
-import { ShuttleState } from '../components/Shuttle/Shuttle';
 import { SHUTTLE_CONTAINERS } from '../components/Shuttle/globals';
 
 /**
@@ -21,7 +20,7 @@ export function toSet(source: string[], length: number) {
  * Gets the index of the HTMLElement. As an escape hatch, if `data-index` was not passed
  * to the Shuttle.Item we will look through the list to find the item we want.
  */
-export const getIndexFromItem = (target: HTMLDivElement, state: ShuttleState) => {
+export const getIndexFromItem = (target: HTMLDivElement) => {
     if (!target.hasAttribute('data-index')) {
         warnOnce(
             'Did you forget to pass getItemProps on each Shuttle.Item? This is sever impact on performance.'
@@ -30,10 +29,9 @@ export const getIndexFromItem = (target: HTMLDivElement, state: ShuttleState) =>
         const container = target.closest('.shuttle__container');
 
         if (container) {
-            let node: HTMLElement = target;
+            let node: Element | null = target;
             let index = 0;
 
-            // @ts-ignore
             while ((node = node.previousElementSibling)) {
                 index++;
             }

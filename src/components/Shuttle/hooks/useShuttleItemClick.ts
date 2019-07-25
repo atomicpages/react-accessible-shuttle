@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { ShuttleState, ShuttleReducer } from '../Shuttle';
 import { getIndexFromItem, getContainerMetadata } from '../../../utils/utils';
-import { SHUTTLE_CONTROL_TYPES } from '../reducers';
+import { SHUTTLE_CONTROL_TYPES } from '../reducers/index';
 
 type Options = {
     setShuttleState: (args: ShuttleReducer) => void;
@@ -15,11 +15,12 @@ export function useShuttleItemClick({ setShuttleState, shuttleState }: Options) 
             const target = e.target as HTMLDivElement;
 
             if (target.className.indexOf('shuttle__item') !== -1) {
-                const index = getIndexFromItem(target, shuttleState);
+                const index = getIndexFromItem(target);
                 const container = target.closest('.shuttle__container');
 
                 if (container) {
-                    const { source } = getContainerMetadata(container);''
+                    const { source } = getContainerMetadata(container);
+                    '';
 
                     const action = {
                         type: SHUTTLE_CONTROL_TYPES.SELECT_ITEM,

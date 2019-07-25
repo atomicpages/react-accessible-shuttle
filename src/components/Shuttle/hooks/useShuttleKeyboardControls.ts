@@ -42,7 +42,7 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
             const target = e.target as HTMLDivElement;
 
             if (target.className.indexOf('shuttle__item') !== -1) {
-                const itemIndex = getIndexFromItem(target, shuttleState);
+                const itemIndex = getIndexFromItem(target);
                 const increment = e.keyCode === ARROWS.UP_ARROW;
                 const container = target.closest('.shuttle__container');
 
@@ -74,7 +74,9 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
                                 }
                             }
 
-                            (container.children[selectionArray[selectionArray.length -1]] as HTMLElement).focus();
+                            (container.children[
+                                selectionArray[selectionArray.length - 1]
+                            ] as HTMLElement).focus();
                             payload.index = selectionArray;
                         } else {
                             let [index] = selectionArray;
@@ -98,7 +100,7 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
         (e: React.MouseEvent<HTMLDivElement>) => {
             if (ctrlKeyPressed.current || metaKeyPressed.current || shiftKeyPressed.current) {
                 const target = e.target as HTMLDivElement;
-                const index = getIndexFromItem(target, shuttleState);
+                const index = getIndexFromItem(target);
                 const container = target.closest('.shuttle__container');
 
                 if (container) {
