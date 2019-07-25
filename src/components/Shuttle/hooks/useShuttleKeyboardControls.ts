@@ -58,17 +58,34 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
                         };
 
                         if (shiftKeyPressed.current) {
-                            // TODO: implement...
+                            const lastItemInArray = selectionArray[selectionArray.length - 1];
+
+                            if (increment) {
+                                if (selectionArray.indexOf(lastItemInArray - 1) === -1) {
+                                    selectionArray.push(lastItemInArray - 1);
+                                } else {
+                                    selectionArray.pop();
+                                }
+                            } else {
+                                if (selectionArray.indexOf(lastItemInArray + 1) === -1) {
+                                    selectionArray.push(lastItemInArray + 1);
+                                } else {
+                                    selectionArray.pop();
+                                }
+                            }
+
+                            (container.children[selectionArray[selectionArray.length -1]] as HTMLElement).focus();
+                            payload.index = selectionArray;
                         } else {
-                            const [index] = selectionArray;
+                            let [index] = selectionArray;
 
                             if (index >= 0) {
-                                payload.index = index + (increment ? -1 : 1);
+                                index = index + (increment ? -1 : 1);
                             }
-                        }
 
-                        // @ts-ignore
-                        // container.children[itemIndex].focus();
+                            (container.children[index] as HTMLElement).focus();
+                            payload.index = index;
+                        }
 
                         setShuttleState(payload);
                     }

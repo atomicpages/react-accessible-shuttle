@@ -66,8 +66,6 @@ type ShuttleProps = {
      * in your app.
      */
     enableUserSelectionHack?: boolean;
-
-    onClick?: (e: React.MouseEvent) => void;
 };
 
 export function Shuttle({
@@ -76,7 +74,6 @@ export function Shuttle({
     enableUserSelectionHack,
     className,
     children,
-    onClick,
     ...rest
 }: ShuttleProps) {
     const { onClick: defaultClickHandler } = useShuttleItemClick({ setShuttleState, shuttleState });
@@ -92,7 +89,7 @@ export function Shuttle({
                     className
                 )}
                 role="presentation"
-                onClick={onClick || defaultClickHandler}
+                onClick={defaultClickHandler}
                 {...rest}>
                 {children}
             </div>

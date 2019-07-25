@@ -27,7 +27,6 @@ console.log(`Data generation offset ${Number(end).toFixed(4)}ms`);
 
 function App() {
     const shuttle = useShuttleState(state);
-
     const controls = useShuttleKeyboardControls(shuttle);
 
     return (

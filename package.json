@@ -36,12 +36,10 @@
             ]
         ]
     },
-    "keywords": [],
-    "author": "",
+    "keywords": ["shuttle", "dual listbox", "list shuttle", "hooks"],
+    "author": "Dennis Thompson",
+    "maintainers": ["Dennis Thompson"],
     "license": "MIT",
-    "optionalDependencies": {
-        "react-window": "^1.8.5"
-    },
     "devDependencies": {
         "@babel/cli": "^7.5.5",
         "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
