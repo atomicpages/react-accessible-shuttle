@@ -1,19 +1,24 @@
 import * as React from 'react';
 import { toSet } from '../../../utils/utils';
 import { composeReducers, move, moveAll, selectItem } from '../reducers/index';
+import { ShuttleState } from '../Shuttle';
+
+type InitialArrayType<T> = {
+    source: T[];
+    target: T[];
+};
 
 function init({
     source,
     target,
     selections,
+    disabled,
 }: {
     source: any[];
     target: any[];
-    selections: {
-        source: number[];
-        target: number[];
-    };
-}) {
+    selections: InitialArrayType<number>;
+    disabled: InitialArrayType<any>;
+}): ShuttleState {
     if (!selections.source) {
         throw new Error('Initial selection "source" must be an array');
     }
@@ -26,9 +31,13 @@ function init({
         source,
         target,
         selected: {
-            source: toSet(selections.source),
-            target: toSet(selections.target),
+            source: toSet<number>(selections.source),
+            target: toSet<number>(selections.target),
         },
+        disabled: {
+            source: toSet<any>(disabled.source),
+            target: toSet<any>(disabled.target),
+        }
     };
 }
 
@@ -60,12 +69,35 @@ export function useShuttleState(
         source: [],
         target: [],
     },
+    disabled: {
+        source: any[];
+        target: any[];
+    } = {
+        source: [],
+        target: [],
+    },
     reducers: { [key: string]: Function } = {}
 ) {
+    // because even I forget that null and undefined are different
+    if (initialSelections === null) {
+        initialSelections = {
+            source: [],
+            target: [],
+        };
+    }
+
+    if (disabled === null) {
+        disabled = {
+            source: [],
+            target: [],
+        };
+    }
+
     const [shuttleState, setShuttleState] = React.useReducer(
         composeReducers({ move, moveAll, selectItem, ...reducers }),
         {
             ...initialState,
+            disabled,
             selections: initialSelections,
         },
         init

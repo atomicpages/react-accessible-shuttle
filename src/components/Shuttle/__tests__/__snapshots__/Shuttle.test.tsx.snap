@@ -38,92 +38,92 @@ exports[`Shuttle tests should select items 1`] = `
       <div
         class="shuttle__item"
         data-index="0"
-        data-value="357"
-        role="listitem"
+        data-value="0"
+        role="option"
         tabindex="0"
       >
-        357
+        0
       </div>
       <div
         class="shuttle__item"
         data-index="1"
-        data-value="246"
-        role="listitem"
+        data-value="1"
+        role="option"
         tabindex="0"
       >
-        246
+        1
       </div>
       <div
         class="shuttle__item"
         data-index="2"
-        data-value="625"
-        role="listitem"
+        data-value="2"
+        role="option"
         tabindex="0"
       >
-        625
+        2
       </div>
       <div
         class="shuttle__item"
         data-index="3"
-        data-value="799"
-        role="listitem"
+        data-value="3"
+        role="option"
         tabindex="0"
       >
-        799
+        3
       </div>
       <div
         class="shuttle__item"
         data-index="4"
-        data-value="461"
-        role="listitem"
+        data-value="4"
+        role="option"
         tabindex="0"
       >
-        461
+        4
       </div>
       <div
         class="shuttle__item"
         data-index="5"
-        data-value="37"
-        role="listitem"
+        data-value="0"
+        role="option"
         tabindex="0"
       >
-        37
+        0
       </div>
       <div
         class="shuttle__item"
         data-index="6"
-        data-value="280"
-        role="listitem"
+        data-value="1"
+        role="option"
         tabindex="0"
       >
-        280
+        1
       </div>
       <div
         class="shuttle__item"
         data-index="7"
-        data-value="465"
-        role="listitem"
+        data-value="2"
+        role="option"
         tabindex="0"
       >
-        465
+        2
       </div>
       <div
         class="shuttle__item"
         data-index="8"
-        data-value="836"
-        role="listitem"
+        data-value="3"
+        role="option"
         tabindex="0"
       >
-        836
+        3
       </div>
       <div
         class="shuttle__item"
         data-index="9"
-        data-value="20"
-        role="listitem"
+        data-value="4"
+        role="option"
         tabindex="0"
       >
-        20
+        4
       </div>
     </div>
   </div>

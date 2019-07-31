@@ -5,9 +5,12 @@ import { render, fireEvent, cleanup } from '@testing-library/react';
 
 import { Shuttle, useShuttleState } from '../../../index';
 
+let i = 0;
+let j = 0;
+
 const dummyState = {
-    source: new Array(5).fill(null).map(() => Math.round(Math.random() * 1000)),
-    target: new Array(5).fill(null).map(() => Math.round(Math.random() * 1000)),
+    source: new Array(5).fill(null).map(() => i++),
+    target: new Array(5).fill(null).map(() => j++),
 };
 
 const TestShuttle = ({ state }: any) => {

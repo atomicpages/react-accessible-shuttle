@@ -32,6 +32,18 @@ export type ShuttleState = {
          */
         target: Set<number>;
     };
+
+    disabled: {
+        /**
+         * The source containers disabled items.
+         */
+        source: Set<any>;
+
+        /**
+         * The target container disabled items.
+         */
+        target: Set<any>;
+    }
 };
 
 export type ShuttleReducer = { [key: string]: any };

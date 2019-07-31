@@ -4,7 +4,9 @@ import { useShuttleItemClick } from './useShuttleItemClick';
 import { getIndexFromItem, getContainerMetadata, removeDisabledIndexes } from '../../../utils/utils';
 import { SELECT_ITEM_REDUCER_ACTION } from '../reducers/selectItemReducer';
 
-enum ARROWS {
+enum KEYS {
+    END = 35,
+    HOME = 36,
     UP_ARROW = 38,
     DOWN_ARROW = 40,
 }
@@ -36,12 +38,15 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
         ctrlKeyPressed.current = e.ctrlKey;
         metaKeyPressed.current = e.metaKey;
 
-        if (e.keyCode === ARROWS.UP_ARROW || e.keyCode === ARROWS.DOWN_ARROW) {
+        // TODO: implement HOME and END keycodes support
+        // https://www.w3.org/TR/wai-aria-practices-1.1/examples/listbox/listbox-scrollable.html
+
+        if (e.keyCode === KEYS.UP_ARROW || e.keyCode === KEYS.DOWN_ARROW) {
             const target = e.target as HTMLDivElement;
 
             if (target.className.includes('shuttle__item')) {
                 const itemIndex = getIndexFromItem(target);
-                const increment = e.keyCode === ARROWS.UP_ARROW;
+                const increment = e.keyCode === KEYS.UP_ARROW;
                 const container = target.closest('.shuttle__container');
 
                 if (container) {

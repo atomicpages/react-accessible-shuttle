@@ -37,9 +37,9 @@ const end = performance.now() - start;
 console.log(`Data generation offset ${Number(end).toFixed(4)}ms`);
 
 function Main() {
-    const shuttle = useShuttleState(state, {
-        source: [1,2,3],
-        target: [],
+    const shuttle = useShuttleState(state, null, {
+        source: ['Dr. Borer III, Dale'],
+        target: []
     });
 
     const controls = useShuttleKeyboardControls(shuttle);
@@ -47,14 +47,14 @@ function Main() {
     return (
         <Shuttle {...shuttle} {...controls} enableUserSelectionHack>
             <Shuttle.Container>
-                {({ source, selected }, getItemProps) =>
+                {({ source, selected, disabled }, getItemProps) =>
                     source.map((item, index) => (
                         <Shuttle.Item
                             {...getItemProps(index)}
                             key={item}
                             value={item}
                             selected={selected.source.has(index)}
-                            disabled={item === 'Dr. Borer III, Dale'}>
+                            disabled={disabled.source.has(item)}>
                             {item}
                         </Shuttle.Item>
                     ))

@@ -6,7 +6,7 @@ exports[`ShuttleItem tests should match the snapshot 1`] = `
     class="shuttle__item"
     data-index="1"
     data-value="foo"
-    role="listitem"
+    role="option"
     tabindex="0"
   >
     Foo
