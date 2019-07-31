@@ -4,11 +4,11 @@ import { SHUTTLE_CONTAINERS } from '../components/Shuttle/globals';
  * Converts the source array to a Set.
  * Needed because IE fails with `new Set([1,2,3])`.
  */
-export function toSet(source: string[], length: number) {
+export function toSet(source: number[]) {
     const set = new Set<number>();
 
-    for (let i = 0; i < length; i++) {
-        if (i < source.length && source[i]) {
+    for (let i = 0; i < source.length; i++) {
+        if (source[i]) {
             set.add(i);
         }
     }

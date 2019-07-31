@@ -37,7 +37,11 @@ const end = performance.now() - start;
 console.log(`Data generation offset ${Number(end).toFixed(4)}ms`);
 
 function Main() {
-    const shuttle = useShuttleState(state);
+    const shuttle = useShuttleState(state, {
+        source: [1,2,3],
+        target: [],
+    });
+
     const controls = useShuttleKeyboardControls(shuttle);
 
     return (

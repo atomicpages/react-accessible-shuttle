@@ -5,16 +5,13 @@ import { composeReducers, move, moveAll, selectItem } from '../reducers/index';
 function init({
     source,
     target,
-    selections = {
-        source: [],
-        target: [],
-    },
+    selections,
 }: {
     source: any[];
     target: any[];
     selections: {
-        source: any[];
-        target: any[];
+        source: number[];
+        target: number[];
     };
 }) {
     if (!selections.source) {
@@ -29,8 +26,8 @@ function init({
         source,
         target,
         selected: {
-            source: toSet(selections.source, source.length),
-            target: toSet(selections.target, target.length),
+            source: toSet(selections.source),
+            target: toSet(selections.target),
         },
     };
 }
@@ -56,10 +53,9 @@ export function useShuttleState(
         source: [],
         target: [],
     },
-    // @ts-ignore
     initialSelections: {
-        source: string[];
-        target: string[];
+        source: number[];
+        target: number[];
     } = {
         source: [],
         target: [],
@@ -68,8 +64,10 @@ export function useShuttleState(
 ) {
     const [shuttleState, setShuttleState] = React.useReducer(
         composeReducers({ move, moveAll, selectItem, ...reducers }),
-        // @ts-ignore
-        initialState,
+        {
+            ...initialState,
+            selections: initialSelections,
+        },
         init
     );
 
