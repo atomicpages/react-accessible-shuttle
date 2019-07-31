@@ -10,6 +10,10 @@ import { ShuttleState } from './Shuttle';
 let id_int = 0;
 
 type ShuttleContainerProps = {
+    /**
+     * Child render function of the Shuttle Container.
+     * This is where you render your Shuttle.Item components.
+     */
     children: (
         store: ShuttleState,
         getItemProps: (
@@ -19,6 +23,11 @@ type ShuttleContainerProps = {
             selected: boolean;
         }
     ) => React.ReactNode;
+
+    /**
+     * Optionally pass a className to the container
+     * for CSS styles.
+     */
     className?: string;
 };
 

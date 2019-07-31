@@ -14,7 +14,7 @@ export function useShuttleItemClick({ setShuttleState, shuttleState }: Options) 
         (e: React.MouseEvent<HTMLDivElement>) => {
             const target = e.target as HTMLDivElement;
 
-            if (target.className.indexOf('shuttle__item') !== -1) {
+            if (target.className.includes('shuttle__item')) {
                 const index = getIndexFromItem(target);
                 const container = target.closest('.shuttle__container');
 

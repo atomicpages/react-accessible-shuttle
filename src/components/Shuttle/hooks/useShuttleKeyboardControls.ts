@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ShuttleReducer, ShuttleState } from '../Shuttle';
 import { useShuttleItemClick } from './useShuttleItemClick';
-import { getIndexFromItem, getContainerMetadata } from '../../../utils/utils';
+import { getIndexFromItem, getContainerMetadata, removeDisabledIndexes } from '../../../utils/utils';
 import { SELECT_ITEM_REDUCER_ACTION } from '../reducers/selectItemReducer';
 
 enum ARROWS {
@@ -37,11 +37,9 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
         metaKeyPressed.current = e.metaKey;
 
         if (e.keyCode === ARROWS.UP_ARROW || e.keyCode === ARROWS.DOWN_ARROW) {
-            e.preventDefault(); // FIXME: might be redundant...
-
             const target = e.target as HTMLDivElement;
 
-            if (target.className.indexOf('shuttle__item') !== -1) {
+            if (target.className.includes('shuttle__item')) {
                 const itemIndex = getIndexFromItem(target);
                 const increment = e.keyCode === ARROWS.UP_ARROW;
                 const container = target.closest('.shuttle__container');
@@ -50,7 +48,7 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
                     const { containerName } = getContainerMetadata(container);
 
                     if (itemIndex >= 0 && itemIndex < shuttleState[containerName].length) {
-                        const selectionArray = Array.from(shuttleState.selected[containerName]);
+                        let selectionArray = Array.from(shuttleState.selected[containerName]);
 
                         const payload: SELECT_ITEM_REDUCER_ACTION = {
                             type: 'SELECT_ITEM',
@@ -74,15 +72,27 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
                                 }
                             }
 
+                            // selectionArray = removeDisabledIndexes(container.children, selectionArray);
+
                             (container.children[
                                 selectionArray[selectionArray.length - 1]
                             ] as HTMLElement).focus();
+
                             payload.index = selectionArray;
                         } else {
                             let [index] = selectionArray;
+                            index = index + (increment ? -1 : 1);
 
-                            if (index >= 0) {
+                            while (index >= 0 && index < container.children.length &&
+                                (container.children[index] as HTMLElement).hasAttribute(
+                                    'data-disabled'
+                                )
+                            ) {
                                 index = index + (increment ? -1 : 1);
+                            }
+
+                            if (index <= 0 || index >= container.children.length) {
+                                return;
                             }
 
                             (container.children[index] as HTMLElement).focus();
@@ -112,19 +122,25 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
                         index: Array.from(shuttleState.selected[containerName]),
                     };
 
-                    const selectionArray = Array.from(shuttleState.selected[containerName]);
+                    let selectionArray = Array.from(shuttleState.selected[containerName]);
                     const lastItemInArray = selectionArray[selectionArray.length - 1];
 
                     if (shiftKeyPressed.current) {
                         if (index < lastItemInArray) {
-                            for (let i = lastItemInArray - 1; i >= 0; i--) {
+                            let i = lastItemInArray;
+
+                            while(i-- > index) {
                                 selectionArray.push(i);
                             }
                         } else if (index > lastItemInArray) {
-                            for (let i = lastItemInArray + 1; i <= index; i++) {
+                            let i = lastItemInArray;
+
+                            while (i++ < index) {
                                 selectionArray.push(i);
                             }
                         }
+
+                        selectionArray = removeDisabledIndexes(container.children, selectionArray);
                     } else {
                         const foundIndex = selectionArray.indexOf(index);
 

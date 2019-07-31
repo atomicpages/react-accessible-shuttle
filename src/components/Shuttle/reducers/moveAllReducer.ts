@@ -15,7 +15,7 @@ export const moveAll = (state: ShuttleState, action: MOVE_SELECTION_REDUCER_ACTI
     if (action.type === 'MOVE_ALL') {
         if (!action.from || !action.to) {
             throw new Error(
-                `Missing required actions: from: 'source' | 'target', to: 'source' | 'target'`
+                `Missing required reducer properties: { from: 'source' | 'target', to: 'source' | 'target' }`
             );
         }
 

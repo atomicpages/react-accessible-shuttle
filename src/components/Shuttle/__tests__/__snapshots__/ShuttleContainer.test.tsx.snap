@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShuttleContainer tests should contain data-name and other essential attributes 1`] = `
+<div>
+  <div
+    class="shuttle__container"
+    data-name="target"
+    data-testid="container"
+    role="listbox"
+    tabindex="0"
+  >
+    <p>
+      hello
+    </p>
+  </div>
+</div>
+`;

@@ -2,7 +2,7 @@ import { SHUTTLE_CONTAINERS } from '../components/Shuttle/globals';
 
 /**
  * Converts the source array to a Set.
- * Needed because the polyfill for `new Set([1,2,3])` might fail.
+ * Needed because IE fails with `new Set([1,2,3])`.
  */
 export function toSet(source: string[], length: number) {
     const set = new Set<number>();
@@ -46,6 +46,14 @@ export const getIndexFromItem = (target: HTMLDivElement) => {
 
     return isNaN(index) ? -1 : index;
 };
+
+export const removeDisabledIndexes = (collection: HTMLCollection, indexes: number[]) =>
+    indexes.filter(
+        index =>
+            index >= 0 &&
+            index < collection.length &&
+            !collection[index].hasAttribute('data-disabled')
+    );
 
 /**
  * Gets relevant metadata from the container including

@@ -31,8 +31,12 @@ type ShuttleItemProps = {
     /**
      * Set the selection status of the shuttle item.
      */
-    selected: boolean;
+    selected?: boolean;
 
+    /**
+     * Used for optimizing lookups on DOM nodes. This helps keep
+     * react-shuttle super fast!
+     */
     'data-index'?: number;
 };
 
@@ -57,6 +61,7 @@ export const ShuttleItem = React.memo(function({
                 className
             )}
             data-value={value}
+            data-disabled={disabled || undefined}
             role="listitem"
             tabIndex={0}
             {...rest}>

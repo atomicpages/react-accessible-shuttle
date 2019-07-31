@@ -20,7 +20,7 @@ type ShuttleControlsProps = XOR<
  *      <CustomButton onClick={() => setShuttleState({ type: 'MOVE_ALL' })} />
  * )} />
  */
-export function ShuttleControls({ children, render }: ShuttleControlsProps) {
+export const ShuttleControls = React.memo(({ children, render, ...rest }: ShuttleControlsProps) => {
     const { setShuttleState } = React.useContext(ShuttleContext);
 
     if (typeof children === 'function') {
@@ -64,13 +64,13 @@ export function ShuttleControls({ children, render }: ShuttleControlsProps) {
     }, []);
 
     return (
-        <div className="shuttle__controls">
+        <div className="shuttle__controls" {...rest}>
             <button onClick={moveAllFromSource}>{'\u00BB'}</button>
             <button onClick={moveSelectedFromSource}>{'\u203A'}</button>
             <button onClick={moveSelectedFromTarget}>{'\u2039'}</button>
             <button onClick={moveAllFromTarget}>{'\u00AB'}</button>
         </div>
     );
-}
+});
 
 ShuttleControls.displayName = 'Shuttle.Controls';

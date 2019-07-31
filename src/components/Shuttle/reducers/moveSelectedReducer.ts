@@ -9,8 +9,8 @@ export type MOVE_SELECTION_REDUCER_ACTION = {
 const shuttleSelections = (from: any[], to: any[], selected: Set<number>) => {
     const entries = selected.entries();
 
-    for (let entry of entries) {
-        to.push(from.splice(entry[0], 1, null)[0]);
+    for (let [entry] of entries) {
+        to.push(from.splice(entry, 1, null)[0]);
     }
 
     return from.filter(Boolean);

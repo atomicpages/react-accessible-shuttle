@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShuttleItem tests should match the snapshot 1`] = `
+<div>
+  <div
+    class="shuttle__item"
+    data-index="1"
+    data-value="foo"
+    role="listitem"
+    tabindex="0"
+  >
+    Foo
+  </div>
+</div>
+`;

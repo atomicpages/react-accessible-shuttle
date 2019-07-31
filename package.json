@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "jest --silent",
         "build": "npm run clean && pack build && npm run build:css",
         "build:css": "mkdirp pkg/styles && sass -s compressed --embed-source-map src/styles/** pkg/css/shuttle.css",
         "build:test": "npm run clean && tsc src/index.ts --pretty --jsx react --esModuleInterop --outDir pkg",
@@ -36,9 +36,16 @@
             ]
         ]
     },
-    "keywords": ["shuttle", "dual listbox", "list shuttle", "hooks"],
+    "keywords": [
+        "shuttle",
+        "dual listbox",
+        "list shuttle",
+        "hooks"
+    ],
     "author": "Dennis Thompson",
-    "maintainers": ["Dennis Thompson"],
+    "maintainers": [
+        "Dennis Thompson"
+    ],
     "license": "MIT",
     "devDependencies": {
         "@babel/cli": "^7.5.5",
@@ -53,13 +60,17 @@
         "@pika/plugin-build-web": "^0.4.0",
         "@pika/plugin-copy-assets": "^0.4.0",
         "@pika/plugin-ts-standard-pkg": "^0.4.0",
+        "@testing-library/jest-dom": "^4.0.0",
+        "@testing-library/react": "^8.0.7",
         "@types/classnames": "^2.2.9",
+        "@types/jest": "^24.0.15",
         "@types/react": "^16.8.23",
         "@types/react-dom": "^16.8.5",
         "classnames": "^2.2.6",
         "concurrently": "^4.1.1",
         "core-js": "^3.1.4",
         "eslint": "^5.16.0",
+        "jest": "^24.8.0",
         "mini-css-extract-plugin": "^0.8.0",
         "mkdirp": "^0.5.1",
         "pika-plugin-legacy-browser": "^1.0.1",
@@ -69,6 +80,7 @@
         "react-window": "^1.8.5",
         "rimraf": "^2.6.3",
         "sass": "^1.22.7",
+        "ts-jest": "^24.0.2",
         "typescript": "^3.5.3"
     },
     "dependencies": {}
