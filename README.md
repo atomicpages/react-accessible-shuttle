@@ -76,9 +76,16 @@ If you're new to hooks, the example might seem verbose; however, we can easily a
 
 ### Without Hooks
 
-> Please read the "How it Works" section before proceeding.
+> **Note:** React 16.8 is a peer dependency of react-accessible-shuttle which means we can use hooks! However, if, for some reason, you find yourself stubbing 16.8 APIs so you can use newer stuff without upgrading, then you could possibly make things work :astonished:
 
-Not on the hooks train yet? No worries. `react-accessible-shuttle` depends in React 16.8.0+ so if you have that, then you can use without hooks (i.e. in a `class` component) with ease:
+Not on the hooks train yet? No worries. `react-accessible-shuttle` depends in React 16.8.0+ so if you have that, then you can use without hooks (i.e. in a `class` component) with a some extra effort :smiley: (although we should really use hooks because they make our live much easier).
+
+Here are the things that need to be done:
+
+-   Pass `selected` and `disabled` to state (`useShuttleState` generates these automatically for us)
+-   Override `Shuttle.Controls` and manually construct `setState` calls. See [ShuttleControls.tsx](https://github.com/atomicpages/react-accessible-shuttle/blob/master/src/components/Shuttle/ShuttleControls.tsx) for code you can copy and paste or the example below.
+
+If you're new to state reducing, this might seem mind-bending, but remember that we're using `this.setState` to pass information to a function that _returns_ our modified state.
 
 ```jsx
 import React from 'react';
@@ -88,12 +95,70 @@ class App extends React.Component {
     state = {
         source: ['a', 'b', 'c'],
         target: ['d', 'e', 'f'],
+
+        // you MUST provide these when using
+        // class components
+        selections: {
+            source: new Set(),
+            target: new Set(),
+        },
+        disabled: {
+            source: new Set(),
+            target: new Set(),
+        },
+    };
+
+    this.moveAllFromSource = () => {
+        this.setState({
+            action: 'MOVE_ALL',
+            from: 'source',
+            to: 'target',
+        });
+    };
+
+    this.moveSelectedFromSource = () => {
+        this.setState({
+            action: 'MOVE_SELECTIONS',
+            from: 'source',
+            to: 'target',
+        });
+    };
+
+    this.moveSelectedFromTarget = () => {
+        this.setState({
+            action: 'MOVE_SELECTIONS',
+            from: 'target',
+            to: 'source',
+        });
+    };
+
+    this.moveAllFromTarget = () => {
+        this.setState({
+            action: 'MOVE_ALL',
+            from: 'target',
+            to: 'source',
+        });
     };
 
     render() {
         return (
             <Shuttle shuttleState={this.state} setShuttleState={this.setState}>
-                {/* ... */}
+                <Shuttle.Container>
+                    {/* ... */}
+                </Shuttle.Container>
+                <Shuttle.Controls>
+                    {() => (
+                        <>
+                            <button onClick={this.moveAllFromSource}>{'\u00BB'}</button>
+                            <button onClick={this.moveSelectedFromSource}>{'\u203A'}</button>
+                            <button onClick={this.moveSelectedFromTarget}>{'\u2039'}</button>
+                            <button onClick={this.moveAllFromTarget}>{'\u00AB'}</button>
+                        </>
+                    )}
+                </Shuttle.Controls>
+                <Shuttle.Container>
+                    {/* ... */}
+                </Shuttle.Container>
             </Shuttle>
         );
     }

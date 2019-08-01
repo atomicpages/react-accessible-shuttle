@@ -154,10 +154,6 @@ describe('Shuttle tests', () => {
                     },
                 };
 
-                constructor(props: any) {
-                    super(props);
-                }
-
                 public handleMoveAllToTarget = () => {
                     this.setState({
                         ...moveAll(this.state, {
