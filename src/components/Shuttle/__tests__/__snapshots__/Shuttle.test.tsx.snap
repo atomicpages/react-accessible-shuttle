@@ -1,42 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Shuttle tests should select items 1`] = `
+exports[`Shuttle tests Shuttle smoke test and other basic operations should select items 1`] = `
 <div>
   <div
-    class="shuttle shuttle--ush"
+    class="shuttle"
     role="presentation"
   >
     <div
       class="shuttle__container"
       data-name="source"
-      role="listbox"
-      tabindex="0"
-    />
-    <div
-      class="shuttle__controls"
-      data-testid="controls"
-    >
-      <button>
-        »
-      </button>
-      <button>
-        ›
-      </button>
-      <button>
-        ‹
-      </button>
-      <button>
-        «
-      </button>
-    </div>
-    <div
-      class="shuttle__container"
-      data-name="target"
+      data-testid="source_container"
       role="listbox"
       tabindex="0"
     >
       <div
-        class="shuttle__item"
+        class="shuttle__item shuttle__item--selected"
         data-index="0"
         data-value="0"
         role="option"
@@ -80,9 +58,34 @@ exports[`Shuttle tests should select items 1`] = `
       >
         4
       </div>
+    </div>
+    <div
+      class="shuttle__controls"
+      data-testid="controls"
+    >
+      <button>
+        »
+      </button>
+      <button>
+        ›
+      </button>
+      <button>
+        ‹
+      </button>
+      <button>
+        «
+      </button>
+    </div>
+    <div
+      class="shuttle__container"
+      data-name="target"
+      data-testid="target_container"
+      role="listbox"
+      tabindex="0"
+    >
       <div
         class="shuttle__item"
-        data-index="5"
+        data-index="0"
         data-value="0"
         role="option"
         tabindex="0"
@@ -91,7 +94,7 @@ exports[`Shuttle tests should select items 1`] = `
       </div>
       <div
         class="shuttle__item"
-        data-index="6"
+        data-index="1"
         data-value="1"
         role="option"
         tabindex="0"
@@ -100,7 +103,7 @@ exports[`Shuttle tests should select items 1`] = `
       </div>
       <div
         class="shuttle__item"
-        data-index="7"
+        data-index="2"
         data-value="2"
         role="option"
         tabindex="0"
@@ -109,7 +112,7 @@ exports[`Shuttle tests should select items 1`] = `
       </div>
       <div
         class="shuttle__item"
-        data-index="8"
+        data-index="3"
         data-value="3"
         role="option"
         tabindex="0"
@@ -118,7 +121,7 @@ exports[`Shuttle tests should select items 1`] = `
       </div>
       <div
         class="shuttle__item"
-        data-index="9"
+        data-index="4"
         data-value="4"
         role="option"
         tabindex="0"

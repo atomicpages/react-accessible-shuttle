@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShuttleControls tests should allow customized rendering via child render function 1`] = `
+<div>
+  <div
+    class="shuttle__controls"
+  >
+    <button>
+      Move All to Target
+    </button>
+    <button>
+      Move All to Source
+    </button>
+  </div>
+</div>
+`;

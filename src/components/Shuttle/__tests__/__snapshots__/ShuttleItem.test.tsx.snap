@@ -13,3 +13,32 @@ exports[`ShuttleItem tests should match the snapshot 1`] = `
   </div>
 </div>
 `;
+
+exports[`ShuttleItem tests should match the snapshot when disabled 1`] = `
+<div>
+  <div
+    class="shuttle__item shuttle__item--disabled"
+    data-disabled="true"
+    data-index="1"
+    data-value="foo"
+    role="option"
+    tabindex="0"
+  >
+    Foo
+  </div>
+</div>
+`;
+
+exports[`ShuttleItem tests should match the snapshot when selected 1`] = `
+<div>
+  <div
+    class="shuttle__item shuttle__item--selected"
+    data-index="1"
+    data-value="foo"
+    role="option"
+    tabindex="0"
+  >
+    Foo
+  </div>
+</div>
+`;

@@ -19,11 +19,35 @@ describe('ShuttleItem tests', () => {
 
     it('should match the snapshot', () => {
         const spy = jest.spyOn(global.console, 'warn');
-        const { container } = render(<ShuttleItem data-index={1} value="foo">Foo</ShuttleItem>);
+        const { container } = render(
+            <ShuttleItem data-index={1} value="foo">
+                Foo
+            </ShuttleItem>
+        );
 
         expect(container).toMatchSnapshot();
         expect(console.warn).not.toHaveBeenCalled();
 
         spy.mockRestore();
+    });
+
+    it('should match the snapshot when disabled', () => {
+        const { container } = render(
+            <ShuttleItem data-index={1} disabled value="foo">
+                Foo
+            </ShuttleItem>
+        );
+
+        expect(container).toMatchSnapshot();
+    });
+
+    it('should match the snapshot when selected', () => {
+        const { container } = render(
+            <ShuttleItem data-index={1} selected value="foo">
+                Foo
+            </ShuttleItem>
+        );
+
+        expect(container).toMatchSnapshot();
     });
 });
