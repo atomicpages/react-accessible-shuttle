@@ -2,55 +2,11 @@ import * as React from 'react';
 import { render, cleanup, fireEvent, act, getByTestId } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { Shuttle, ShuttleState } from '../Shuttle';
-import { useShuttleState } from '../hooks/useShuttleState';
-import { moveAll } from '../reducers/moveAllReducer';
-
-const dummyState = () => {
-    let i = 0;
-    let j = 0;
-
-    return {
-        source: new Array(5).fill(null).map(() => i++),
-        target: new Array(5).fill(null).map(() => j++),
-    };
-};
-
-const TestShuttle = ({ state }: any) => {
-    const shuttle = useShuttleState(state);
-
-    return (
-        <Shuttle {...shuttle}>
-            <Shuttle.Container data-testid="source_container">
-                {({ source, selected }, getItemProps) =>
-                    source.map((item, index) => (
-                        <Shuttle.Item
-                            {...getItemProps(index)}
-                            key={item}
-                            value={item}
-                            selected={selected.source.has(index)}>
-                            {item}
-                        </Shuttle.Item>
-                    ))
-                }
-            </Shuttle.Container>
-            <Shuttle.Controls data-testid="controls" />
-            <Shuttle.Container data-testid="target_container">
-                {({ target, selected }, getItemProps) =>
-                    target.map((item, index) => (
-                        <Shuttle.Item
-                            {...getItemProps(index)}
-                            key={item}
-                            value={item}
-                            selected={selected.target.has(index)}>
-                            {item}
-                        </Shuttle.Item>
-                    ))
-                }
-            </Shuttle.Container>
-        </Shuttle>
-    );
-};
+// resources for tests
+import { dummyState } from './resources/stateGenerator';
+import TestShuttle from './resources/TestShuttle';
+import TestClassShuttle from './resources/TestClassShuttle';
+import TestShuttleWithCustomReducer from './resources/TestShuttleWithCustomReducer';
 
 afterEach(cleanup);
 
@@ -142,75 +98,7 @@ describe('Shuttle tests', () => {
 
     describe('should work as a class component', () => {
         it('should function as a class component', () => {
-            class Demo extends React.Component {
-                public state: ShuttleState = {
-                    ...dummyState(),
-                    selected: {
-                        source: new Set(),
-                        target: new Set(),
-                    },
-                    disabled: {
-                        source: new Set(),
-                        target: new Set(),
-                    },
-                };
-
-                public handleMoveAllToTarget = () => {
-                    this.setState({
-                        ...moveAll(this.state, {
-                            type: 'MOVE_ALL',
-                            from: 'source',
-                            to: 'target',
-                        }),
-                    });
-                };
-
-                render() {
-                    return (
-                        <Shuttle shuttleState={this.state} setShuttleState={this.setState}>
-                            <Shuttle.Container data-testid="source_container">
-                                {({ source, selected }, getItemProps) =>
-                                    source.map((item, index) => (
-                                        <Shuttle.Item
-                                            {...getItemProps(index)}
-                                            key={item}
-                                            value={item}
-                                            selected={selected.source.has(index)}>
-                                            {item}
-                                        </Shuttle.Item>
-                                    ))
-                                }
-                            </Shuttle.Container>
-                            <Shuttle.Controls data-testid="controls">
-                                {() => (
-                                    <>
-                                        <button
-                                            className="move_all"
-                                            onClick={this.handleMoveAllToTarget}>
-                                            Move All to Target
-                                        </button>
-                                    </>
-                                )}
-                            </Shuttle.Controls>
-                            <Shuttle.Container data-testid="target_container">
-                                {({ target, selected }, getItemProps) =>
-                                    target.map((item, index) => (
-                                        <Shuttle.Item
-                                            {...getItemProps(index)}
-                                            key={item}
-                                            value={item}
-                                            selected={selected.target.has(index)}>
-                                            {item}
-                                        </Shuttle.Item>
-                                    ))
-                                }
-                            </Shuttle.Container>
-                        </Shuttle>
-                    );
-                }
-            }
-
-            const { getByTestId } = render(<Demo />);
+            const { getByTestId } = render(<TestClassShuttle />);
             const button = getByTestId('controls').querySelector('.move_all');
 
             act(() => {
@@ -225,87 +113,7 @@ describe('Shuttle tests', () => {
 
     describe('should expose a reducer API', () => {
         it('should execute custom reducers', () => {
-            function App() {
-                const shuttle = useShuttleState(
-                    {
-                        source: ['a', 'b', 'c'],
-                        target: ['d', 'e', 'f'],
-                    },
-                    undefined,
-                    undefined,
-                    {
-                        selectFirstItem: (state: any, action: { [key: string]: any } = {}) => {
-                            if (action.type === 'SELECT_FIRST_ITEM') {
-                                if (
-                                    action.container !== 'source' &&
-                                    action.container !== 'target'
-                                ) {
-                                    throw new Error(
-                                        'Missing container from SELECT_FIRST_ITEM reducer'
-                                    );
-                                }
-
-                                if (!state[action.container].length) {
-                                    console.warn(
-                                        `Cannot apply selectFirstItem when ${action.container} is empty`
-                                    );
-
-                                    return { ...state };
-                                }
-
-                                if (!state.selected[action.container].size) {
-                                    state.selected[action.container].add(0);
-                                }
-
-                                return { ...state };
-                            }
-
-                            return { ...state };
-                        },
-                    }
-                );
-
-                return (
-                    <Shuttle {...shuttle}>
-                        <Shuttle.Container
-                            data-testid="source__container"
-                            onClick={() => {
-                                shuttle.setShuttleState({
-                                    type: 'SELECT_FIRST_ITEM',
-                                    container: 'source',
-                                });
-                            }}>
-                            {({ source, selected }, getItemProps) =>
-                                source.map((item, index) => (
-                                    <Shuttle.Item
-                                        {...getItemProps(index)}
-                                        key={item}
-                                        value={item}
-                                        selected={selected.source.has(index)}>
-                                        {item}
-                                    </Shuttle.Item>
-                                ))
-                            }
-                        </Shuttle.Container>
-                        <Shuttle.Controls />
-                        <Shuttle.Container>
-                            {({ target, selected }, getItemProps) =>
-                                target.map((item, index) => (
-                                    <Shuttle.Item
-                                        {...getItemProps(index)}
-                                        key={item}
-                                        value={item}
-                                        selected={selected.target.has(index)}>
-                                        {item}
-                                    </Shuttle.Item>
-                                ))
-                            }
-                        </Shuttle.Container>
-                    </Shuttle>
-                );
-            }
-
-            const { container } = render(<App />);
+            const { container } = render(<TestShuttleWithCustomReducer />);
             getByTestId(container, 'source__container').click();
             expect(getByTestId(container, "source__container").children[0]).toHaveClass("shuttle__item--selected");
         });
