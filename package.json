@@ -9,7 +9,8 @@
         "build:css": "sass -s compressed --embed-source-map src/styles/** ./css/shuttle.css",
         "build:test": "npm run clean && tsc src/index.ts --pretty --jsx react --esModuleInterop --outDir pkg",
         "clean": "rimraf pkg/**",
-        "clean:css": "rimraf ./css"
+        "clean:css": "rimraf ./css",
+        "version": "npm run build"
     },
     "@pika/pack": {
         "pipeline": [
