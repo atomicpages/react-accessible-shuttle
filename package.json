@@ -1,14 +1,15 @@
 {
     "name": "react-accessible-shuttle",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "",
     "main": "index.js",
     "scripts": {
         "test": "jest --silent",
-        "build": "npm run clean && pack build && npm run build:css",
-        "build:css": "mkdirp pkg/styles && sass -s compressed --embed-source-map src/styles/** pkg/css/shuttle.css",
+        "build": "npm run clean && npm run build:css && pack build && npm run clean:css",
+        "build:css": "sass -s compressed --embed-source-map src/styles/** ./css/shuttle.css",
         "build:test": "npm run clean && tsc src/index.ts --pretty --jsx react --esModuleInterop --outDir pkg",
-        "clean": "rimraf pkg/**"
+        "clean": "rimraf pkg/**",
+        "clean:css": "rimraf ./css"
     },
     "@pika/pack": {
         "pipeline": [
@@ -32,6 +33,14 @@
                         "react": "React"
                     },
                     "sourcemap": true
+                }
+            ],
+            [
+                "@pika/plugin-copy-assets",
+                {
+                    "files": [
+                        "css/"
+                    ]
                 }
             ]
         ]
@@ -63,8 +72,8 @@
         "@testing-library/jest-dom": "^4.0.0",
         "@testing-library/react": "^8.0.7",
         "@types/classnames": "^2.2.9",
-        "@types/jest": "^24.0.15",
-        "@types/react": "^16.8.23",
+        "@types/jest": "^24.0.16",
+        "@types/react": "^16.8.24",
         "@types/react-dom": "^16.8.5",
         "concurrently": "^4.1.1",
         "core-js": "^3.1.4",
@@ -78,7 +87,7 @@
         "react-dom": "^16.8.6",
         "react-window": "^1.8.5",
         "rimraf": "^2.6.3",
-        "sass": "^1.22.7",
+        "sass": "^1.22.9",
         "ts-jest": "^24.0.2",
         "typescript": "^3.5.3"
     },

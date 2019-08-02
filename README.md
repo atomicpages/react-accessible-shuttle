@@ -78,7 +78,7 @@ If you're new to hooks, the example might seem verbose; however, we can easily a
 
 > **Note:** React 16.8 is a peer dependency of react-accessible-shuttle which means we can use hooks! However, if, for some reason, you find yourself stubbing 16.8 APIs so you can use newer stuff without upgrading, then you could possibly make things work :astonished:
 
-Not on the hooks train yet? No worries. `react-accessible-shuttle` depends in React 16.8.0+ so if you have that, then you can use without hooks (i.e. in a `class` component) with a some extra effort :smiley: (although we should really use hooks because they make our live much easier).
+Not on the hooks train yet? No worries. `react-accessible-shuttle` depends in React 16.8.0+ so if you have that, then you can use without hooks (i.e. in a `class` component) with a some extra effort :smiley: (although we should really use hooks because they make our lives much easier).
 
 Here are the things that need to be done:
 
@@ -208,7 +208,7 @@ function App() {
                 if (action.type === 'SELECT_FIRST_ITEM') {
                     // this is bad, since we use action.container to perform a lookup
                     // in the state object, it becomes critical that it's present
-                    if (action.container !== 'source' || action.container !== 'target') {
+                    if (action.container !== 'source' && action.container !== 'target') {
                         throw new Error('Missing container from SELECT_FIRST_ITEM reducer');
                     }
 
@@ -236,7 +236,7 @@ function App() {
     return (
         <Shuttle {...shuttle}>
             <Shuttle.Container onClick={() => {
-                shuttle.setShuttleState(shuttle.state, {
+                shuttle.setShuttleState({
                     type: 'SELECT_FIRST_ITEM',
                     container: 'source',
                 });

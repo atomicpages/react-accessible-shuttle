@@ -29,6 +29,8 @@ type ShuttleContainerProps = {
      * for CSS styles.
      */
     className?: string;
+
+    [key: string]: any;
 };
 
 /**
