@@ -28,6 +28,8 @@ react-accessible-shuttle is a controlled component, but is flexible and adapts t
 
 ```jsx
 import React from 'react';
+import ReactDOM from 'react-dom';
+
 import { Shuttle, useShuttleState } from 'react-accessible-shuttle';
 
 function App() {
@@ -70,6 +72,75 @@ function App() {
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
+```
+
+### CDN
+
+You can also use react-accessible-shuttle via CDN -- it even works with legacy browsers like IE 11 -- without transpiling.
+
+```html
+<!DOCTYPE html>
+<body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <!-- Shuttle Dependency -->
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/browse/react-accessible-shuttle/css/shuttle.css"
+        />
+        <title>React Accessible Shuttle</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        <!-- Peer dependencies -->
+        <script src="https://unpkg.com/react/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+        <!-- Shuttle Dependency -->
+        <script src="https://unpkg.com/browse/react-accessible-shuttle/dist-browser/index.js"></script>
+        <!-- Usage -->
+        <script>
+            function App() {
+                const shuttle = ReactShuttle.useShuttleState({
+                    source: [1, 2, 3],
+                    target: [4, 5, 6],
+                });
+
+                return React.createElement(ReactShuttle, shuttle, [
+                    React.createElement(ReactShuttle.Container, null, function (state, getItemProps) {
+                        return state.source.map(function (item, index) {
+                            const props = {
+                                key: index,
+                                value: item,
+                                selected: state.selected.source.has(index)
+                            };
+
+                            Object.assign(props, getItemProps);
+
+                            return React.createElement(ReactShuttle.Item, props, item);
+                        });
+                    }),
+                    React.createElement(ReactShuttle.Controls, null, null),
+                    React.createElement(ReactShuttle.Container, null, function (state, getItemProps) {
+                        return state.target.map(function (item, index) {
+                            const props = {
+                                key: index,
+                                value: item,
+                                selected: state.selected.target.has(index)
+                            };
+
+                            Object.assign(props, getItemProps);
+
+                            return React.createElement(ReactShuttle.Item, props, item);
+                        });
+                    }),
+                ]);
+            }
+
+            ReactDOM.render(App, document.getElementById('root'));
+        </script>
+    </body>
+</body>
 ```
 
 If you're new to hooks, the example might seem verbose; however, we can easily abstract react-accessible-shuttle to take in a model and render on your behalf.

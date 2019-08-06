@@ -14,7 +14,8 @@
         "noUnusedParameters": true,
         "moduleResolution": "node",
         "esModuleInterop": true,
-        "downlevelIteration": true
+        "downlevelIteration": true,
+        "lib": ["dom", "es2015"]
     },
     "exclude": ["playground/**"]
 }
