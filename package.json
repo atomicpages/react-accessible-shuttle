@@ -1,6 +1,6 @@
 {
     "name": "react-accessible-shuttle",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "A tiny, zero dependency, shuttle (a.k.a list shuttle, dual listbox, etc.) implementation in React using hooks.",
     "main": "index.js",
     "scripts": {
