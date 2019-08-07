@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { ShuttleState, ShuttleReducer } from '../Shuttle';
-import { getIndexFromItem, getContainerMetadata } from '../../../utils/utils';
+import { getIndexFromItem, getContainerMetadata, getShuttleItem } from '../../../utils/utils';
 import { SHUTTLE_CONTROL_TYPES } from '../reducers/index';
 
 type Options = {
@@ -12,9 +12,9 @@ type Options = {
 export function useShuttleItemClick({ setShuttleState, shuttleState }: Options) {
     const onClick = React.useCallback(
         (e: React.MouseEvent<HTMLDivElement>) => {
-            const target = e.target as HTMLDivElement;
+        const target = getShuttleItem(e.target as HTMLDivElement);
 
-            if (target.className.includes('shuttle__item')) {
+            if (target && target.className.includes('shuttle__item')) {
                 const index = getIndexFromItem(target);
                 const container = target.closest('.shuttle__container');
 

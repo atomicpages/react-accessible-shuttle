@@ -107,12 +107,15 @@ You can also use react-accessible-shuttle via CDN -- it even works with legacy b
                 });
 
                 return React.createElement(ReactShuttle, shuttle, [
-                    React.createElement(ReactShuttle.Container, null, function (state, getItemProps) {
-                        return state.source.map(function (item, index) {
+                    React.createElement(ReactShuttle.Container, null, function(
+                        state,
+                        getItemProps
+                    ) {
+                        return state.source.map(function(item, index) {
                             const props = {
                                 key: index,
                                 value: item,
-                                selected: state.selected.source.has(index)
+                                selected: state.selected.source.has(index),
                             };
 
                             Object.assign(props, getItemProps);
@@ -121,12 +124,15 @@ You can also use react-accessible-shuttle via CDN -- it even works with legacy b
                         });
                     }),
                     React.createElement(ReactShuttle.Controls, null, null),
-                    React.createElement(ReactShuttle.Container, null, function (state, getItemProps) {
-                        return state.target.map(function (item, index) {
+                    React.createElement(ReactShuttle.Container, null, function(
+                        state,
+                        getItemProps
+                    ) {
+                        return state.target.map(function(item, index) {
                             const props = {
                                 key: index,
                                 value: item,
-                                selected: state.selected.target.has(index)
+                                selected: state.selected.target.has(index),
                             };
 
                             Object.assign(props, getItemProps);
@@ -271,26 +277,23 @@ function App() {
             source: ['a', 'b', 'c'],
             target: ['d', 'e', 'f'],
         },
-        null,
-        null,
-        reducers: {
-            selectFirstItem: (state, action = {}) => {
-                // ensure our reducer runs on the right type
+        undefined,
+        undefined,
+        {
+            selectFirstItem: (state: any, action: { [key: string]: any } = {}) => {
                 if (action.type === 'SELECT_FIRST_ITEM') {
-                    // this is bad, since we use action.container to perform a lookup
-                    // in the state object, it becomes critical that it's present
                     if (action.container !== 'source' && action.container !== 'target') {
                         throw new Error('Missing container from SELECT_FIRST_ITEM reducer');
                     }
 
-                    // check if the container has nodes in it
                     if (!state[action.container].length) {
-                        console.warn(`Cannot apply selectFirstItem when ${action.container} is empty`);
+                        console.warn(
+                            `Cannot apply selectFirstItem when ${action.container} is empty`
+                        );
+
                         return { ...state };
                     }
 
-                    // check if the container has any pre-selected items
-                    // either by useShuttleState or user action
                     if (!state.selected[action.container].size) {
                         state.selected[action.container].add(0);
                     }
@@ -298,24 +301,40 @@ function App() {
                     return { ...state };
                 }
 
-                // no change, return original state -- component will NOT re-render.
                 return { ...state };
-            }
+            },
         }
     );
 
     return (
         <Shuttle {...shuttle}>
-            <Shuttle.Container onClick={() => {
-                shuttle.setShuttleState({
-                    type: 'SELECT_FIRST_ITEM',
-                    container: 'source',
-                });
-            }}>
-                {/* ... */}
+            <Shuttle.Container
+                onClick={() => {
+                    shuttle.setShuttleState({
+                        type: 'SELECT_FIRST_ITEM',
+                        container: 'source',
+                    });
+                }}>
+                {({ source, selected }, getItemProps) =>
+                    source.map((item, index) => (
+                        <Shuttle.Item
+                            {...getItemProps(index)}
+                            key={item}
+                            value={item}
+                            selected={selected.source.has(index)}>
+                            {item}
+                        </Shuttle.Item>
+                    ))
+                }
             </Shuttle.Container>
             <Shuttle.Controls />
-            <Shuttle.Container>
+            <Shuttle.Container
+                onClick={() => {
+                    shuttle.setShuttleState({
+                        type: 'SELECT_FIRST_ITEM',
+                        container: 'target',
+                    });
+                }}>
                 {/* ... */}
             </Shuttle.Container>
         </Shuttle>

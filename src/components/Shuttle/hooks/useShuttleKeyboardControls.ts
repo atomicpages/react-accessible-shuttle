@@ -1,7 +1,12 @@
 import * as React from 'react';
 import { ShuttleReducer, ShuttleState } from '../Shuttle';
 import { useShuttleItemClick } from './useShuttleItemClick';
-import { getIndexFromItem, getContainerMetadata, removeDisabledIndexes } from '../../../utils/utils';
+import {
+    getIndexFromItem,
+    getContainerMetadata,
+    removeDisabledIndexes,
+    getShuttleItem,
+} from '../../../utils/utils';
 import { SELECT_ITEM_REDUCER_ACTION } from '../reducers/selectItemReducer';
 
 enum KEYS {
@@ -42,7 +47,7 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
         // https://www.w3.org/TR/wai-aria-practices-1.1/examples/listbox/listbox-scrollable.html
 
         if (e.keyCode === KEYS.UP_ARROW || e.keyCode === KEYS.DOWN_ARROW) {
-            const target = e.target as HTMLDivElement;
+            const target = getShuttleItem(e.target as HTMLDivElement);
 
             if (target.className.includes('shuttle__item')) {
                 const itemIndex = getIndexFromItem(target);
@@ -50,6 +55,10 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
                 const container = target.closest('.shuttle__container');
 
                 if (container) {
+                    // deference the parent to shuttle__item in th event we're wrapping
+                    // or virtualizing the container
+                    const shuttleItemParent = (target.parentElement) || container;
+
                     const { containerName } = getContainerMetadata(container);
 
                     if (itemIndex >= 0 && itemIndex < shuttleState[containerName].length) {
@@ -79,7 +88,7 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
 
                             // selectionArray = removeDisabledIndexes(container.children, selectionArray);
 
-                            (container.children[
+                            (shuttleItemParent.children[
                                 selectionArray[selectionArray.length - 1]
                             ] as HTMLElement).focus();
 
@@ -88,19 +97,21 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
                             let [index] = selectionArray;
                             index = index + (increment ? -1 : 1);
 
-                            while (index >= 0 && index < container.children.length &&
-                                (container.children[index] as HTMLElement).hasAttribute(
+                            while (
+                                index >= 0 &&
+                                index < shuttleItemParent.children.length &&
+                                (shuttleItemParent.children[index] as HTMLElement).hasAttribute(
                                     'data-disabled'
                                 )
                             ) {
                                 index = index + (increment ? -1 : 1);
                             }
 
-                            if (index <= 0 || index >= container.children.length) {
+                            if (index <= 0 || index >= shuttleItemParent.children.length) {
                                 return;
                             }
 
-                            (container.children[index] as HTMLElement).focus();
+                            (shuttleItemParent.children[index] as HTMLElement).focus();
                             payload.index = index;
                         }
 
@@ -114,50 +125,57 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
     const onClick = React.useCallback(
         (e: React.MouseEvent<HTMLDivElement>) => {
             if (ctrlKeyPressed.current || metaKeyPressed.current || shiftKeyPressed.current) {
-                const target = e.target as HTMLDivElement;
-                const index = getIndexFromItem(target);
-                const container = target.closest('.shuttle__container');
+                const target = getShuttleItem(e.target as HTMLDivElement);
 
-                if (container) {
-                    const { containerName } = getContainerMetadata(container);
+                if (target) {
+                    const index = getIndexFromItem(target);
+                    const container = target.closest('.shuttle__container');
 
-                    const payload: SELECT_ITEM_REDUCER_ACTION = {
-                        type: 'SELECT_ITEM',
-                        container: containerName,
-                        index: Array.from(shuttleState.selected[containerName]),
-                    };
+                    if (container) {
+                        const { containerName } = getContainerMetadata(container);
 
-                    let selectionArray = Array.from(shuttleState.selected[containerName]);
-                    const lastItemInArray = selectionArray[selectionArray.length - 1];
+                        const payload: SELECT_ITEM_REDUCER_ACTION = {
+                            type: 'SELECT_ITEM',
+                            container: containerName,
+                            index: Array.from(shuttleState.selected[containerName]),
+                        };
 
-                    if (shiftKeyPressed.current) {
-                        if (index < lastItemInArray) {
-                            let i = lastItemInArray;
+                        let selectionArray = Array.from(shuttleState.selected[containerName]);
+                        const lastItemInArray = selectionArray[selectionArray.length - 1];
 
-                            while(i-- > index) {
-                                selectionArray.push(i);
+                        if (shiftKeyPressed.current) {
+                            if (index < lastItemInArray) {
+                                let i = lastItemInArray;
+
+                                while (i-- > index) {
+                                    selectionArray.push(i);
+                                }
+                            } else if (index > lastItemInArray) {
+                                let i = lastItemInArray;
+
+                                while (i++ < index) {
+                                    selectionArray.push(i);
+                                }
                             }
-                        } else if (index > lastItemInArray) {
-                            let i = lastItemInArray;
 
-                            while (i++ < index) {
-                                selectionArray.push(i);
-                            }
-                        }
-
-                        selectionArray = removeDisabledIndexes(container.children, selectionArray);
-                    } else {
-                        const foundIndex = selectionArray.indexOf(index);
-
-                        if (foundIndex === -1) {
-                            selectionArray.push(index);
+                            selectionArray = removeDisabledIndexes(
+                                (target.parentElement && target.parentElement.children) ||
+                                    container.children,
+                                selectionArray
+                            );
                         } else {
-                            selectionArray.splice(foundIndex, 1);
-                        }
-                    }
+                            const foundIndex = selectionArray.indexOf(index);
 
-                    payload.index = selectionArray;
-                    setShuttleState(payload);
+                            if (foundIndex === -1) {
+                                selectionArray.push(index);
+                            } else {
+                                selectionArray.splice(foundIndex, 1);
+                            }
+                        }
+
+                        payload.index = selectionArray;
+                        setShuttleState(payload);
+                    }
                 }
             } else {
                 defaultClickHandler(e);

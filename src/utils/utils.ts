@@ -42,6 +42,13 @@ export const getIndexFromItem = (target: HTMLDivElement) => {
     return isNaN(index) ? -1 : index;
 };
 
+/**
+ * Gets the shuttle item from the DOM since consumers can render whatever
+ * they want inside the item itself, we might need to look up the DOM tree
+ * to get the HTMLElement.
+ */
+export const getShuttleItem = (e: HTMLElement) => (e.closest('.shuttle__item') as HTMLDivElement);
+
 export const removeDisabledIndexes = (collection: HTMLCollection, indexes: number[]) =>
     indexes.filter(
         index =>
