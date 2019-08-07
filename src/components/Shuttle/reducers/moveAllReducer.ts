@@ -6,18 +6,26 @@ export type MOVE_SELECTION_REDUCER_ACTION = {
     to?: 'source' | 'target';
 };
 
-const compact = (list: number[], source: any[]) => {
-    if (list.length !== source.length) { // FIXME: this feels hacky...
+/**
+ * Compact an array safely and in-place. This function works
+ * in conjunction with `shuttleAll`.
+ */
+export const compact = (list: number[], source: any[]) => {
+    if (list.length !== source.length) {
         let pointer = 0;
 
         for (let i = 0; i < list.length; i++) {
             source[pointer++] = source[list[i]];
-            source[list[i]] = null
+            source[list[i]] = null;
         }
     }
 };
 
-const shuttleAll = (from: any[], to: any[], disabled: Set<any>) => {
+/**
+ * Shuttle all items from one array to another array. Specify blacklisted item indexes
+ * to prevent those from being moved.
+ */
+export const shuttleAll = (from: any[], to: any[], disabled: Set<number>) => {
     // this is way more optimal if there are no disabled items
     if (!disabled.size) {
         Array.prototype.push.apply(to, from);

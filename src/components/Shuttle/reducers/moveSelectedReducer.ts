@@ -6,7 +6,7 @@ export type MOVE_SELECTION_REDUCER_ACTION = {
     to?: 'source' | 'target';
 };
 
-const shuttleSelections = (from: any[], to: any[], selected: Set<number>) => {
+export const shuttleSelections = (from: any[], to: any[], selected: Set<number>) => {
     const entries = selected.entries();
 
     for (let [entry] of entries) {
