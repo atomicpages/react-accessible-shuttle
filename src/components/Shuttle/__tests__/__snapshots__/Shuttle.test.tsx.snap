@@ -3,7 +3,7 @@
 exports[`Shuttle tests Shuttle smoke test and other basic operations should select items 1`] = `
 <div>
   <div
-    class="shuttle"
+    class="shuttle shuttle--ush"
     role="presentation"
   >
     <div
