@@ -30,7 +30,7 @@ export default class TestClassShuttle extends React.Component {
         return (
             <Shuttle shuttleState={this.state} setShuttleState={this.setState}>
                 <Shuttle.Container data-testid="source_container">
-                    {({ source, selected }, getItemProps) =>
+                    {({ source, selected }: ShuttleState, getItemProps: (index: number) => Object) =>
                         source.map((item, index) => (
                             <Shuttle.Item
                                 {...getItemProps(index)}
@@ -45,16 +45,14 @@ export default class TestClassShuttle extends React.Component {
                 <Shuttle.Controls data-testid="controls">
                     {() => (
                         <>
-                            <button
-                                className="move_all"
-                                onClick={this.handleMoveAllToTarget}>
+                            <button className="move_all" onClick={this.handleMoveAllToTarget}>
                                 Move All to Target
                             </button>
                         </>
                     )}
                 </Shuttle.Controls>
                 <Shuttle.Container data-testid="target_container">
-                    {({ target, selected }, getItemProps) =>
+                    {({ target, selected }: ShuttleState, getItemProps: (index: number) => Object) =>
                         target.map((item, index) => (
                             <Shuttle.Item
                                 {...getItemProps(index)}

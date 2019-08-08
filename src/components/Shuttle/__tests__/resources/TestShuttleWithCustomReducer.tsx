@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Shuttle } from '../../Shuttle';
+import { Shuttle, ShuttleState } from '../../Shuttle';
 import { useShuttleState } from '../../hooks/useShuttleState';
 
 export default function TestShuttleWithCustomReducer() {
@@ -52,7 +52,7 @@ export default function TestShuttleWithCustomReducer() {
                         container: 'source',
                     });
                 }}>
-                {({ source, selected }, getItemProps) =>
+                {({ source, selected }: ShuttleState, getItemProps: (index: number) => Object) =>
                     source.map((item, index) => (
                         <Shuttle.Item
                             {...getItemProps(index)}
@@ -66,7 +66,7 @@ export default function TestShuttleWithCustomReducer() {
             </Shuttle.Container>
             <Shuttle.Controls />
             <Shuttle.Container>
-                {({ target, selected }, getItemProps) =>
+                {({ target, selected }: ShuttleState, getItemProps: (index: number) => Object) =>
                     target.map((item, index) => (
                         <Shuttle.Item
                             {...getItemProps(index)}

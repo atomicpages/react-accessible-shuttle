@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Shuttle } from '../../Shuttle';
+import { Shuttle, ShuttleState } from '../../Shuttle';
 import { useShuttleState } from '../../hooks/useShuttleState';
 
 export default function TestShuttle({ state }: any) {
@@ -8,7 +8,7 @@ export default function TestShuttle({ state }: any) {
     return (
         <Shuttle {...shuttle}>
             <Shuttle.Container data-testid="source_container">
-                {({ source, selected }, getItemProps) =>
+                {({ source, selected }: ShuttleState, getItemProps: (index: number) => Object) =>
                     source.map((item, index) => (
                         <Shuttle.Item
                             {...getItemProps(index)}
@@ -22,7 +22,7 @@ export default function TestShuttle({ state }: any) {
             </Shuttle.Container>
             <Shuttle.Controls data-testid="controls" />
             <Shuttle.Container data-testid="target_container">
-                {({ target, selected }, getItemProps) =>
+                {({ target, selected }: ShuttleState, getItemProps: (index: number) => Object) =>
                     target.map((item, index) => (
                         <Shuttle.Item
                             {...getItemProps(index)}

@@ -55,7 +55,7 @@ export const ShuttleContainer = React.memo(
          * item.
          */
         const getItemProps = React.useCallback(
-            index => {
+            (index: number) => {
                 return {
                     'data-index': index,
                     selected: shuttleState.selected[id.current].has(index),

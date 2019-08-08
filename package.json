@@ -7,7 +7,7 @@
         "test": "jest --silent",
         "build": "npm run clean && npm run build:css && pika build && npm run clean:css",
         "build:css": "sass -s compressed --embed-source-map src/styles/** ./css/shuttle.css",
-        "build:test": "npm run clean && tsc src/index.ts --pretty --jsx react --esModuleInterop --outDir pkg",
+        "build:test": "npm run clean && tsc src/index.ts --pretty --jsx react --esModuleInterop  --downLevelIteration --outDir pkg",
         "clean": "rimraf pkg/**",
         "clean:css": "rimraf ./css",
         "version": "npm run build"
