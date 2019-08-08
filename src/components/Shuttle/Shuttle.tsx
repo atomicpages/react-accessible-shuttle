@@ -83,7 +83,7 @@ type ShuttleProps = {
 export function Shuttle({
     shuttleState,
     setShuttleState,
-    enableUserSelectionHack,
+    enableUserSelectionHack = true,
     className,
     children,
     ...rest

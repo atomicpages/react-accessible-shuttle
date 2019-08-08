@@ -25,7 +25,7 @@ export const compact = (list: number[], source: any[]) => {
  * Shuttle all items from one array to another array. Specify blacklisted item indexes
  * to prevent those from being moved.
  */
-export const shuttleAll = (from: any[], to: any[], disabled: Set<number>) => {
+export const shuttleAll = (from: any[], to: any[], disabled: Set<any>) => {
     // this is way more optimal if there are no disabled items
     if (!disabled.size) {
         Array.prototype.push.apply(to, from);
