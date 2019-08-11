@@ -29,16 +29,17 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
     const { onClick: defaultClickHandler } = useShuttleItemClick({ setShuttleState, shuttleState });
 
     const onKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
-        e.preventDefault();
-
+        // e.preventDefault();
         shiftKeyPressed.current = e.shiftKey;
         ctrlKeyPressed.current = e.ctrlKey;
         metaKeyPressed.current = e.metaKey;
+
+        if (e.keyCode === KEYS.UP_ARROW || e.keyCode === KEYS.DOWN_ARROW) {
+            e.preventDefault();
+        }
     }, []);
 
     const onKeyUp = React.useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
-        e.preventDefault();
-
         shiftKeyPressed.current = e.shiftKey;
         ctrlKeyPressed.current = e.ctrlKey;
         metaKeyPressed.current = e.metaKey;
@@ -47,6 +48,8 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
         // https://www.w3.org/TR/wai-aria-practices-1.1/examples/listbox/listbox-scrollable.html
 
         if (e.keyCode === KEYS.UP_ARROW || e.keyCode === KEYS.DOWN_ARROW) {
+            e.preventDefault();
+
             const target = getShuttleItem(e.target as HTMLDivElement);
 
             if (target.className.includes('shuttle__item')) {

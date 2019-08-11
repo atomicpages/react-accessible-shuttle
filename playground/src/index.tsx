@@ -7,6 +7,7 @@ import { Router, Link } from '@reach/router';
 
 import { App as BasicShuttle } from './examples/basic-usage';
 import { App as VirtualizedShuttle } from './examples/with-rolling-dom';
+import { App as SearchShuttle } from './examples/with-search';
 
 import '../../src/styles/shuttle.scss';
 
@@ -26,11 +27,13 @@ function Main() {
             <nav>
                 <Link to="/">Basic Usage</Link>{" "}
                 <Link to="virtualized">Virtualized Shuttle</Link>
+                <Link to="search">Shuttle with Searching</Link>
             </nav>
             <br />
             <Router>
                 <BasicShuttle path="/" />
                 <VirtualizedShuttle path="virtualized" />
+                <SearchShuttle path="search" />
             </Router>
         </main>
     );
