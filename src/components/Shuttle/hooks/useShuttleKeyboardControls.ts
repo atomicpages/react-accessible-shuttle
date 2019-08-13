@@ -60,7 +60,7 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
                 if (container) {
                     // deference the parent to shuttle__item in th event we're wrapping
                     // or virtualizing the container
-                    const shuttleItemParent = (target.parentElement) || container;
+                    const shuttleItemParent = target.parentElement || container;
 
                     const { containerName } = getContainerMetadata(container);
 
@@ -89,7 +89,10 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
                                 }
                             }
 
-                            // selectionArray = removeDisabledIndexes(container.children, selectionArray);
+                            selectionArray = removeDisabledIndexes(
+                                container.children,
+                                selectionArray
+                            );
 
                             (shuttleItemParent.children[
                                 selectionArray[selectionArray.length - 1]

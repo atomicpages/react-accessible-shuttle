@@ -1,6 +1,27 @@
 import { SHUTTLE_CONTAINERS } from '../components/Shuttle/globals';
 
 /**
+ * Filters only visible items. This happens when the selection array is
+ * greater than the collection length.
+ * @see removeDisabledIndexes for usage
+ */
+const filterVisibleItems = (collection: HTMLCollection, indexes: number[]) => {
+    const set = toSet<number>(indexes);
+    const matches: number[] = [];
+
+    for (let i = 0; i < collection.length; i++) {
+        const index = collection[i].getAttribute('data-index');
+        const disabled = collection[i].hasAttribute('data-disabled');
+
+        if (!disabled && index && set.has(parseInt(index))) {
+            matches.push(parseInt(index));
+        }
+    }
+
+    return matches;
+};
+
+/**
  * Converts the source array to a Set.
  * Needed because IE 11 fails with `new Set([1,2,3])`.
  */
@@ -47,15 +68,23 @@ export const getIndexFromItem = (target: HTMLDivElement) => {
  * they want inside the item itself, we might need to look up the DOM tree
  * to get the HTMLElement.
  */
-export const getShuttleItem = (e: HTMLElement) => (e.closest('.shuttle__item') as HTMLDivElement);
+export const getShuttleItem = (e: HTMLElement) => e.closest('.shuttle__item') as HTMLDivElement;
 
-export const removeDisabledIndexes = (collection: HTMLCollection, indexes: number[]) =>
-    indexes.filter(
+export const removeDisabledIndexes = (collection: HTMLCollection, indexes: number[]) => {
+    if (collection.length < indexes.length) {
+        return filterVisibleItems(collection, indexes);
+    }
+
+    // FIXME: DOM nodes should not hold state. If the disabled items needs to be updated
+    // consumers should update the set themselves
+
+    return indexes.filter(
         index =>
             index >= 0 &&
             index < collection.length &&
             !collection[index].hasAttribute('data-disabled')
     );
+};
 
 /**
  * Gets relevant metadata from the container including

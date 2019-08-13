@@ -26,7 +26,7 @@ function Main() {
             <p>Click on a pre-built example to begin</p>
             <nav>
                 <Link to="/">Basic Usage</Link>{" "}
-                <Link to="virtualized">Virtualized Shuttle</Link>
+                <Link to="virtualized">Virtualized Shuttle</Link>{" "}
                 <Link to="search">Shuttle with Searching</Link>
             </nav>
             <br />

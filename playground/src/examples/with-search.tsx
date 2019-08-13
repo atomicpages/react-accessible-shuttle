@@ -16,6 +16,13 @@ const state = {
         ),
 };
 
+const CONTAINER_STYLES = {
+    display: 'flex',
+    'flex-direction': 'column',
+};
+
+const INPUT_STYLES = { marginBottom: '0.75rem', padding: '0.25rem' };
+
 export function App(props: any) {
     const shuttle = useShuttleState(state);
     const controls = useShuttleKeyboardControls(shuttle);
@@ -33,52 +40,60 @@ export function App(props: any) {
 
     return (
         <Shuttle {...shuttle} {...controls}>
-            <div className="shuttle__container-wrapper">
+            <div className="shuttle__container-wrapper" style={CONTAINER_STYLES}>
                 <input
                     type="text"
                     onChange={handleSourceFilterChange}
                     value={sourceFilter}
                     placeholder="Filter source..."
+                    style={INPUT_STYLES}
                 />
                 <Shuttle.Container>
                     {({ source, selected }, getItemProps) =>
-                        source
-                            // for large lists you'd want avoid filtering if sourceFilter is empty
-                            .filter(item => item.indexOf(sourceFilter) !== -1)
-                            .map((item, index) => (
-                                <Shuttle.Item
-                                    {...getItemProps(index)}
-                                    key={item}
-                                    value={item}
-                                    selected={selected.source.has(index)}>
-                                    {item}
-                                </Shuttle.Item>
-                            ))
+                        source.map((item, index) => {
+                            if (!sourceFilter || item.includes(sourceFilter)) {
+                                return (
+                                    <Shuttle.Item
+                                        {...getItemProps(index)}
+                                        key={item}
+                                        value={item}
+                                        selected={selected.source.has(item)}>
+                                        {item}
+                                    </Shuttle.Item>
+                                );
+                            }
+
+                            return null;
+                        })
                     }
                 </Shuttle.Container>
             </div>
             <Shuttle.Controls />
-            <div className="shuttle__container-wrapper">
+            <div className="shuttle__container-wrapper" style={CONTAINER_STYLES}>
                 <input
                     type="text"
                     onChange={handleTargetFilterChange}
                     value={targetFilter}
                     placeholder="Filter target..."
+                    style={INPUT_STYLES}
                 />
                 <Shuttle.Container>
                     {({ target, selected }, getItemProps) =>
-                        target
-                            // for large lists you'd want avoid filtering if targetFilter is empty
-                            .filter(item => item.indexOf(targetFilter) !== -1)
-                            .map((item, index) => (
-                                <Shuttle.Item
-                                    {...getItemProps(index)}
-                                    key={item}
-                                    value={item}
-                                    selected={selected.target.has(index)}>
-                                    {item}
-                                </Shuttle.Item>
-                            ))
+                        target.map((item, index) => {
+                            if (!targetFilter || item.includes(targetFilter)) {
+                                return (
+                                    <Shuttle.Item
+                                        {...getItemProps(index)}
+                                        key={item}
+                                        value={item}
+                                        selected={selected.target.has(index)}>
+                                        {item}
+                                    </Shuttle.Item>
+                                );
+                            }
+
+                            return null;
+                        })
                     }
                 </Shuttle.Container>
             </div>

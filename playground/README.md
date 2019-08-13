@@ -18,4 +18,7 @@ The demo app will automatically launch your preferred browser. Be sure you're us
 ## Testing Changes
 Open `index.tsx` under `playground/src` and start hacking away! `faker` has been added to random data generation so feel free to exploit that module for your dummy data needs.
 
+### Pre-Built Templates
+Some common patterns are implemented. You can create a new example from basic-shuttle or modifying and existing one
+
 > **Note:** Webpack will automatically build so please don't override imports in `index.tsx` unless it's required

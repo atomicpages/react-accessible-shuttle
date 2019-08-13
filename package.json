@@ -86,6 +86,7 @@
         "core-js": "^3.1.4",
         "coveralls": "^3.0.6",
         "eslint": "^5.16.0",
+        "flowgen": "^1.9.2",
         "jest": "^24.8.0",
         "mini-css-extract-plugin": "^0.8.0",
         "mkdirp": "^0.5.1",

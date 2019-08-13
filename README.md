@@ -343,3 +343,31 @@ function App() {
 
 ReactDOM.render(<App />, document.getElementById('app'));
 ```
+
+## FAQ
+
+<details>
+    <summary>When I filter items selections are being maintained</summary>
+
+`react-accessible-shuttle` depends on being able to resolve the _index_ of the item based on the `data-index` attribute on Shuttle.Items. If you're child render function in `Shuttle.Container` looks like this:
+
+```jsx
+<Shuttle.Container>
+    {({ source, selected }, getItemProps) =>
+        source
+            .filter(item => item.includes(sourceFilter))
+            .map((item, index) => (
+                <Shuttle.Item
+                    {...getItemProps(index)}
+                    key={item}
+                    value={item}
+                    selected={selected.source.has(index) && source[index] === item}>
+                    {item}
+                </Shuttle.Item>
+            ))
+    }
+</Shuttle.Container>
+```
+
+Then you **will** have issues. `selected` contains a set of integers. This mapping breaks when you use filter because `data-index` changes. See the [with-search example in codesandbox](https://codesandbox.io/s/react-accessible-shuttle-nd4d8) for an example.
+</details>
