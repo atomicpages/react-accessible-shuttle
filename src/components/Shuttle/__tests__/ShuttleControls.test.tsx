@@ -6,12 +6,6 @@ import { ShuttleControls } from '../ShuttleControls';
 afterEach(cleanup);
 
 describe('ShuttleControls tests', () => {
-    it('should render without any errors', () => {
-        expect(() => {
-            render(<ShuttleControls />);
-        }).not.toThrow();
-    });
-
     it('should allow customized rendering via child render function', () => {
         const { container } = render(
             <ShuttleControls>{({ moveAllFromSource, moveAllFromTarget }) => (

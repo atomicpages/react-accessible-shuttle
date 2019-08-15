@@ -98,6 +98,13 @@ export const getContainerMetadata = (container: Element) => {
     return { source, containerName };
 };
 
+export const isContainer = (container: HTMLDivElement) => {
+    let bool = container.hasAttribute('data-name');
+    const name = container.getAttribute('data-name');
+
+    return bool && (name === SHUTTLE_CONTAINERS.SOURCE || name === SHUTTLE_CONTAINERS.TARGET);
+};
+
 /**
  * Small warn wrapper.
  * @see https://github.com/i18next/react-i18next/blob/master/src/utils.js

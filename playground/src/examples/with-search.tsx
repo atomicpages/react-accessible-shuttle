@@ -57,7 +57,7 @@ export function App(props: any) {
                                         {...getItemProps(index)}
                                         key={item}
                                         value={item}
-                                        selected={selected.source.has(item)}>
+                                        selected={selected.source.has(index)}>
                                         {item}
                                     </Shuttle.Item>
                                 );

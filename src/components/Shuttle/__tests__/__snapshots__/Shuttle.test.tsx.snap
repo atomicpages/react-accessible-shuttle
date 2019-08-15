@@ -18,7 +18,7 @@ exports[`Shuttle tests Shuttle smoke test and other basic operations should sele
         data-index="0"
         data-value="0"
         role="option"
-        tabindex="0"
+        tabindex="-1"
       >
         0
       </div>
@@ -27,7 +27,7 @@ exports[`Shuttle tests Shuttle smoke test and other basic operations should sele
         data-index="1"
         data-value="1"
         role="option"
-        tabindex="0"
+        tabindex="-1"
       >
         1
       </div>
@@ -36,7 +36,7 @@ exports[`Shuttle tests Shuttle smoke test and other basic operations should sele
         data-index="2"
         data-value="2"
         role="option"
-        tabindex="0"
+        tabindex="-1"
       >
         2
       </div>
@@ -45,7 +45,7 @@ exports[`Shuttle tests Shuttle smoke test and other basic operations should sele
         data-index="3"
         data-value="3"
         role="option"
-        tabindex="0"
+        tabindex="-1"
       >
         3
       </div>
@@ -54,7 +54,7 @@ exports[`Shuttle tests Shuttle smoke test and other basic operations should sele
         data-index="4"
         data-value="4"
         role="option"
-        tabindex="0"
+        tabindex="-1"
       >
         4
       </div>
@@ -63,16 +63,28 @@ exports[`Shuttle tests Shuttle smoke test and other basic operations should sele
       class="shuttle__controls"
       data-testid="controls"
     >
-      <button>
+      <button
+        aria-label="Move All Items to Target"
+        title="Move All Items to Target"
+      >
         »
       </button>
-      <button>
+      <button
+        aria-label="Move Selected Items to Target (1 items selected in source container)"
+        title="Move Selected Items to Target"
+      >
         ›
       </button>
-      <button>
+      <button
+        aria-label="Move Selected Items to Target (0 items selected in target container)"
+        title="Move Selected Items to Source"
+      >
         ‹
       </button>
-      <button>
+      <button
+        aria-label="Move All Items to Source"
+        title="Move All Items to Source"
+      >
         «
       </button>
     </div>
@@ -88,7 +100,7 @@ exports[`Shuttle tests Shuttle smoke test and other basic operations should sele
         data-index="0"
         data-value="0"
         role="option"
-        tabindex="0"
+        tabindex="-1"
       >
         0
       </div>
@@ -97,7 +109,7 @@ exports[`Shuttle tests Shuttle smoke test and other basic operations should sele
         data-index="1"
         data-value="1"
         role="option"
-        tabindex="0"
+        tabindex="-1"
       >
         1
       </div>
@@ -106,7 +118,7 @@ exports[`Shuttle tests Shuttle smoke test and other basic operations should sele
         data-index="2"
         data-value="2"
         role="option"
-        tabindex="0"
+        tabindex="-1"
       >
         2
       </div>
@@ -115,7 +127,7 @@ exports[`Shuttle tests Shuttle smoke test and other basic operations should sele
         data-index="3"
         data-value="3"
         role="option"
-        tabindex="0"
+        tabindex="-1"
       >
         3
       </div>
@@ -124,7 +136,7 @@ exports[`Shuttle tests Shuttle smoke test and other basic operations should sele
         data-index="4"
         data-value="4"
         role="option"
-        tabindex="0"
+        tabindex="-1"
       >
         4
       </div>

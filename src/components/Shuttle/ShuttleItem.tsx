@@ -62,7 +62,7 @@ export const ShuttleItem = React.memo(
                 data-value={value}
                 data-disabled={disabled || undefined}
                 role="option"
-                tabIndex={0}
+                tabIndex={-1}
                 ref={ref}
                 {...rest}>
                 {children}

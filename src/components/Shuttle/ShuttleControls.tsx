@@ -29,7 +29,7 @@ type ShuttleControlsProps = {
  */
 export const ShuttleControls = React.memo(
     ({ children, className, ...rest }: ShuttleControlsProps) => {
-        const { setShuttleState } = React.useContext(ShuttleContext);
+        const { setShuttleState, shuttleState } = React.useContext(ShuttleContext);
 
         const moveAllFromSource = React.useCallback(() => {
             setShuttleState({
@@ -75,10 +75,30 @@ export const ShuttleControls = React.memo(
                     })
                 ) : (
                     <>
-                        <button onClick={moveAllFromSource}>{'\u00BB'}</button>
-                        <button onClick={moveSelectedFromSource}>{'\u203A'}</button>
-                        <button onClick={moveSelectedFromTarget}>{'\u2039'}</button>
-                        <button onClick={moveAllFromTarget}>{'\u00AB'}</button>
+                        <button
+                            title="Move All Items to Target"
+                            aria-label="Move All Items to Target"
+                            onClick={moveAllFromSource}>
+                            {'\u00BB'}
+                        </button>
+                        <button
+                            title="Move Selected Items to Target"
+                            aria-label={`Move Selected Items to Target (${shuttleState.selected.source.size} items selected in source container)`}
+                            onClick={moveSelectedFromSource}>
+                            {'\u203A'}
+                        </button>
+                        <button
+                            title="Move Selected Items to Source"
+                            aria-label={`Move Selected Items to Target (${shuttleState.selected.target.size} items selected in target container)`}
+                            onClick={moveSelectedFromTarget}>
+                            {'\u2039'}
+                        </button>
+                        <button
+                            title="Move All Items to Source"
+                            aria-label="Move All Items to Source"
+                            onClick={moveAllFromTarget}>
+                            {'\u00AB'}
+                        </button>
                     </>
                 )}
             </div>

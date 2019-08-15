@@ -347,7 +347,7 @@ ReactDOM.render(<App />, document.getElementById('app'));
 ## FAQ
 
 <details>
-    <summary>When I filter items selections are being maintained</summary>
+    <summary>When I filter items selections are not maintained</summary>
 
 `react-accessible-shuttle` depends on being able to resolve the _index_ of the item based on the `data-index` attribute on Shuttle.Items. If you're child render function in `Shuttle.Container` looks like this:
 

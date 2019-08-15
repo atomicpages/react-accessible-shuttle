@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { ShuttleReducer, ShuttleState } from '../Shuttle';
 import { useShuttleItemClick } from './useShuttleItemClick';
+
 import {
     getIndexFromItem,
     getContainerMetadata,
     removeDisabledIndexes,
     getShuttleItem,
+    isContainer,
 } from '../../../utils/utils';
+
 import { SELECT_ITEM_REDUCER_ACTION } from '../reducers/selectItemReducer';
 
 enum KEYS {
@@ -19,9 +22,61 @@ enum KEYS {
 type Options = {
     setShuttleState: (args: ShuttleReducer) => void;
     shuttleState: ShuttleState;
+    useMeta?: boolean;
+    useShift?: boolean;
 };
 
-export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Options) {
+const handleShiftKeyboardControl = (
+    selectionArray: number[],
+    increment: boolean,
+    container: Element
+) => {
+    const lastItemInArray = selectionArray[selectionArray.length - 1];
+
+    if (increment) {
+        if (selectionArray.indexOf(lastItemInArray - 1) === -1) {
+            selectionArray.push(lastItemInArray - 1);
+        } else {
+            selectionArray.pop();
+        }
+    } else {
+        if (selectionArray.indexOf(lastItemInArray + 1) === -1) {
+            selectionArray.push(lastItemInArray + 1);
+        } else {
+            selectionArray.pop();
+        }
+    }
+
+    selectionArray = removeDisabledIndexes(container.children, selectionArray);
+
+    return selectionArray;
+};
+
+const handleDefaultKeyboardControl = (
+    selectionArray: number[],
+    increment: boolean,
+    shuttleItemParent: Element
+) => {
+    let [index] = selectionArray;
+    index = index + (increment ? -1 : 1);
+
+    while (
+        index >= 0 &&
+        index < shuttleItemParent.children.length &&
+        (shuttleItemParent.children[index] as HTMLElement).hasAttribute('data-disabled')
+    ) {
+        index = index + (increment ? -1 : 1);
+    }
+
+    return index;
+};
+
+export function useShuttleKeyboardControls({
+    setShuttleState,
+    shuttleState,
+    useMeta = true,
+    useShift = true,
+}: Options) {
     const shiftKeyPressed = React.useRef(false);
     const ctrlKeyPressed = React.useRef(false);
     const metaKeyPressed = React.useRef(false);
@@ -29,10 +84,14 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
     const { onClick: defaultClickHandler } = useShuttleItemClick({ setShuttleState, shuttleState });
 
     const onKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
-        // e.preventDefault();
-        shiftKeyPressed.current = e.shiftKey;
-        ctrlKeyPressed.current = e.ctrlKey;
-        metaKeyPressed.current = e.metaKey;
+        if (useShift) {
+            shiftKeyPressed.current = e.shiftKey;
+        }
+
+        if (useMeta) {
+            ctrlKeyPressed.current = e.ctrlKey;
+            metaKeyPressed.current = e.metaKey;
+        }
 
         if (e.keyCode === KEYS.UP_ARROW || e.keyCode === KEYS.DOWN_ARROW) {
             e.preventDefault();
@@ -40,9 +99,14 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
     }, []);
 
     const onKeyUp = React.useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
-        shiftKeyPressed.current = e.shiftKey;
-        ctrlKeyPressed.current = e.ctrlKey;
-        metaKeyPressed.current = e.metaKey;
+        if (useShift) {
+            shiftKeyPressed.current = e.shiftKey;
+        }
+
+        if (useMeta) {
+            ctrlKeyPressed.current = e.ctrlKey;
+            metaKeyPressed.current = e.metaKey;
+        }
 
         // TODO: implement HOME and END keycodes support
         // https://www.w3.org/TR/wai-aria-practices-1.1/examples/listbox/listbox-scrollable.html
@@ -50,18 +114,28 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
         if (e.keyCode === KEYS.UP_ARROW || e.keyCode === KEYS.DOWN_ARROW) {
             e.preventDefault();
 
-            const target = getShuttleItem(e.target as HTMLDivElement);
+            const item = getShuttleItem(e.target as HTMLDivElement);
 
-            if (target.className.includes('shuttle__item')) {
-                const itemIndex = getIndexFromItem(target);
+            if (isContainer(e.target as HTMLDivElement)) {
+                const container = e.target as HTMLDivElement;
+                const { containerName } = getContainerMetadata(container);
+
+                setShuttleState({
+                    type: 'SELECT_ITEM',
+                    container: containerName,
+                    index: 0,
+                });
+
+                (container.children[0] as HTMLDivElement).focus();
+            } else if (item && item.className.includes('shuttle__item')) {
+                const itemIndex = getIndexFromItem(item);
                 const increment = e.keyCode === KEYS.UP_ARROW;
-                const container = target.closest('.shuttle__container');
+                const container = item.closest('.shuttle__container');
 
                 if (container) {
-                    // deference the parent to shuttle__item in th event we're wrapping
+                    // dereference the parent to shuttle__item in th event we're wrapping
                     // or virtualizing the container
-                    const shuttleItemParent = target.parentElement || container;
-
+                    const shuttleItemParent = item.parentElement || container;
                     const { containerName } = getContainerMetadata(container);
 
                     if (itemIndex >= 0 && itemIndex < shuttleState[containerName].length) {
@@ -73,52 +147,30 @@ export function useShuttleKeyboardControls({ setShuttleState, shuttleState }: Op
                         };
 
                         if (shiftKeyPressed.current) {
-                            const lastItemInArray = selectionArray[selectionArray.length - 1];
-
-                            if (increment) {
-                                if (selectionArray.indexOf(lastItemInArray - 1) === -1) {
-                                    selectionArray.push(lastItemInArray - 1);
-                                } else {
-                                    selectionArray.pop();
-                                }
-                            } else {
-                                if (selectionArray.indexOf(lastItemInArray + 1) === -1) {
-                                    selectionArray.push(lastItemInArray + 1);
-                                } else {
-                                    selectionArray.pop();
-                                }
-                            }
-
-                            selectionArray = removeDisabledIndexes(
-                                container.children,
-                                selectionArray
+                            payload.index = handleShiftKeyboardControl(
+                                selectionArray,
+                                increment,
+                                container
                             );
 
                             (shuttleItemParent.children[
-                                selectionArray[selectionArray.length - 1]
+                                payload.index[payload.index.length - 1]
                             ] as HTMLElement).focus();
-
-                            payload.index = selectionArray;
                         } else {
-                            let [index] = selectionArray;
-                            index = index + (increment ? -1 : 1);
+                            payload.index = handleDefaultKeyboardControl(
+                                selectionArray,
+                                increment,
+                                shuttleItemParent
+                            );
 
-                            while (
-                                index >= 0 &&
-                                index < shuttleItemParent.children.length &&
-                                (shuttleItemParent.children[index] as HTMLElement).hasAttribute(
-                                    'data-disabled'
-                                )
+                            if (
+                                payload.index < 0 ||
+                                payload.index >= shuttleItemParent.children.length
                             ) {
-                                index = index + (increment ? -1 : 1);
-                            }
-
-                            if (index <= 0 || index >= shuttleItemParent.children.length) {
                                 return;
                             }
 
-                            (shuttleItemParent.children[index] as HTMLElement).focus();
-                            payload.index = index;
+                            (shuttleItemParent.children[payload.index] as HTMLElement).focus();
                         }
 
                         setShuttleState(payload);
