@@ -3,6 +3,7 @@
 exports[`ShuttleItem tests should match the snapshot 1`] = `
 <div>
   <div
+    aria-selected="false"
     class="shuttle__item"
     data-index="1"
     data-value="foo"
@@ -17,6 +18,7 @@ exports[`ShuttleItem tests should match the snapshot 1`] = `
 exports[`ShuttleItem tests should match the snapshot when disabled 1`] = `
 <div>
   <div
+    aria-selected="false"
     class="shuttle__item shuttle__item--disabled"
     data-disabled="true"
     data-index="1"
@@ -32,6 +34,7 @@ exports[`ShuttleItem tests should match the snapshot when disabled 1`] = `
 exports[`ShuttleItem tests should match the snapshot when selected 1`] = `
 <div>
   <div
+    aria-selected="true"
     class="shuttle__item shuttle__item--selected"
     data-index="1"
     data-value="foo"
