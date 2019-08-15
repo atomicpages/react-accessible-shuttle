@@ -2,6 +2,33 @@
 
 A tiny, zero dependency, shuttle (a.k.a list shuttle, dual listbox, etc.) implementation in React using hooks.
 
+<div align="center">
+    <a
+        href="https://circleci.com/gh/atomicpages/react-accessible-shuttle/tree/master"
+        target="_blank"
+        rel="nofollow,noreferrer"
+        ><img
+            src="https://circleci.com/gh/atomicpages/react-accessible-shuttle/tree/master.svg?style=svg"
+            alt="CircleCI"
+    /></a>
+    <a
+        href="https://coveralls.io/github/atomicpages/react-accessible-shuttle?branch=master"
+        target="_blank"
+        rel="nofollow,noreferrer"
+        ><img
+            src="https://img.shields.io/coveralls/github/atomicpages/react-accessible-shuttle/master?style=flat-square"
+            alt="Coverage Status"
+    /></a>
+    <a
+        href="https://github.com/prettier/prettier"
+        target="_blank"
+        rel="nofollow,noreferrer"
+        ><img
+            src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
+            alt="code style: prettier"
+    /></a>
+</div>
+
 ## Background
 
 ### Wait, What's a Shuttle?
@@ -370,4 +397,5 @@ ReactDOM.render(<App />, document.getElementById('app'));
 ```
 
 Then you **will** have issues. `selected` contains a set of integers. This mapping breaks when you use filter because `data-index` changes. See the [with-search example in codesandbox](https://codesandbox.io/s/react-accessible-shuttle-nd4d8) for an example.
+
 </details>
