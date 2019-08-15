@@ -1,15 +1,16 @@
 import { ShuttleState } from '../Shuttle';
 
-export type MOVE_SELECTION_REDUCER_ACTION = {
+// eslint-disable-next-line @typescript-eslint/class-name-casing
+export interface MOVE_SELECTION_REDUCER_ACTION {
     type?: 'MOVE_SELECTIONS';
     from?: 'source' | 'target';
     to?: 'source' | 'target';
-};
+}
 
 export const shuttleSelections = (from: any[], to: any[], selected: Set<number>) => {
     const entries = selected.entries();
 
-    for (let [entry] of entries) {
+    for (const [entry] of entries) {
         to.push(from.splice(entry, 1, null)[0]);
     }
 

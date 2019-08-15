@@ -3,10 +3,10 @@ import { toSet } from '../../../utils/utils';
 import { composeReducers, move, moveAll, selectItem } from '../reducers/index';
 import { ShuttleState } from '../Shuttle';
 
-type InitialArrayType<T> = {
+interface InitialArrayType<T> {
     source: T[];
     target: T[];
-};
+}
 
 function init({
     source,
@@ -37,7 +37,7 @@ function init({
         disabled: {
             source: toSet<any>(disabled.source),
             target: toSet<any>(disabled.target),
-        }
+        },
     };
 }
 

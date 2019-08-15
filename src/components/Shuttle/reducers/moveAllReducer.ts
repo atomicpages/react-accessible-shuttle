@@ -1,10 +1,11 @@
 import { ShuttleState } from '../Shuttle';
 
-export type MOVE_SELECTION_REDUCER_ACTION = {
+// eslint-disable-next-line @typescript-eslint/class-name-casing
+export interface MOVE_SELECTION_REDUCER_ACTION {
     type?: 'MOVE_ALL';
     from?: 'source' | 'target';
     to?: 'source' | 'target';
-};
+}
 
 /**
  * Compact an array safely and in-place. This function works
@@ -31,7 +32,7 @@ export const shuttleAll = (from: any[], to: any[], disabled: Set<any>) => {
         Array.prototype.push.apply(to, from);
         from.length = 0;
     } else {
-        let disabledIndexes: number[] = [];
+        const disabledIndexes: number[] = [];
 
         for (let i = 0; i < from.length; i++) {
             if (!disabled.has(from[i])) {

@@ -19,12 +19,12 @@ enum KEYS {
     DOWN_ARROW = 40,
 }
 
-type Options = {
+interface Options {
     setShuttleState: (args: ShuttleReducer) => void;
     shuttleState: ShuttleState;
     useMeta?: boolean;
     useShift?: boolean;
-};
+}
 
 const handleShiftKeyboardControl = (
     selectionArray: number[],
@@ -83,102 +83,108 @@ export function useShuttleKeyboardControls({
 
     const { onClick: defaultClickHandler } = useShuttleItemClick({ setShuttleState, shuttleState });
 
-    const onKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
-        if (useShift) {
-            shiftKeyPressed.current = e.shiftKey;
-        }
+    const onKeyDown = React.useCallback(
+        (e: React.KeyboardEvent<HTMLDivElement>) => {
+            if (useShift) {
+                shiftKeyPressed.current = e.shiftKey;
+            }
 
-        if (useMeta) {
-            ctrlKeyPressed.current = e.ctrlKey;
-            metaKeyPressed.current = e.metaKey;
-        }
+            if (useMeta) {
+                ctrlKeyPressed.current = e.ctrlKey;
+                metaKeyPressed.current = e.metaKey;
+            }
 
-        if (e.keyCode === KEYS.UP_ARROW || e.keyCode === KEYS.DOWN_ARROW) {
-            e.preventDefault();
-        }
-    }, []);
+            if (e.keyCode === KEYS.UP_ARROW || e.keyCode === KEYS.DOWN_ARROW) {
+                e.preventDefault();
+            }
+        },
+        [useMeta, useShift]
+    );
 
-    const onKeyUp = React.useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
-        if (useShift) {
-            shiftKeyPressed.current = e.shiftKey;
-        }
+    const onKeyUp = React.useCallback(
+        (e: React.KeyboardEvent<HTMLDivElement>) => {
+            if (useShift) {
+                shiftKeyPressed.current = e.shiftKey;
+            }
 
-        if (useMeta) {
-            ctrlKeyPressed.current = e.ctrlKey;
-            metaKeyPressed.current = e.metaKey;
-        }
+            if (useMeta) {
+                ctrlKeyPressed.current = e.ctrlKey;
+                metaKeyPressed.current = e.metaKey;
+            }
 
-        // TODO: implement HOME and END keycodes support
-        // https://www.w3.org/TR/wai-aria-practices-1.1/examples/listbox/listbox-scrollable.html
+            // TODO: implement HOME and END keycodes support
+            // https://www.w3.org/TR/wai-aria-practices-1.1/examples/listbox/listbox-scrollable.html
 
-        if (e.keyCode === KEYS.UP_ARROW || e.keyCode === KEYS.DOWN_ARROW) {
-            e.preventDefault();
+            if (e.keyCode === KEYS.UP_ARROW || e.keyCode === KEYS.DOWN_ARROW) {
+                e.preventDefault();
 
-            const item = getShuttleItem(e.target as HTMLDivElement);
+                const item = getShuttleItem(e.target as HTMLDivElement);
 
-            if (isContainer(e.target as HTMLDivElement)) {
-                const container = e.target as HTMLDivElement;
-                const { containerName } = getContainerMetadata(container);
-
-                setShuttleState({
-                    type: 'SELECT_ITEM',
-                    container: containerName,
-                    index: 0,
-                });
-
-                (container.children[0] as HTMLDivElement).focus();
-            } else if (item && item.className.includes('shuttle__item')) {
-                const itemIndex = getIndexFromItem(item);
-                const increment = e.keyCode === KEYS.UP_ARROW;
-                const container = item.closest('.shuttle__container');
-
-                if (container) {
-                    // dereference the parent to shuttle__item in th event we're wrapping
-                    // or virtualizing the container
-                    const shuttleItemParent = item.parentElement || container;
+                if (isContainer(e.target as HTMLDivElement)) {
+                    const container = e.target as HTMLDivElement;
                     const { containerName } = getContainerMetadata(container);
 
-                    if (itemIndex >= 0 && itemIndex < shuttleState[containerName].length) {
-                        let selectionArray = Array.from(shuttleState.selected[containerName]);
+                    setShuttleState({
+                        type: 'SELECT_ITEM',
+                        container: containerName,
+                        index: 0,
+                    });
 
-                        const payload: SELECT_ITEM_REDUCER_ACTION = {
-                            type: 'SELECT_ITEM',
-                            container: containerName,
-                        };
+                    (container.children[0] as HTMLDivElement).focus();
+                } else if (item && item.className.includes('shuttle__item')) {
+                    const itemIndex = getIndexFromItem(item);
+                    const increment = e.keyCode === KEYS.UP_ARROW;
+                    const container = item.closest('.shuttle__container');
 
-                        if (shiftKeyPressed.current) {
-                            payload.index = handleShiftKeyboardControl(
-                                selectionArray,
-                                increment,
-                                container
-                            );
+                    if (container) {
+                        // dereference the parent to shuttle__item in th event we're wrapping
+                        // or virtualizing the container
+                        const shuttleItemParent = item.parentElement || container;
+                        const { containerName } = getContainerMetadata(container);
 
-                            (shuttleItemParent.children[
-                                payload.index[payload.index.length - 1]
-                            ] as HTMLElement).focus();
-                        } else {
-                            payload.index = handleDefaultKeyboardControl(
-                                selectionArray,
-                                increment,
-                                shuttleItemParent
-                            );
+                        if (itemIndex >= 0 && itemIndex < shuttleState[containerName].length) {
+                            const selectionArray = Array.from(shuttleState.selected[containerName]);
 
-                            if (
-                                payload.index < 0 ||
-                                payload.index >= shuttleItemParent.children.length
-                            ) {
-                                return;
+                            const payload: SELECT_ITEM_REDUCER_ACTION = {
+                                type: 'SELECT_ITEM',
+                                container: containerName,
+                            };
+
+                            if (shiftKeyPressed.current) {
+                                payload.index = handleShiftKeyboardControl(
+                                    selectionArray,
+                                    increment,
+                                    container
+                                );
+
+                                (shuttleItemParent.children[
+                                    payload.index[payload.index.length - 1]
+                                ] as HTMLElement).focus();
+                            } else {
+                                payload.index = handleDefaultKeyboardControl(
+                                    selectionArray,
+                                    increment,
+                                    shuttleItemParent
+                                );
+
+                                if (
+                                    payload.index < 0 ||
+                                    payload.index >= shuttleItemParent.children.length
+                                ) {
+                                    return;
+                                }
+
+                                (shuttleItemParent.children[payload.index] as HTMLElement).focus();
                             }
 
-                            (shuttleItemParent.children[payload.index] as HTMLElement).focus();
+                            setShuttleState(payload);
                         }
-
-                        setShuttleState(payload);
                     }
                 }
             }
-        }
-    }, []);
+        },
+        [setShuttleState, shuttleState, useMeta, useShift]
+    );
 
     const onClick = React.useCallback(
         (e: React.MouseEvent<HTMLDivElement>) => {
@@ -239,7 +245,7 @@ export function useShuttleKeyboardControls({
                 defaultClickHandler(e);
             }
         },
-        [defaultClickHandler]
+        [defaultClickHandler, setShuttleState, shuttleState.selected]
     );
 
     return { onKeyDown, onKeyUp, onClick };

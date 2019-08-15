@@ -115,7 +115,9 @@ describe('Shuttle tests', () => {
         it('should execute custom reducers', () => {
             const { container } = render(<TestShuttleWithCustomReducer />);
             getByTestId(container, 'source__container').click();
-            expect(getByTestId(container, "source__container").children[0]).toHaveClass("shuttle__item--selected");
+            expect(getByTestId(container, 'source__container').children[0]).toHaveClass(
+                'shuttle__item--selected'
+            );
         });
     });
 });

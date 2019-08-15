@@ -26,11 +26,14 @@ export default class TestClassShuttle extends React.Component {
         });
     };
 
-    render() {
+    public render() {
         return (
             <Shuttle shuttleState={this.state} setShuttleState={this.setState}>
                 <Shuttle.Container data-testid="source_container">
-                    {({ source, selected }: ShuttleState, getItemProps: (index: number) => Object) =>
+                    {(
+                        { source, selected }: ShuttleState,
+                        getItemProps: (index: number) => Record<string, any>
+                    ) =>
                         source.map((item, index) => (
                             <Shuttle.Item
                                 {...getItemProps(index)}
@@ -52,7 +55,10 @@ export default class TestClassShuttle extends React.Component {
                     )}
                 </Shuttle.Controls>
                 <Shuttle.Container data-testid="target_container">
-                    {({ target, selected }: ShuttleState, getItemProps: (index: number) => Object) =>
+                    {(
+                        { target, selected }: ShuttleState,
+                        getItemProps: (index: number) => Record<string, any>
+                    ) =>
                         target.map((item, index) => (
                             <Shuttle.Item
                                 {...getItemProps(index)}

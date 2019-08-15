@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { ShuttleContext } from './ShuttleContext';
 import { SHUTTLE_CONTROL_TYPES } from './reducers/index';
 
-type ShuttleControlsProps = {
+export interface ShuttleControlsProps {
     children?: (args: {
         setShuttleState: (e?: React.SyntheticEvent<HTMLDivElement>) => void;
         moveAllFromSource: () => void;
@@ -13,7 +13,7 @@ type ShuttleControlsProps = {
         moveSelectedFromTarget: () => void;
     }) => React.ReactNode;
     className?: string;
-};
+}
 
 /**
  * ShuttleControls. Provide your own render function
@@ -27,7 +27,7 @@ type ShuttleControlsProps = {
  *      <CustomButton onClick={() => setShuttleState({ type: 'MOVE_ALL' })} />
  * )} />
  */
-export const ShuttleControls = React.memo(
+export const ShuttleControls: React.FunctionComponent<ShuttleControlsProps> = React.memo(
     ({ children, className, ...rest }: ShuttleControlsProps) => {
         const { setShuttleState, shuttleState } = React.useContext(ShuttleContext);
 
@@ -37,7 +37,7 @@ export const ShuttleControls = React.memo(
                 from: 'source',
                 to: 'target',
             });
-        }, []);
+        }, [setShuttleState]);
 
         const moveAllFromTarget = React.useCallback(() => {
             setShuttleState({
@@ -45,7 +45,7 @@ export const ShuttleControls = React.memo(
                 from: 'target',
                 to: 'source',
             });
-        }, []);
+        }, [setShuttleState]);
 
         const moveSelectedFromSource = React.useCallback(() => {
             setShuttleState({
@@ -53,7 +53,7 @@ export const ShuttleControls = React.memo(
                 from: 'source',
                 to: 'target',
             });
-        }, []);
+        }, [setShuttleState]);
 
         const moveSelectedFromTarget = React.useCallback(() => {
             setShuttleState({
@@ -61,7 +61,7 @@ export const ShuttleControls = React.memo(
                 from: 'target',
                 to: 'source',
             });
-        }, []);
+        }, [setShuttleState]);
 
         return (
             <div className={classNames('shuttle__controls', className)} {...rest}>

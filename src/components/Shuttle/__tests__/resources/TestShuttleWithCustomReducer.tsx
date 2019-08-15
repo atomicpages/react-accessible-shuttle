@@ -13,13 +13,8 @@ export default function TestShuttleWithCustomReducer() {
         {
             selectFirstItem: (state: any, action: { [key: string]: any } = {}) => {
                 if (action.type === 'SELECT_FIRST_ITEM') {
-                    if (
-                        action.container !== 'source' &&
-                        action.container !== 'target'
-                    ) {
-                        throw new Error(
-                            'Missing container from SELECT_FIRST_ITEM reducer'
-                        );
+                    if (action.container !== 'source' && action.container !== 'target') {
+                        throw new Error('Missing container from SELECT_FIRST_ITEM reducer');
                     }
 
                     if (!state[action.container].length) {
@@ -52,7 +47,10 @@ export default function TestShuttleWithCustomReducer() {
                         container: 'source',
                     });
                 }}>
-                {({ source, selected }: ShuttleState, getItemProps: (index: number) => Object) =>
+                {(
+                    { source, selected }: ShuttleState,
+                    getItemProps: (index: number) => Record<string, any>
+                ) =>
                     source.map((item, index) => (
                         <Shuttle.Item
                             {...getItemProps(index)}
@@ -66,7 +64,10 @@ export default function TestShuttleWithCustomReducer() {
             </Shuttle.Container>
             <Shuttle.Controls />
             <Shuttle.Container>
-                {({ target, selected }: ShuttleState, getItemProps: (index: number) => Object) =>
+                {(
+                    { target, selected }: ShuttleState,
+                    getItemProps: (index: number) => Record<string, any>
+                ) =>
                     target.map((item, index) => (
                         <Shuttle.Item
                             {...getItemProps(index)}
@@ -80,4 +81,4 @@ export default function TestShuttleWithCustomReducer() {
             </Shuttle.Container>
         </Shuttle>
     );
-};
+}

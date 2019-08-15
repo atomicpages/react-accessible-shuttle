@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { warnOnce } from '../../utils/utils';
 
-type ShuttleItemProps = {
+export interface ShuttleItemProps {
     /**
      * Children to pass into the shuttle item.
      * This can be any react node.
@@ -38,37 +38,38 @@ type ShuttleItemProps = {
      * react-shuttle super fast!
      */
     'data-index'?: number;
-};
+}
 
-export const ShuttleItem = React.memo(
-    React.forwardRef(function(
-        { children, className, disabled, value, selected, ...rest }: ShuttleItemProps,
-        ref: React.Ref<HTMLDivElement>
-    ) {
-        if (typeof rest['data-index'] !== 'number') {
-            warnOnce(
-                'data-index is missing from Shuttle.Item. Did you forget to pass getItemProps to the item?'
+export const ShuttleItem: React.FunctionComponent<ShuttleItemProps> = React.memo<ShuttleItemProps>(
+    // eslint-disable-next-line react/display-name
+    React.forwardRef<HTMLDivElement, ShuttleItemProps>(
+        ({ children, className, disabled, value, selected, ...rest }, ref) => {
+            if (typeof rest['data-index'] !== 'number') {
+                warnOnce(
+                    'data-index is missing from Shuttle.Item. Did you forget to pass getItemProps to the item?'
+                );
+            }
+
+            return (
+                <div
+                    className={classNames(
+                        'shuttle__item',
+                        { 'shuttle__item--disabled': disabled },
+                        { 'shuttle__item--selected': selected },
+                        className
+                    )}
+                    data-value={value}
+                    data-disabled={disabled || undefined}
+                    role="option"
+                    aria-selected={!!selected}
+                    tabIndex={-1}
+                    ref={ref}
+                    {...rest}>
+                    {children}
+                </div>
             );
         }
-
-        return (
-            <div
-                className={classNames(
-                    'shuttle__item',
-                    { 'shuttle__item--disabled': disabled },
-                    { 'shuttle__item--selected': selected },
-                    className
-                )}
-                data-value={value}
-                data-disabled={disabled || undefined}
-                role="option"
-                tabIndex={-1}
-                ref={ref}
-                {...rest}>
-                {children}
-            </div>
-        );
-    })
+    )
 );
 
 ShuttleItem.displayName = 'Shuttle.Item';

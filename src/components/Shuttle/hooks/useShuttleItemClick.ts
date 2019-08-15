@@ -4,15 +4,15 @@ import { ShuttleState, ShuttleReducer } from '../Shuttle';
 import { getIndexFromItem, getContainerMetadata, getShuttleItem } from '../../../utils/utils';
 import { SHUTTLE_CONTROL_TYPES } from '../reducers/index';
 
-type Options = {
+interface Options {
     setShuttleState: (args: ShuttleReducer) => void;
     shuttleState: ShuttleState;
-};
+}
 
-export function useShuttleItemClick({ setShuttleState, shuttleState }: Options) {
+export function useShuttleItemClick({ setShuttleState }: Options) {
     const onClick = React.useCallback(
         (e: React.MouseEvent<HTMLDivElement>) => {
-        const target = getShuttleItem(e.target as HTMLDivElement);
+            const target = getShuttleItem(e.target as HTMLDivElement);
 
             if (target && target.className.includes('shuttle__item')) {
                 const index = getIndexFromItem(target);
@@ -20,7 +20,6 @@ export function useShuttleItemClick({ setShuttleState, shuttleState }: Options) 
 
                 if (container) {
                     const { source } = getContainerMetadata(container);
-                    '';
 
                     const action = {
                         type: SHUTTLE_CONTROL_TYPES.SELECT_ITEM,
@@ -32,7 +31,7 @@ export function useShuttleItemClick({ setShuttleState, shuttleState }: Options) 
                 }
             }
         },
-        [shuttleState]
+        [setShuttleState]
     );
 
     return { onClick };

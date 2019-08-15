@@ -8,5 +8,5 @@ export const SHUTTLE_CONTAINERS_ARRAY = ['source', 'target'];
  */
 export enum SHUTTLE_CONTAINERS {
     SOURCE = 'source',
-    TARGET = 'target'
+    TARGET = 'target',
 }

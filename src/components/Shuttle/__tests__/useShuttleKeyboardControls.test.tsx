@@ -41,14 +41,22 @@ describe('useShuttleKeyboardControls tests', () => {
             expect(sourceContainer.children[0]).toHaveClass('shuttle__item--selected');
 
             act(() => {
-                fireEvent.keyUp(sourceContainer.children[0], { key: 'ArrowDown', code: 40, keyCode: 40 });
+                fireEvent.keyUp(sourceContainer.children[0], {
+                    key: 'ArrowDown',
+                    code: 40,
+                    keyCode: 40,
+                });
             });
 
             expect(sourceContainer.children[0]).not.toHaveClass('shuttle__item--selected');
             expect(sourceContainer.children[1]).toHaveClass('shuttle__item--selected');
 
             act(() => {
-                fireEvent.keyUp(sourceContainer.children[1], { key: 'ArrowUp', code: 38, keyCode: 38 });
+                fireEvent.keyUp(sourceContainer.children[1], {
+                    key: 'ArrowUp',
+                    code: 38,
+                    keyCode: 38,
+                });
             });
 
             expect(sourceContainer.children[0]).toHaveClass('shuttle__item--selected');
@@ -89,8 +97,18 @@ describe('useShuttleKeyboardControls tests', () => {
             act(() => {
                 fireEvent.click(targetContainer.children[0]);
                 fireEvent.keyDown(targetContainer, { key: 'Shift', shiftKey: true });
-                fireEvent.keyUp(targetContainer.children[0], { key: 'ArrowDown', code: 40, keyCode: 40, shiftKey: true });
-                fireEvent.keyUp(targetContainer.children[0], { key: 'ArrowDown', code: 40, keyCode: 40, shiftKey: true });
+                fireEvent.keyUp(targetContainer.children[0], {
+                    key: 'ArrowDown',
+                    code: 40,
+                    keyCode: 40,
+                    shiftKey: true,
+                });
+                fireEvent.keyUp(targetContainer.children[0], {
+                    key: 'ArrowDown',
+                    code: 40,
+                    keyCode: 40,
+                    shiftKey: true,
+                });
             });
 
             for (let i = 0; i <= 2; i++) {

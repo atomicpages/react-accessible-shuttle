@@ -1,10 +1,11 @@
 import { ShuttleState } from '../Shuttle';
 
-export type SELECT_ITEM_REDUCER_ACTION = {
+// eslint-disable-next-line @typescript-eslint/class-name-casing
+export interface SELECT_ITEM_REDUCER_ACTION {
     type?: 'SELECT_ITEM';
     index?: number | number[];
     container: 'source' | 'target';
-};
+}
 
 export const selectItem = (state: ShuttleState, action: SELECT_ITEM_REDUCER_ACTION) => {
     if (action.type === 'SELECT_ITEM') {

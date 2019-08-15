@@ -3,14 +3,18 @@
     "version": "0.2.3",
     "description": "A tiny, zero dependency, shuttle (a.k.a list shuttle, dual listbox, etc.) implementation in React using hooks.",
     "main": "index.js",
+    "repository": {
+        "url": "https://github.com/atomicpages/react-accessible-shuttle"
+    },
     "scripts": {
         "test": "jest --silent",
-        "build": "npm run clean && npm run build:css && pika build && npm run clean:css",
+        "build": "npm run lint && npm run clean && npm run build:css && pika build && npm run clean:css",
         "build:css": "sass -s compressed --embed-source-map src/styles/** ./css/shuttle.css",
         "build:test": "npm run clean && tsc src/index.ts --pretty --jsx react --esModuleInterop  --downLevelIteration --outDir pkg",
         "clean": "rimraf pkg/**",
         "clean:css": "rimraf ./css",
-        "version": "npm run build"
+        "version": "npm run build",
+        "lint": "eslint \"src/**/*.{ts,tsx}\""
     },
     "@pika/pack": {
         "pipeline": [
@@ -67,7 +71,7 @@
         "@babel/plugin-transform-destructuring": "^7.5.0",
         "@babel/plugin-transform-object-assign": "^7.2.0",
         "@babel/preset-react": "^7.0.0",
-        "@djthoms/eslint-config": "^1.1.0",
+        "@djthoms/eslint-config": "^2.0.0",
         "@djthoms/prettier-config": "^1.0.0",
         "@pika/pack": "^0.5.0",
         "@pika/plugin-build-node": "^0.6.0",
@@ -86,7 +90,7 @@
         "concurrently": "^4.1.1",
         "core-js": "^3.2.1",
         "coveralls": "^3.0.6",
-        "eslint": "^5.16.0",
+        "eslint": "^6.1.0",
         "flowgen": "^1.10.0",
         "jest": "^24.8.0",
         "mini-css-extract-plugin": "^0.8.0",

@@ -10,7 +10,10 @@ export default function TestKbdShuttle({ state }: any) {
     return (
         <Shuttle {...shuttle} {...controls}>
             <Shuttle.Container data-testid="source_container">
-                {({ source, selected }: ShuttleState, getItemProps: (index: number) => Object) =>
+                {(
+                    { source, selected }: ShuttleState,
+                    getItemProps: (index: number) => Record<string, any>
+                ) =>
                     source.map((item, index) => (
                         <Shuttle.Item
                             {...getItemProps(index)}
@@ -24,7 +27,10 @@ export default function TestKbdShuttle({ state }: any) {
             </Shuttle.Container>
             <Shuttle.Controls data-testid="controls" />
             <Shuttle.Container data-testid="target_container">
-                {({ target, selected }: ShuttleState, getItemProps: (index: number) => Object) =>
+                {(
+                    { target, selected }: ShuttleState,
+                    getItemProps: (index: number) => Record<string, any>
+                ) =>
                     target.map((item, index) => (
                         <Shuttle.Item
                             {...getItemProps(index)}
@@ -38,4 +44,4 @@ export default function TestKbdShuttle({ state }: any) {
             </Shuttle.Container>
         </Shuttle>
     );
-};
+}

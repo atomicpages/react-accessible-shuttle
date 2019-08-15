@@ -7,7 +7,7 @@ import { ShuttleControls } from './ShuttleControls';
 import { ShuttleContext } from './ShuttleContext';
 import { useShuttleItemClick } from './hooks/useShuttleItemClick';
 
-export type ShuttleState = {
+export interface ShuttleState {
     /**
      * The source container data as an array.
      */
@@ -43,12 +43,14 @@ export type ShuttleState = {
          * The target container disabled items.
          */
         target: Set<any>;
-    }
-};
+    };
+}
 
-export type ShuttleReducer = { [key: string]: any };
+export interface ShuttleReducer {
+    [key: string]: any;
+}
 
-type ShuttleProps = {
+interface ShuttleProps {
     /**
      * The state to pass to the Shuttle.
      */
@@ -78,7 +80,7 @@ type ShuttleProps = {
      * in your app.
      */
     enableUserSelectionHack?: boolean;
-};
+}
 
 export function Shuttle({
     shuttleState,

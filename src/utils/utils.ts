@@ -1,11 +1,54 @@
 import { SHUTTLE_CONTAINERS } from '../components/Shuttle/globals';
 
 /**
+ * Small warn wrapper.
+ * @see https://github.com/i18next/react-i18next/blob/master/src/utils.js
+ */
+export function warn(...args: string[]) {
+    if (console && console.warn) {
+        if (typeof args[0] === 'string') {
+            args[0] = `react-shuttle:: ${args[0]}`;
+        }
+
+        console.warn(...args);
+    }
+}
+
+const alreadyWarned: { [key: string]: Date } = {};
+
+/**
+ * Warn about issues only once.
+ * @see https://github.com/i18next/react-i18next/blob/master/src/utils.js
+ */
+export function warnOnce(...args: string[]) {
+    if (typeof args[0] === 'string' && alreadyWarned[args[0]]) {
+        return;
+    }
+
+    if (typeof args[0] === 'string') {
+        alreadyWarned[args[0]] = new Date();
+    }
+
+    warn(...args);
+}
+
+/**
+ * Converts the source array to a Set.
+ * Needed because IE 11 fails with `new Set([1,2,3])`.
+ */
+export function toSet<T>(source: T[]): Set<T> {
+    const set = new Set<T>();
+    source.forEach(item => set.add(item));
+
+    return set;
+}
+
+/**
  * Filters only visible items. This happens when the selection array is
  * greater than the collection length.
  * @see removeDisabledIndexes for usage
  */
-const filterVisibleItems = (collection: HTMLCollection, indexes: number[]) => {
+const filterVisibleItems = (collection: HTMLCollection, indexes: number[]): number[] => {
     const set = toSet<number>(indexes);
     const matches: number[] = [];
 
@@ -22,21 +65,10 @@ const filterVisibleItems = (collection: HTMLCollection, indexes: number[]) => {
 };
 
 /**
- * Converts the source array to a Set.
- * Needed because IE 11 fails with `new Set([1,2,3])`.
- */
-export function toSet<T>(source: T[]) {
-    const set = new Set<T>();
-    source.forEach(item => set.add(item));
-
-    return set;
-}
-
-/**
  * Gets the index of the HTMLElement. As an escape hatch, if `data-index` was not passed
  * to the Shuttle.Item we will look through the list to find the item we want.
  */
-export const getIndexFromItem = (target: HTMLDivElement) => {
+export const getIndexFromItem = (target: HTMLDivElement): number => {
     if (!target.hasAttribute('data-index')) {
         warnOnce(
             'Did you forget to pass getItemProps on each Shuttle.Item? This is sever impact on performance.'
@@ -68,7 +100,8 @@ export const getIndexFromItem = (target: HTMLDivElement) => {
  * they want inside the item itself, we might need to look up the DOM tree
  * to get the HTMLElement.
  */
-export const getShuttleItem = (e: HTMLElement) => e.closest('.shuttle__item') as HTMLDivElement;
+export const getShuttleItem = (e: HTMLElement): HTMLDivElement | null =>
+    e.closest('.shuttle__item') as HTMLDivElement;
 
 export const removeDisabledIndexes = (collection: HTMLCollection, indexes: number[]) => {
     if (collection.length < indexes.length) {
@@ -99,40 +132,8 @@ export const getContainerMetadata = (container: Element) => {
 };
 
 export const isContainer = (container: HTMLDivElement) => {
-    let bool = container.hasAttribute('data-name');
+    const bool = container.hasAttribute('data-name');
     const name = container.getAttribute('data-name');
 
     return bool && (name === SHUTTLE_CONTAINERS.SOURCE || name === SHUTTLE_CONTAINERS.TARGET);
 };
-
-/**
- * Small warn wrapper.
- * @see https://github.com/i18next/react-i18next/blob/master/src/utils.js
- */
-export function warn(...args: string[]) {
-    if (console && console.warn) {
-        if (typeof args[0] === 'string') {
-            args[0] = `react-shuttle:: ${args[0]}`;
-        }
-
-        console.warn(...args);
-    }
-}
-
-const alreadyWarned: { [key: string]: Date } = {};
-
-/**
- * Warn about issues only once.
- * @see https://github.com/i18next/react-i18next/blob/master/src/utils.js
- */
-export function warnOnce(...args: string[]) {
-    if (typeof args[0] === 'string' && alreadyWarned[args[0]]) {
-        return;
-    }
-
-    if (typeof args[0] === 'string') {
-        alreadyWarned[args[0]] = new Date();
-    }
-
-    warn(...args);
-}
