@@ -81,7 +81,7 @@ exports[`Shuttle tests Shuttle smoke test and other basic operations should sele
         ›
       </button>
       <button
-        aria-label="Move Selected Items to Target (0 items selected in target container)"
+        aria-label="Move Selected Items to Source (1 items selected in target container)"
         title="Move Selected Items to Source"
       >
         ‹

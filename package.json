@@ -2,7 +2,6 @@
     "name": "react-accessible-shuttle",
     "version": "0.2.3",
     "description": "A tiny, zero dependency, shuttle (a.k.a list shuttle, dual listbox, etc.) implementation in React using hooks.",
-    "main": "index.js",
     "repository": {
         "url": "https://github.com/atomicpages/react-accessible-shuttle"
     },
@@ -42,6 +41,12 @@
                         "react": "React"
                     },
                     "sourcemap": true
+                }
+            ],
+            [
+                "pika-plugin-typedefs-to-flow",
+                {
+                    "tolerateFailures": true
                 }
             ],
             [
@@ -87,7 +92,6 @@
         "@types/react": "^16.9.1",
         "@types/react-dom": "^16.8.5",
         "@typescript-eslint/parser": "^2.0.0",
-        "concurrently": "^4.1.1",
         "core-js": "^3.2.1",
         "coveralls": "^3.0.6",
         "eslint": "^6.1.0",
@@ -96,6 +100,7 @@
         "mini-css-extract-plugin": "^0.8.0",
         "mkdirp": "^0.5.1",
         "pika-plugin-legacy-browser": "^1.1.1",
+        "pika-plugin-typedefs-to-flow": "0.0.1",
         "prettier": "^1.18.2",
         "react": "^16.9.0",
         "react-dom": "^16.9.0",
@@ -105,8 +110,5 @@
         "sass": "^1.22.9",
         "ts-jest": "^24.0.2",
         "typescript": "^3.5.3"
-    },
-    "dependencies": {
-        "classnames": "^2.2.6"
     }
 }

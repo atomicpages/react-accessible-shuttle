@@ -1,11 +1,11 @@
 import * as React from 'react';
-import classNames from 'classnames';
 
 import { ShuttleItem } from './ShuttleItem';
 import { ShuttleContainer } from './ShuttleContainer';
 import { ShuttleControls } from './ShuttleControls';
 import { ShuttleContext } from './ShuttleContext';
 import { useShuttleItemClick } from './hooks/useShuttleItemClick';
+import { classNames } from '../../utils/utils';
 
 export interface ShuttleState {
     /**

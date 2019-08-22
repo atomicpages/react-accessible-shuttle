@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import { classNames } from '../../utils/utils';
 
 import { ShuttleContext } from './ShuttleContext';
 import { SHUTTLE_CONTROL_TYPES } from './reducers/index';
@@ -7,6 +7,7 @@ import { SHUTTLE_CONTROL_TYPES } from './reducers/index';
 export interface ShuttleControlsProps {
     children?: (args: {
         setShuttleState: (e?: React.SyntheticEvent<HTMLDivElement>) => void;
+        getButtonProps: (button: CONTROL_BUTTONS, size?: number) => Record<string, string>;
         moveAllFromSource: () => void;
         moveAllFromTarget: () => void;
         moveSelectedFromSource: () => void;
@@ -14,6 +15,47 @@ export interface ShuttleControlsProps {
     }) => React.ReactNode;
     className?: string;
 }
+
+export enum CONTROL_BUTTONS {
+    MOVE_ALL_TARGET = 'MOVE_ALL_TARGET',
+    MOVE_SELECTED_TARGET = 'MOVE_SELECTED_TARGET',
+    MOVE_SELECTED_SOURCE = 'MOVE_SELECTED_SOURCE',
+    MOVE_ALL_SOURCE = 'MOVE_ALL_SOURCE',
+}
+
+const getButtonProps = (button: CONTROL_BUTTONS, size?: number): Record<string, string> => {
+    const props = {
+        moveAllToTarget: {
+            title: 'Move All Items to Target',
+            'aria-label': `Move All Items to Target`,
+        },
+        moveSelectedToTarget: {
+            title: 'Move Selected Items to Target',
+            'aria-label': `Move Selected Items to Target (${size} items selected in source container)`,
+        },
+        moveSelectedToSource: {
+            title: 'Move Selected Items to Source',
+            'aria-label': `Move Selected Items to Source (${size} items selected in target container)`,
+        },
+        moveAllToSource: {
+            title: 'Move All Items to Source',
+            'aria-label': `Move All Items to Source`,
+        },
+    };
+
+    switch (button) {
+        case CONTROL_BUTTONS.MOVE_ALL_TARGET:
+            return props.moveAllToTarget;
+        case CONTROL_BUTTONS.MOVE_SELECTED_TARGET:
+            return props.moveSelectedToTarget;
+        case CONTROL_BUTTONS.MOVE_SELECTED_SOURCE:
+            return props.moveSelectedToSource;
+        case CONTROL_BUTTONS.MOVE_ALL_SOURCE:
+            return props.moveAllToSource;
+    }
+
+    return {};
+};
 
 /**
  * ShuttleControls. Provide your own render function
@@ -68,6 +110,7 @@ export const ShuttleControls: React.FunctionComponent<ShuttleControlsProps> = Re
                 {typeof children === 'function' ? (
                     children({
                         setShuttleState,
+                        getButtonProps,
                         moveAllFromSource,
                         moveSelectedFromSource,
                         moveSelectedFromTarget,
@@ -76,26 +119,28 @@ export const ShuttleControls: React.FunctionComponent<ShuttleControlsProps> = Re
                 ) : (
                     <>
                         <button
-                            title="Move All Items to Target"
-                            aria-label="Move All Items to Target"
+                            {...getButtonProps(CONTROL_BUTTONS.MOVE_ALL_TARGET)}
                             onClick={moveAllFromSource}>
                             {'\u00BB'}
                         </button>
                         <button
-                            title="Move Selected Items to Target"
-                            aria-label={`Move Selected Items to Target (${shuttleState.selected.source.size} items selected in source container)`}
+                            {...getButtonProps(
+                                CONTROL_BUTTONS.MOVE_SELECTED_TARGET,
+                                shuttleState.selected.source.size
+                            )}
                             onClick={moveSelectedFromSource}>
                             {'\u203A'}
                         </button>
                         <button
-                            title="Move Selected Items to Source"
-                            aria-label={`Move Selected Items to Target (${shuttleState.selected.target.size} items selected in target container)`}
+                            {...getButtonProps(
+                                CONTROL_BUTTONS.MOVE_SELECTED_SOURCE,
+                                shuttleState.selected.source.size
+                            )}
                             onClick={moveSelectedFromTarget}>
                             {'\u2039'}
                         </button>
                         <button
-                            title="Move All Items to Source"
-                            aria-label="Move All Items to Source"
+                            {...getButtonProps(CONTROL_BUTTONS.MOVE_ALL_SOURCE)}
                             onClick={moveAllFromTarget}>
                             {'\u00AB'}
                         </button>

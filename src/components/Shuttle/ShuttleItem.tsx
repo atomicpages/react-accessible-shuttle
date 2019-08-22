@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import { classNames } from '../../utils/utils';
 import { warnOnce } from '../../utils/utils';
 
 export interface ShuttleItemProps {
@@ -54,8 +54,10 @@ export const ShuttleItem: React.FunctionComponent<ShuttleItemProps> = React.memo
                 <div
                     className={classNames(
                         'shuttle__item',
-                        { 'shuttle__item--disabled': disabled },
-                        { 'shuttle__item--selected': selected },
+                        {
+                            'shuttle__item--disabled': disabled,
+                            'shuttle__item--selected': selected,
+                        },
                         className
                     )}
                     data-value={value}

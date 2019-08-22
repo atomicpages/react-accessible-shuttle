@@ -5,10 +5,16 @@ exports[`ShuttleControls tests should allow customized rendering via child rende
   <div
     class="shuttle__controls"
   >
-    <button>
+    <button
+      aria-label="Move All Items to Target"
+      title="Move All Items to Target"
+    >
       Move All to Target
     </button>
-    <button>
+    <button
+      aria-label="Move All Items to Source"
+      title="Move All Items to Source"
+    >
       Move All to Source
     </button>
   </div>
