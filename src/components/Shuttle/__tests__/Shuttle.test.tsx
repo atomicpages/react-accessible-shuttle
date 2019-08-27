@@ -48,6 +48,10 @@ describe('Shuttle tests', () => {
             });
 
             expect(getByTestId('source_container').children.length).toEqual(0);
+
+            expect(() => {
+                fireEvent.click(button);
+            }).not.toThrow();
         });
 
         it('should shuttle all items to source', () => {
@@ -61,6 +65,10 @@ describe('Shuttle tests', () => {
             });
 
             expect(getByTestId('target_container').children.length).toEqual(0);
+
+            expect(() => {
+                fireEvent.click(button);
+            }).not.toThrow();
         });
 
         it('should shuttle selected items to source', () => {

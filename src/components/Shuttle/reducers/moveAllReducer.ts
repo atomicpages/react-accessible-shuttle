@@ -56,7 +56,7 @@ export const moveAll = (state: ShuttleState, action: MOVE_SELECTION_REDUCER_ACTI
         }
 
         shuttleAll(state[action.from], state[action.to], state.disabled[action.from]);
-        state.selected[action.to].clear();
+        state.selected[action.from].clear();
 
         return { ...state };
     }
