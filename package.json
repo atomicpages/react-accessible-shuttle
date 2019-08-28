@@ -91,7 +91,7 @@
         "flowgen": "^1.10.0",
         "jest": "^24.9.0",
         "pika-plugin-legacy-browser": "^1.1.1",
-        "pika-plugin-typedefs-to-flow": "0.0.1",
+        "pika-plugin-typedefs-to-flow": "0.0.2",
         "prettier": "^1.18.2",
         "react": "^16.9.0",
         "react-dom": "^16.9.0",
