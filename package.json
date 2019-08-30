@@ -70,6 +70,10 @@
         "Dennis Thompson"
     ],
     "license": "MIT",
+    "peerDependencies": {
+        "react": "^16.9.0",
+        "react-dom": "^16.9.0"
+    },
     "devDependencies": {
         "@djthoms/eslint-config": "^2.0.0",
         "@djthoms/prettier-config": "^1.0.0",

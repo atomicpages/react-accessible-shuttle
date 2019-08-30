@@ -47,11 +47,14 @@ Other implementations are great but they generally force you to massage your dat
 
 ```bash
 npm i react-accessible-shuttle
+
+# add peer dependencies
+npm i react react-dom
 ```
 
-### Consuming
+### Basic Usage
 
-react-accessible-shuttle is a controlled component, but is flexible and adapts to your needs. Using it easy. Since you have _complete_ control over the rendering process, feel free to customize the layout to your liking!
+`react-accessible-shuttle` is a controlled component, but is flexible and adapts to your needs. Since you have _complete_ control over the rendering process, you can render anything you want no matter how simple or complex your state data is. Here's an example using an array of strings:
 
 ```jsx
 import React from 'react';
@@ -101,30 +104,35 @@ function App() {
 ReactDOM.render(<App />, document.getElementById('app'));
 ```
 
+`react-accessible-shuttle` is powered by React hooks which allows the nitty-gritty internal details of the component to be handled for you, but while giving you the flexibility to control _everything_ if you need it.
+
 ### CDN
 
 You can also use react-accessible-shuttle via CDN -- it even works with legacy browsers like IE 11 -- without transpiling.
 
 ```html
 <!DOCTYPE html>
-<body>
+<html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
         <!-- Shuttle Dependency -->
         <link
             rel="stylesheet"
-            href="https://unpkg.com/browse/react-accessible-shuttle/css/shuttle.css"
+            href="https://unpkg.com/react-accessible-shuttle/css/shuttle.css"
         />
         <title>React Accessible Shuttle</title>
     </head>
     <body>
         <div id="root"></div>
-        <!-- Peer dependencies -->
+
+        <!-- Peer Dependencies -->
         <script src="https://unpkg.com/react/umd/react.development.js"></script>
         <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+
         <!-- Shuttle Dependency -->
-        <script src="https://unpkg.com/browse/react-accessible-shuttle/dist-browser/index.js"></script>
+        <script src="https://unpkg.com/react-accessible-shuttle/dist-browser/index.js"></script>
+
         <!-- Usage -->
         <script>
             function App() {
@@ -142,27 +150,25 @@ You can also use react-accessible-shuttle via CDN -- it even works with legacy b
                             const props = {
                                 key: index,
                                 value: item,
-                                selected: state.selected.source.has(index),
                             };
 
-                            Object.assign(props, getItemProps);
+                            Object.assign(props, getItemProps(index));
 
                             return React.createElement(ReactShuttle.Item, props, item);
                         });
                     }),
                     React.createElement(ReactShuttle.Controls, null, null),
-                    React.createElement(ReactShuttle.Container, null, function(
+                    React.createElement(ReactShuttle.Container, null, function (
                         state,
                         getItemProps
                     ) {
-                        return state.target.map(function(item, index) {
+                        return state.target.map(function (item, index) {
                             const props = {
                                 key: index,
                                 value: item,
-                                selected: state.selected.target.has(index),
                             };
 
-                            Object.assign(props, getItemProps);
+                            Object.assign(props, getItemProps(index));
 
                             return React.createElement(ReactShuttle.Item, props, item);
                         });
@@ -173,14 +179,14 @@ You can also use react-accessible-shuttle via CDN -- it even works with legacy b
             ReactDOM.render(App, document.getElementById('root'));
         </script>
     </body>
-</body>
+</html>
 ```
 
 If you're new to hooks, the example might seem verbose; however, we can easily abstract react-accessible-shuttle to take in a model and render on your behalf.
 
 ### Without Hooks
 
-> **Note:** React 16.8 is a peer dependency of react-accessible-shuttle which means we can use hooks! However, if, for some reason, you find yourself stubbing 16.8 APIs so you can use newer stuff without upgrading, then you could possibly make things work :astonished:
+> **Note:** React 16.9 is a peer dependency of react-accessible-shuttle which means we can use hooks! However, if, for some reason, you find yourself stubbing 16.9 APIs so you can use newer stuff without upgrading, then you could possibly make things work :astonished:
 
 Not on the hooks train yet? No worries. `react-accessible-shuttle` depends in React 16.8.0+ so if you have that, then you can use without hooks (i.e. in a `class` component) with a some extra effort :smiley: (although we should really use hooks because they make our lives much easier).
 
@@ -304,8 +310,8 @@ function App() {
             source: ['a', 'b', 'c'],
             target: ['d', 'e', 'f'],
         },
-        undefined,
-        undefined,
+        null,
+        null,
         {
             selectFirstItem: (state: any, action: { [key: string]: any } = {}) => {
                 if (action.type === 'SELECT_FIRST_ITEM') {

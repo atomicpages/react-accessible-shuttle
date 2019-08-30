@@ -1,28 +1,38 @@
 import * as React from 'react';
-
 import * as faker from 'faker';
 
 import { Shuttle, useShuttleState, useShuttleKeyboardControls } from '../../../src/index';
 
 const state = {
-    source: new Array(25)
-        .fill(null)
-        .map(() =>
-            faker.fake('{{name.prefix}} {{name.lastName}} {{name.suffix}}, {{name.firstName}}')
-        ),
-    target: new Array(5)
-        .fill(null)
-        .map(() =>
-            faker.fake('{{name.prefix}} {{name.lastName}} {{name.suffix}}, {{name.firstName}}')
-        ),
+    source: new Array(25).fill(null).map(() => {
+        return {
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName(),
+            prefix: faker.name.prefix(),
+            suffix: faker.name.suffix(),
+        };
+    }),
+    target: new Array(5).fill(null).map(() => {
+        return {
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName(),
+            prefix: faker.name.prefix(),
+            suffix: faker.name.suffix(),
+        };
+    }),
 };
 
-state.source.push('Dr. Borer III, Dale');
+state.source.push({
+    firstName: 'Dale',
+    lastName: 'Borer',
+    prefix: 'Dr.',
+    suffix: 'III',
+});
 
 export function App(props: any) {
     const shuttle = useShuttleState(state, null, {
-        source: ['Dr. Borer III, Dale'],
-        target: []
+        source: [state.source[state.source.length - 1]],
+        target: [],
     });
 
     const controls = useShuttleKeyboardControls(shuttle);
@@ -30,29 +40,24 @@ export function App(props: any) {
     return (
         <Shuttle {...shuttle} {...controls} enableUserSelectionHack>
             <Shuttle.Container>
-                {({ source, selected, disabled }, getItemProps) =>
+                {({ source, disabled }, getItemProps) =>
                     source.map((item, index) => (
                         <Shuttle.Item
                             {...getItemProps(index)}
-                            key={item}
+                            key={index}
                             value={item}
-                            selected={selected.source.has(index)}
                             disabled={disabled.source.has(item)}>
-                            {item}
+                            {`${item.prefix} ${item.lastName} ${item.suffix}, ${item.firstName}`}
                         </Shuttle.Item>
                     ))
                 }
             </Shuttle.Container>
             <Shuttle.Controls />
             <Shuttle.Container>
-                {({ target, selected }, getItemProps) =>
+                {({ target }, getItemProps) =>
                     target.map((item, index) => (
-                        <Shuttle.Item
-                            {...getItemProps(index)}
-                            key={item}
-                            value={item}
-                            selected={selected.target.has(index)}>
-                            {item}
+                        <Shuttle.Item {...getItemProps(index)} key={index} value={item}>
+                            {`${item.prefix} ${item.lastName} ${item.suffix}, ${item.firstName}`}
                         </Shuttle.Item>
                     ))
                 }

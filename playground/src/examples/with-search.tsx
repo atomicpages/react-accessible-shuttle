@@ -49,15 +49,11 @@ export function App(props: any) {
                     style={INPUT_STYLES}
                 />
                 <Shuttle.Container>
-                    {({ source, selected }, getItemProps) =>
+                    {({ source }, getItemProps) =>
                         source.map((item, index) => {
                             if (!sourceFilter || item.includes(sourceFilter)) {
                                 return (
-                                    <Shuttle.Item
-                                        {...getItemProps(index)}
-                                        key={item}
-                                        value={item}
-                                        selected={selected.source.has(index)}>
+                                    <Shuttle.Item {...getItemProps(index)} key={item} value={item}>
                                         {item}
                                     </Shuttle.Item>
                                 );
@@ -78,15 +74,11 @@ export function App(props: any) {
                     style={INPUT_STYLES}
                 />
                 <Shuttle.Container>
-                    {({ target, selected }, getItemProps) =>
+                    {({ target }, getItemProps) =>
                         target.map((item, index) => {
                             if (!targetFilter || item.includes(targetFilter)) {
                                 return (
-                                    <Shuttle.Item
-                                        {...getItemProps(index)}
-                                        key={item}
-                                        value={item}
-                                        selected={selected.target.has(index)}>
+                                    <Shuttle.Item {...getItemProps(index)} key={item} value={item}>
                                         {item}
                                     </Shuttle.Item>
                                 );

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { render, cleanup, getByTestId, fireEvent } from '@testing-library/react';
 
-import TestKbdShuttle from './resources/TestKbdShuttle';
-import { dummyState } from './resources/stateGenerator';
+import TestKbdShuttle from '../resources/TestKbdShuttle';
+import { dummyState } from '../resources/stateGenerator';
 import { act } from 'react-test-renderer';
 
 import '@testing-library/jest-dom/extend-expect';

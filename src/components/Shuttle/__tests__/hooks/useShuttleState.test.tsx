@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { useShuttleState } from '../hooks/useShuttleState';
+import { useShuttleState } from '../../hooks/useShuttleState';
 
 describe('useShuttleState tests', () => {
     it('should throw when selections source is misconfigured', () => {

@@ -12,14 +12,17 @@ export interface MOVE_SELECTION_REDUCER_ACTION {
  * in conjunction with `shuttleAll`.
  */
 export const compact = (list: number[], source: any[]) => {
-    if (list.length !== source.length) {
-        let pointer = 0;
+    // spread is overwhelmingly faster https://jsperf.com/array-allocation-perf/1
+    const result = [...Array(list.length)];
+    let pointer = 0;
 
-        for (let i = 0; i < list.length; i++) {
-            source[pointer++] = source[list[i]];
-            source[list[i]] = null;
+    for (let i = 0; i < list.length; i++) {
+        if (source[list[i]] !== null) {
+            result[pointer++] = source[list[i]];
         }
     }
+
+    return result;
 };
 
 /**
@@ -31,7 +34,7 @@ export const shuttleAll = (from: any[], to: any[], disabled: Set<any>) => {
     if (!disabled.size) {
         Array.prototype.push.apply(to, from);
         from.length = 0;
-    } else {
+    } else if (disabled.size < from.length) {
         const disabledIndexes: number[] = [];
 
         for (let i = 0; i < from.length; i++) {
@@ -42,9 +45,10 @@ export const shuttleAll = (from: any[], to: any[], disabled: Set<any>) => {
             }
         }
 
-        compact(disabledIndexes, from);
-        from.length = disabledIndexes.length;
+        return compact(disabledIndexes, from);
     }
+
+    return from;
 };
 
 export const moveAll = (state: ShuttleState, action: MOVE_SELECTION_REDUCER_ACTION = {}) => {
@@ -55,7 +59,12 @@ export const moveAll = (state: ShuttleState, action: MOVE_SELECTION_REDUCER_ACTI
             );
         }
 
-        shuttleAll(state[action.from], state[action.to], state.disabled[action.from]);
+        state[action.from] = shuttleAll(
+            state[action.from],
+            state[action.to],
+            state.disabled[action.from]
+        );
+
         state.selected[action.from].clear();
 
         return { ...state };
