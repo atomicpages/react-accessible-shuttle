@@ -11,15 +11,6 @@ import { App as SearchShuttle } from './examples/with-search';
 
 import '../../src/styles/shuttle.scss';
 
-if (process.env.NODE_ENV === 'development') {
-    (function() {
-        const div = document.createElement('div');
-        div.id = 'root';
-
-        document.body.appendChild(div);
-    })();
-}
-
 function Main() {
     return (
         <main>

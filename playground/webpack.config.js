@@ -15,7 +15,9 @@ module.exports = {
             filename: '[name].css',
             chunkFilename: '[id].css',
         }),
-        new HtmlWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            template: path.resolve('./public/index.html'),
+        }),
     ],
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],

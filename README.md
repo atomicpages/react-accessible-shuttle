@@ -61,6 +61,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Shuttle, useShuttleState } from 'react-accessible-shuttle';
+import 'react-accessible-shuttle/css/shuttle.css';
 
 function App() {
     const shuttle = useShuttleState({
@@ -176,7 +177,7 @@ You can also use react-accessible-shuttle via CDN -- it even works with legacy b
                 ]);
             }
 
-            ReactDOM.render(App, document.getElementById('root'));
+            ReactDOM.render(React.createElement(App), document.getElementById('root'));
         </script>
     </body>
 </html>
