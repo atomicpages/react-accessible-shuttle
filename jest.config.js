@@ -5,7 +5,7 @@ module.exports = {
     coverageReporters: ['text', 'html', 'text-summary', 'lcov'],
     collectCoverageFrom: ['src/**/*.{ts,tsx}'],
     modulePathIgnorePatterns: ['pkg/', 'resources/'],
-    testPathIgnorePatterns: ['<rootDir>/src/index.ts'],
+    testPathIgnorePatterns: ['<rootDir>/src/index.ts', '<rootDir>/docs/*'],
     globals: {
         'ts-jest': {
             tsConfig: '<rootDir>/tsconfig.test.json',
