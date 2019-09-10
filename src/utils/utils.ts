@@ -165,22 +165,3 @@ export const isContainer = (container: HTMLDivElement) => {
 
     return bool && (name === SHUTTLE_CONTAINERS.SOURCE || name === SHUTTLE_CONTAINERS.TARGET);
 };
-
-// IE 9+ polyfill for closest
-// https://developer.mozilla.org/en-US/docs/Web/API/Element/closest#Polyfill
-if (!Element.prototype.closest) {
-    Element.prototype.closest = function(selector: string) {
-        // @ts-ignore
-        let el: any = this;
-
-        do {
-            if (el.matches(selector)) {
-                return el;
-            }
-
-            el = el.parentElement || el.parentNode;
-        } while (el !== null && el.nodeType === 1);
-
-        return null;
-    };
-}
