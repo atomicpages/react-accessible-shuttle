@@ -1,0 +1,18 @@
+---
+title: 'Components'
+metaTitle: 'Components | React Accessible Shuttle'
+metaDescription: 'React Accessible Shuttle Components'
+---
+
+React Accessible Shuttle follows a [compound component](https://kentcdodds.com/blog/compound-components-with-react-hooks) approach.
+This basically means we build a component association through static members on a function or class component. For example:
+
+```jsx
+function Shuttle() { ... }
+
+Shuttle.Container = () => { ... };
+Shuttle.Controls = () => { ... };
+```
+
+This allow the `Shuttle` to pass internal information between components without sacrificing your ability to control the rendering process.
+Becuase of things like `Context` and hooks, the Shuttle can handle complex internal logic silently, yet providing you with a simple API.

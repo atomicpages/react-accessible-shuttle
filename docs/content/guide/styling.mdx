@@ -1,0 +1,69 @@
+---
+title: 'Styling'
+metaTitle: 'Styling | React Accessible Shuttle'
+metaDescription: 'React Accessible Shuttle Styling'
+---
+
+React Accessible Shuttle has a super tiny CSS (< 1kb) file that is a dependency. This file handles the layout and
+styles the shuttle items for hover and focused states. The shuttle is intentionally minimal so you can spend more time
+styling to suit your needs rather than overriding complex styles. Each component returns a single HTML element that accepts
+all HTML props, including `className` and `style`.
+
+## CSS Philosophy
+React Accessible Shuttle follows [BEM guidelines](http://getbem.com/introduction/). The root level selector is `.shuttle`. The current
+structure for the CSS selectors is as follows:
+
+```scss
+.shuttle // root element
+.shuttle--ush // shuttle user-selection hack modifier
+.shuttle__container
+.shuttle__controls
+.shuttle__item
+```
+
+## Inline Styles
+Use the `style` prop:
+
+```jsx react-live=true
+function App() {
+    const shuttle = useShuttleState({
+        source: ['a', 'b', 'c'],
+        target: ['d', 'e', 'f'],
+    });
+
+    return (
+        <Shuttle {...shuttle}>
+            <Shuttle.Container style={{ color: '#ccc', background: '#000' }}>
+                {({ source }, getItemProps) =>
+                    source.map((item, index) => (
+                        <Shuttle.Item
+                            {...getItemProps(index)}
+                            key={item}
+                            value={item}
+                            style={{ color: '#ccc', background: '#222' }}>
+                            {item}
+                        </Shuttle.Item>
+                    ))
+                }
+            </Shuttle.Container>
+            <Shuttle.Controls />
+            <Shuttle.Container style={{ color: '#ccc', background: '#000' }}>
+                {({ target }, getItemProps) =>
+                    target.map((item, index) => (
+                        <Shuttle.Item
+                            {...getItemProps(index)}
+                            key={item}
+                            value={item}
+                            style={{ color: '#ccc', background: '#222' }}>
+                            {item}
+                        </Shuttle.Item>
+                    ))
+                }
+            </Shuttle.Container>
+        </Shuttle>
+    );
+}
+```
+
+## CSS in JS
+If you want to use something like `emotion` you're free to use that as well!

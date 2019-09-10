@@ -1,0 +1,67 @@
+---
+title: 'Shuttle'
+metaTitle: 'Shuttle | React Accessible Shuttle'
+metaDescription: 'React Accessible Shuttle Shuttle Component'
+displayName: Shuttle
+---
+
+`Shuttle` is the root component, the main port of entry if you will. The Suttle component is _controlled_ by default,
+but this doesn't mean you provide some model and the Shuttle will render on your behalf. With React hooks, Shuttle offers
+a robust, yet simple API.
+
+## Usage
+
+```jsx react-live=true
+function App() {
+    const shuttle = useShuttleState({
+        source: ['a', 'b', 'c'],
+        target: ['d', 'e', 'f'],
+    });
+
+    return (
+        <Shuttle {...shuttle}>
+            <Shuttle.Container>
+                {({ source }, getItemProps) =>
+                    source.map((item, index) => (
+                        <Shuttle.Item
+                            {...getItemProps(index)}
+                            key={item}
+                            value={item}>
+                            {item}
+                        </Shuttle.Item>
+                    ))
+                }
+            </Shuttle.Container>
+            <Shuttle.Controls />
+            <Shuttle.Container>
+                {({ target }, getItemProps) =>
+                    target.map((item, index) => (
+                        <Shuttle.Item
+                            {...getItemProps(index)}
+                            key={item}
+                            value={item}>
+                            {item}
+                        </Shuttle.Item>
+                    ))
+                }
+            </Shuttle.Container>
+        </Shuttle>
+    );
+}
+```
+
+There's a bit going on here, but each part of the shuttle is broken down. See each compound component docs for API details.
+
+### Passing Props
+All props are passed to root-level underlying component. If you want to add extra meta-data to `Shuttle.Item`,
+for example, you are free to do so. In fact, we use `data-testid` attributes on some components
+to perform lookups in our unit tests!
+
+### Rendering Control
+Rendering based on a model works in few cases. The majority of the time you want to control _how_ things are renderd
+-- it's a small trade-off between verbosity and flexibility.
+
+### Hooks
+`useShuttleState` is the real magic the make the Shuttle easy to use. This is one of two public hooks exposed by `react-accessible-shuttle`.
+This handles all the complex state logic for you. Internally the hook will setup a series of reducer functions and the most
+optimal state storage structure to keep things fast.

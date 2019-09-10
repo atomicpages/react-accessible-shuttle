@@ -1,0 +1,95 @@
+---
+title: 'Basic Concepts'
+metaTitle: 'Basic Concepts | React Accessible Shuttle'
+metaDescription: 'React Accessible Shuttle Basic Concepts'
+---
+
+If you're new to React or Reacr Hooks, it's important understand the basic principles before diving in. Knowing at a high level how things
+work will enable you to dive in and start using any react component!
+
+## Components
+
+React Components in a component library serve as the highest level API, typically interacted with via JSX.
+Take this sample component as an example
+
+```jsx
+<Button variant="primary">Hello, World</Button>
+```
+
+Components are usually PascalCase (first letter is capitialized) and provide some kind of interface in the form of **props**.
+If you're completely new to React, be sure you check out [the react docs](https://reactjs.org/docs/hello-world.html).
+
+## Props
+
+Props serve as our "function" argumnents. They provide us a way to pass additional information to the component.
+There are two kinds of props we can pass: **option props** and **HTML props**. Options props are arguments defined by the component.
+HTML props are native HTML attributes we can pass to the underlying component.
+
+```jsx
+// variant is an option prop
+// type is a HTML prop
+<Button variant="primary" type="submit">
+    Hello, World
+</Button>
+```
+
+## Render Props
+
+React Accessible Shuttle relies on [render props](https://reactjs.org/docs/render-props.html) to provide a flexible API.
+This provides us a way to control and customize the internal content of a component.
+
+```jsx
+<Shuttle.Container>
+    {({ source }, getItemProps) =>
+        target.map((item, index) => (
+            <Shuttle.Item {...getItemProps(index)} key={item} value={item}>
+                {item}
+            </Shuttle.Item>
+        ))
+    }
+</Shuttle.Container>
+```
+
+## State Hooks
+
+React Accessible Shuttle accepts state props, you can also plug in your own! As a convenience, the shuttle provides a state hook
+out of the box.
+
+The options returned from this hook can be passed directly to the Shuttle component,
+or used separately to access/extend/modify the state before being passed to the Shuttle component.
+
+```jsx
+import { Shuttle, useShuttleState } from 'react-accessible-shuttle';
+
+function App() {
+    const state = useShuttleState({
+        source: [1, 2, 3],
+        target: [4, 5, 6],
+    });
+
+    return <Shuttle {...state}>...</Shuttle>;
+}
+```
+
+## Props Hooks
+
+As the **lowest-level API**, React Accessible Shuttle exposes a few prop hooks. Not surprsingly, these hooks hold most of the
+nitty-gritty logic used to modify the Shuttle state.
+
+Currently there is one public hook exposed which enables keyboard navigation.
+
+```jsx
+import { Shuttle, useShuttleState, useShuttleKeyboardControls } from 'react-accessible-shuttle';
+
+function App() {
+    const state = useShuttleState({
+        source: [1, 2, 3],
+        target: [4, 5, 6],
+    });
+
++    const controls = useShuttleKeyboardControls(state);
+
+-    return <Shuttle {...state} {...controls}>...</Shuttle>;
++    return <Shuttle {...state} {...controls}>...</Shuttle>;
+}
+```

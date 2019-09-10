@@ -1,0 +1,43 @@
+---
+title: 'Bundles'
+metaTitle: 'Bundles | React Accessible Shuttle'
+metaDescription: 'React Accessible Shuttle Bundles'
+---
+
+React Accessible Shuttle is completely standalone and has **zero** dependencies. The total size of
+`react-accessible-shuttle` is about `10kb` and about `3kb` gzipped
+(check on [bundlephobia](https://bundlephobia.com/result?p=react-accessible-shuttle)).
+
+```plain
+.
+├── css
+├── dist-browser
+├── dist-flow
+├── dist-node
+├── dist-src
+├── dist-types
+└── dist-web
+```
+
+## Package Structure
+React Accessible Shuttle is bundled several different ways:
+
+1. `dist-browser` used by legacy web apps that aren't using webpack or other modern tooling
+2. `dist-node` the default main module as CJS
+3. `dist-web` the ESM build of the components (works best with Webpack)
+4. `dist-src` the transpiled ESM source + tests
+
+
+## Typings
+React Accessible Shuttle exposes typescript typings and flow typings!
+
+1. `dist-flow` contains all the flow types for the project
+    * You'll need to manually import these into your `flowconfig` file
+2. `dist-types` contains all the typescript typings for the project
+    * Pro tip: if you use VSCode you'll get these typings for free 😎
+
+## CSS
+Finally, React Accessible Shuttle contians a tiny (< 1kb) CSS file that contains only the absolute
+necessary styles for layout and shuttle item styling.
+
+1. `css` contains the CSS file ([see styling](/guide/styling))
