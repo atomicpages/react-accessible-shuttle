@@ -91,7 +91,7 @@
         "@types/react-dom": "^16.9.0",
         "@typescript-eslint/parser": "^2.0.0",
         "coveralls": "^3.0.6",
-        "eslint": "^6.2.2",
+        "eslint": "^6.4.0",
         "flowgen": "^1.10.0",
         "jest": "^24.9.0",
         "pika-plugin-legacy-browser": "^1.1.1",
@@ -101,8 +101,8 @@
         "react-dom": "^16.9.0",
         "react-test-renderer": "^16.9.0",
         "rimraf": "^3.0.0",
-        "sass": "^1.22.10",
-        "ts-jest": "^24.0.2",
-        "typescript": "^3.5.3"
+        "sass": "^1.22.12",
+        "ts-jest": "^24.1.0",
+        "typescript": "^3.6.3"
     }
 }

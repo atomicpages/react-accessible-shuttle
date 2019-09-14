@@ -11,24 +11,25 @@ export enum SHUTTLE_CONTROL_TYPES {
 }
 
 /**
- * Redux-style composeReducers function.
+ * Redux-style composeReducers function. The main difference here
+ * is that this function operates on the _same_ slice of state
+ * for _all_ reducer functions.
  * @param reducers An object of key: function pairs.
  * @see useShuttleState for usage and other configuration docs.
  */
 export const composeReducers = (reducers: { [key: string]: Function }) => (
     state: ShuttleState,
-    action?: any
+    action: { [key: string]: any }
 ) => {
-    // @ts-ignore
-    const result: ShuttleState = {};
+    const result = { ...state };
 
     for (const key in reducers) {
         if (typeof reducers[key] !== 'function') {
             throw new Error(`Reducers must be functions. Saw ${typeof reducers[key]} for ${key}`);
         }
 
-        Object.assign(result, reducers[key](state, action));
+        Object.assign(result, reducers[key](result, action));
     }
 
-    return result;
+    return { ...result };
 };
