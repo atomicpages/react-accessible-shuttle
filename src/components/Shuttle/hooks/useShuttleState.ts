@@ -1,29 +1,44 @@
 import * as React from 'react';
+
 import { toSet } from '../../../utils/utils';
-import { composeReducers, move, moveAll, selectItem } from '../reducers/index';
+import { composeReducers, move, moveAll, selectItem, lazyLoad } from '../reducers/index';
+
 import { ShuttleState } from '../Shuttle';
+import { useAsyncState } from './useAsyncState';
 
 interface InitialArrayType<T> {
     source: T[];
     target: T[];
 }
 
-function init({
-    source,
-    target,
-    selections,
-    disabled,
-}: {
+export type InitialState = InitialArrayType<any> | Promise<InitialArrayType<any>>;
+export type InitialSelections = InitialArrayType<number>;
+export type DisabledSelections = InitialArrayType<any>;
+
+export interface InitArgs {
     source: any[];
     target: any[];
-    selections: InitialArrayType<number>;
-    disabled: InitialArrayType<any>;
-}): ShuttleState {
-    if (!selections.source) {
+    selections: InitialSelections;
+    disabled: DisabledSelections;
+}
+
+export function init({
+    source = [],
+    target = [],
+    selections = {
+        source: [],
+        target: [],
+    },
+    disabled = {
+        source: [],
+        target: [],
+    },
+}: InitArgs): ShuttleState {
+    if (!Array.isArray(selections.source)) {
         throw new Error('Initial selection "source" must be an array');
     }
 
-    if (!selections.target) {
+    if (!Array.isArray(selections.target)) {
         throw new Error('Initial selection "target" must be an array');
     }
 
@@ -55,46 +70,24 @@ function init({
  * @param reducers
  */
 export function useShuttleState(
-    initialState: {
-        source: any[];
-        target: any[];
-    } = {
+    initialState: InitialState = {
         source: [],
         target: [],
     },
-    initialSelections: {
-        source: number[];
-        target: number[];
-    } = {
+    initialSelections: InitialSelections = {
         source: [],
         target: [],
     },
-    disabled: {
-        source: any[];
-        target: any[];
-    } = {
+    disabled: DisabledSelections = {
         source: [],
         target: [],
     },
     reducers: { [key: string]: Function } = {}
 ) {
-    // because even I forget that null and undefined are different
-    if (initialSelections === null) {
-        initialSelections = {
-            source: [],
-            target: [],
-        };
-    }
-
-    if (disabled === null) {
-        disabled = {
-            source: [],
-            target: [],
-        };
-    }
-
+    // TODO: fi the type errors
+    // @ts-ignore
     const [shuttleState, setShuttleState] = React.useReducer(
-        composeReducers({ move, moveAll, selectItem, ...reducers }),
+        composeReducers({ move, moveAll, selectItem, lazyLoad, ...reducers }),
         {
             ...initialState,
             disabled,
@@ -102,6 +95,8 @@ export function useShuttleState(
         },
         init
     );
+
+    useAsyncState(initialState, setShuttleState);
 
     return { shuttleState, setShuttleState };
 }

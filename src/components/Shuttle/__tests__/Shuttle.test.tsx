@@ -18,16 +18,6 @@ describe('Shuttle tests', () => {
             }).not.toThrow();
         });
 
-        it('should throw when source selections or target selections is not an array', () => {
-            expect(() => {
-                render(<TestShuttle state={{ selections: { source: 0 } }} />);
-            }).toThrow();
-
-            expect(() => {
-                render(<TestShuttle state={{ selections: { source: [], target: 0 } }} />);
-            }).toThrow();
-        });
-
         it('should select items', () => {
             const { container, getByTestId } = render(<TestShuttle state={dummyState()} />);
 

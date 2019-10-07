@@ -165,3 +165,15 @@ export const isContainer = (container: HTMLDivElement) => {
 
     return bool && (name === SHUTTLE_CONTAINERS.SOURCE || name === SHUTTLE_CONTAINERS.TARGET);
 };
+
+/**
+ *
+ * @see https://github.com/then/is-promise/blob/master/index.js
+ */
+export function isPromise(obj: any) {
+    return (
+        !!obj &&
+        (typeof obj === 'object' || typeof obj === 'function') &&
+        typeof obj.then === 'function'
+    );
+}

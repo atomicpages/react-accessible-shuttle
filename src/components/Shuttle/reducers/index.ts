@@ -3,6 +3,7 @@ import { ShuttleState } from '../Shuttle';
 export { move } from './moveSelectedReducer';
 export { moveAll } from './moveAllReducer';
 export { selectItem } from './selectItemReducer';
+export { lazyLoad } from './lazyLoadReducer';
 
 export enum SHUTTLE_CONTROL_TYPES {
     MOVE_SELECTIONS = 'MOVE_SELECTIONS',
