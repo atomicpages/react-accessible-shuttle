@@ -81,7 +81,7 @@
         "@pika/plugin-build-node": "^0.6.0",
         "@pika/plugin-build-umd": "^0.6.0",
         "@pika/plugin-build-web": "^0.6.0",
-        "@pika/plugin-copy-assets": "^0.6.0",
+        "@pika/plugin-copy-assets": "^0.7.1",
         "@pika/plugin-ts-standard-pkg": "^0.6.0",
         "@testing-library/jest-dom": "^4.1.0",
         "@testing-library/react": "^9.3.0",
