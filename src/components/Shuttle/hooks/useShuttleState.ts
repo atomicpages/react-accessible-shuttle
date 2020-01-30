@@ -84,10 +84,15 @@ export function useShuttleState(
     },
     reducers: { [key: string]: Function } = {}
 ) {
+    const composedReducer = React.useCallback(
+        composeReducers({ move, moveAll, selectItem, lazyLoad, ...reducers }),
+        []
+    );
+
     // TODO: fix the type errors
     // @ts-ignore
     const [shuttleState, setShuttleState] = React.useReducer(
-        composeReducers({ move, moveAll, selectItem, lazyLoad, ...reducers }),
+        composedReducer,
         {
             ...initialState,
             // @ts-ignore
