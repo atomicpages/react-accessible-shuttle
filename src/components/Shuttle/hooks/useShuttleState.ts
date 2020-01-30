@@ -89,12 +89,13 @@ export function useShuttleState(
         []
     );
 
-    // TODO: fi the type errors
+    // TODO: fix the type errors
     // @ts-ignore
     const [shuttleState, setShuttleState] = React.useReducer(
         composedReducer,
         {
             ...initialState,
+            // @ts-ignore
             disabled,
             selections: initialSelections,
         },
