@@ -167,7 +167,6 @@ export const isContainer = (container: HTMLDivElement) => {
 };
 
 /**
- *
  * @see https://github.com/then/is-promise/blob/master/index.js
  */
 export function isPromise(obj: any) {

@@ -14,9 +14,7 @@ type State = {
  */
 export function useAsyncState(
     state: InitialState,
-    setShuttleState: React.Dispatch<{
-        [key: string]: any;
-    }>
+    setShuttleState: React.Dispatch<Record<string, any>>
 ) {
     const resolved = React.useRef(false);
 

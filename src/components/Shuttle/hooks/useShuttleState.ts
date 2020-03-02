@@ -2,25 +2,58 @@ import * as React from 'react';
 
 import { toSet } from '../../../utils/utils';
 import { composeReducers, move, moveAll, selectItem, lazyLoad } from '../reducers/index';
-
-import { ShuttleState } from '../Shuttle';
 import { useAsyncState } from './useAsyncState';
+import { InitialArrayType } from '../types';
 
-interface InitialArrayType<T> {
-    source: T[];
-    target: T[];
-}
+export type ShuttleState = {
+    /**
+     * The source container data as an array.
+     */
+    source: any[];
+
+    /**
+     * The target container data as an array.
+     */
+    target: any[];
+
+    /**
+     * The selection indexes used for quickly applying classNames.
+     */
+    selected: {
+        /**
+         * The source containers selections.
+         */
+        source: Set<number>;
+
+        /**
+         * The target container selections.
+         */
+        target: Set<number>;
+    };
+
+    disabled: {
+        /**
+         * The source containers disabled items.
+         */
+        source: Set<any>;
+
+        /**
+         * The target container disabled items.
+         */
+        target: Set<any>;
+    };
+};
 
 export type InitialState = InitialArrayType<any> | Promise<InitialArrayType<any>>;
 export type InitialSelections = InitialArrayType<number>;
 export type DisabledSelections = InitialArrayType<any>;
 
-export interface InitArgs {
+export type InitArgs = {
     source: any[];
     target: any[];
     selections: InitialSelections;
     disabled: DisabledSelections;
-}
+};
 
 export function init({
     source = [],
@@ -74,30 +107,26 @@ export function useShuttleState(
         source: [],
         target: [],
     },
-    initialSelections: InitialSelections = {
-        source: [],
-        target: [],
-    },
-    disabled: DisabledSelections = {
-        source: [],
-        target: [],
-    },
-    reducers: { [key: string]: Function } = {}
+    initialSelections?: InitialSelections,
+    disabled?: DisabledSelections,
+    reducers: Record<string, Function> = {}
 ) {
-    const composedReducer = React.useCallback(
-        composeReducers({ move, moveAll, selectItem, lazyLoad, ...reducers }),
-        []
-    );
-
-    // TODO: fix the type errors
-    // @ts-ignore
     const [shuttleState, setShuttleState] = React.useReducer(
-        composedReducer,
+        React.useCallback(
+            composeReducers({ move, moveAll, selectItem, lazyLoad, ...reducers }),
+            []
+        ),
         {
             ...initialState,
             // @ts-ignore
-            disabled,
-            selections: initialSelections,
+            disabled: disabled || {
+                source: [],
+                target: [],
+            },
+            selections: initialSelections || {
+                source: [],
+                target: [],
+            },
         },
         init
     );

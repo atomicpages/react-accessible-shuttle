@@ -3,7 +3,7 @@ import faker from 'faker';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Shuttle, useShuttleState, useShuttleKeyboardControls } from '../../../src/index';
-import { ShuttleState } from '../../../src/components/Shuttle/Shuttle';
+import { ShuttleState } from '../../../src/components/Shuttle/hooks/useShuttleState';
 
 const state = {
     source: new Array(25)
@@ -101,7 +101,6 @@ export function App(props: any) {
                                     const result = source.map((item, index) => (
                                         <Draggable key={item} draggableId={item} index={index}>
                                             {provided => (
-                                                // @ts-ignore
                                                 <Shuttle.Item
                                                     {...getItemProps(index)}
                                                     key={item}

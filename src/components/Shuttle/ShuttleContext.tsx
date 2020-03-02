@@ -1,10 +1,10 @@
 import React from 'react';
-import { ShuttleState } from './Shuttle';
+import { ShuttleState } from './hooks/useShuttleState';
 
-interface ShuttleContextType {
+type ShuttleContextType = {
     shuttleState: ShuttleState;
-    setShuttleState: (state: ShuttleState) => void;
-}
+    setShuttleState: React.Dispatch<Record<string, any>>;
+};
 
 // @ts-ignore
 export const ShuttleContext = React.createContext<ShuttleContextType>({});

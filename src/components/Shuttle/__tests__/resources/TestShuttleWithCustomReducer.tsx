@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Shuttle, ShuttleState } from '../../Shuttle';
-import { useShuttleState } from '../../hooks/useShuttleState';
+import { Shuttle } from '../../Shuttle';
+import { useShuttleState, ShuttleState } from '../../hooks/useShuttleState';
 
 export default function TestShuttleWithCustomReducer() {
     const shuttle = useShuttleState(
@@ -11,7 +11,7 @@ export default function TestShuttleWithCustomReducer() {
         undefined,
         undefined,
         {
-            selectFirstItem: (state: any, action: { [key: string]: any } = {}) => {
+            selectFirstItem: (state: any, action: Record<string, any> = {}) => {
                 if (action.type === 'SELECT_FIRST_ITEM') {
                     if (action.container !== 'source' && action.container !== 'target') {
                         throw new Error('Missing container from SELECT_FIRST_ITEM reducer');
@@ -51,7 +51,7 @@ export default function TestShuttleWithCustomReducer() {
                     { source, selected }: ShuttleState,
                     getItemProps: (index: number) => Record<string, any>
                 ) =>
-                    source.map((item, index) => (
+                    source.map((item: any, index: number) => (
                         <Shuttle.Item
                             {...getItemProps(index)}
                             key={item}
@@ -68,7 +68,7 @@ export default function TestShuttleWithCustomReducer() {
                     { target, selected }: ShuttleState,
                     getItemProps: (index: number) => Record<string, any>
                 ) =>
-                    target.map((item, index) => (
+                    target.map((item: any, index: number) => (
                         <Shuttle.Item
                             {...getItemProps(index)}
                             key={item}

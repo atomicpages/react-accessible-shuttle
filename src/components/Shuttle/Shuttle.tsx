@@ -6,51 +6,17 @@ import { ShuttleControls } from './ShuttleControls';
 import { ShuttleContext } from './ShuttleContext';
 import { useShuttleItemClick } from './hooks/useShuttleItemClick';
 import { classNames } from '../../utils/utils';
+import { ShuttleState } from './hooks/useShuttleState';
 
-export interface ShuttleState {
-    /**
-     * The source container data as an array.
-     */
-    source: any[];
+export type ShuttleReducer = Record<string, any>;
 
-    /**
-     * The target container data as an array.
-     */
-    target: any[];
+type Statics = {
+    Item: typeof ShuttleItem;
+    Container: typeof ShuttleContainer;
+    Controls: typeof ShuttleControls;
+};
 
-    /**
-     * The selection indexes used for quickly applying classNames.
-     */
-    selected: {
-        /**
-         * The source containers selections.
-         */
-        source: Set<number>;
-
-        /**
-         * The target container selections.
-         */
-        target: Set<number>;
-    };
-
-    disabled: {
-        /**
-         * The source containers disabled items.
-         */
-        source: Set<any>;
-
-        /**
-         * The target container disabled items.
-         */
-        target: Set<any>;
-    };
-}
-
-export interface ShuttleReducer {
-    [key: string]: any;
-}
-
-interface ShuttleProps {
+export type ShuttleProps = {
     /**
      * The state to pass to the Shuttle.
      */
@@ -63,7 +29,7 @@ interface ShuttleProps {
      * `useShuttleState` hook you **must** provide
      * a dispatch-compatible function yourself.
      */
-    setShuttleState: (state: ShuttleReducer) => void;
+    setShuttleState: React.Dispatch<Record<string, any>>;
 
     /**
      * Optional classNames to pass to the shuttle.
@@ -80,16 +46,16 @@ interface ShuttleProps {
      * in your app.
      */
     enableUserSelectionHack?: boolean;
-}
+};
 
-export function Shuttle({
+export const Shuttle: React.FC<ShuttleProps> & Statics = ({
     shuttleState,
     setShuttleState,
     enableUserSelectionHack = true,
     className,
     children,
     ...rest
-}: ShuttleProps) {
+}: ShuttleProps) => {
     const { onClick: defaultClickHandler } = useShuttleItemClick({ setShuttleState, shuttleState });
 
     return (
@@ -109,7 +75,7 @@ export function Shuttle({
             </div>
         </ShuttleContext.Provider>
     );
-}
+};
 
 Shuttle.Item = ShuttleItem;
 Shuttle.Container = ShuttleContainer;

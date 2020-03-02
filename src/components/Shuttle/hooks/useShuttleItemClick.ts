@@ -1,13 +1,14 @@
 import * as React from 'react';
 
-import { ShuttleState, ShuttleReducer } from '../Shuttle';
+import { ShuttleReducer } from '../Shuttle';
 import { getIndexFromItem, getContainerMetadata, getShuttleItem } from '../../../utils/utils';
 import { SHUTTLE_CONTROL_TYPES } from '../reducers/index';
+import { ShuttleState } from './useShuttleState';
 
-interface Options {
+type Options = {
     setShuttleState: (args: ShuttleReducer) => void;
     shuttleState: ShuttleState;
-}
+};
 
 export function useShuttleItemClick({ setShuttleState }: Options) {
     const onClick = React.useCallback(

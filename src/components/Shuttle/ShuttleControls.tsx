@@ -4,7 +4,7 @@ import { classNames } from '../../utils/utils';
 import { ShuttleContext } from './ShuttleContext';
 import { SHUTTLE_CONTROL_TYPES } from './reducers/index';
 
-export interface ShuttleControlsProps {
+export type ShuttleControlsProps = {
     children?: (args: {
         setShuttleState: (e?: React.SyntheticEvent<HTMLDivElement>) => void;
         getButtonProps: (button: CONTROL_BUTTONS, size?: number) => Record<string, string>;
@@ -14,7 +14,7 @@ export interface ShuttleControlsProps {
         moveSelectedFromTarget: () => void;
     }) => React.ReactNode;
     className?: string;
-}
+};
 
 export enum CONTROL_BUTTONS {
     MOVE_ALL_TARGET = 'MOVE_ALL_TARGET',
@@ -69,7 +69,7 @@ const getButtonProps = (button: CONTROL_BUTTONS, size?: number): Record<string, 
  *      <CustomButton onClick={() => setShuttleState({ type: 'MOVE_ALL' })} />
  * )} />
  */
-export const ShuttleControls: React.FunctionComponent<ShuttleControlsProps> = React.memo(
+export const ShuttleControls: React.FC<ShuttleControlsProps> = React.memo(
     ({ children, className, ...rest }: ShuttleControlsProps) => {
         const { setShuttleState, shuttleState } = React.useContext(ShuttleContext);
 

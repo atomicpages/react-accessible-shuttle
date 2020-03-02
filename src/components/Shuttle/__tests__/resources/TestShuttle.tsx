@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Shuttle, ShuttleState } from '../../Shuttle';
-import { useShuttleState } from '../../hooks/useShuttleState';
+import { Shuttle } from '../../Shuttle';
+import { useShuttleState, ShuttleState } from '../../hooks/useShuttleState';
 
 export default function TestShuttle({ state }: any) {
     const shuttle = useShuttleState(state);

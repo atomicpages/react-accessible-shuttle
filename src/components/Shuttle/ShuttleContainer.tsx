@@ -3,11 +3,11 @@ import { classNames } from '../../utils/utils';
 
 import { ShuttleContext } from './ShuttleContext';
 import { NUMBER_OF_CONTAINERS, SHUTTLE_CONTAINERS_ARRAY } from './globals';
-import { ShuttleState } from './Shuttle';
+import { ShuttleState } from './hooks/useShuttleState';
 
 let id_int = 0; // eslint-disable-line @typescript-eslint/camelcase
 
-export interface ShuttleContainerProps {
+export type ShuttleContainerProps = {
     /**
      * Child render function of the Shuttle Container.
      * This is where you render your Shuttle.Item components.
@@ -27,14 +27,12 @@ export interface ShuttleContainerProps {
      * for CSS styles.
      */
     className?: string;
-
-    [key: string]: any;
-}
+} & Record<string, any>;
 
 /**
  * Pass a child render function or a render prop.
  */
-export const ShuttleContainer: React.FunctionComponent<ShuttleContainerProps> = React.memo(
+export const ShuttleContainer: React.FC<ShuttleContainerProps> = React.memo(
     // eslint-disable-next-line react/display-name
     React.forwardRef<HTMLDivElement, ShuttleContainerProps>(
         ({ children, className, ...rest }, ref) => {

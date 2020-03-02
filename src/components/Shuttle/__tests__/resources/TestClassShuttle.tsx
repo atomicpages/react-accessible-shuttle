@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Shuttle, ShuttleState } from '../../Shuttle';
+import { Shuttle } from '../../Shuttle';
 import { moveAll } from '../../reducers';
 import { dummyState } from './stateGenerator';
+import { ShuttleState } from '../../hooks/useShuttleState';
 
 export default class TestClassShuttle extends React.Component {
     public state: ShuttleState = {

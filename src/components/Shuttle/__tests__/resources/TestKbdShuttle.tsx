@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Shuttle, ShuttleState } from '../../Shuttle';
-import { useShuttleState } from '../../hooks/useShuttleState';
+import { Shuttle } from '../../Shuttle';
+import { useShuttleState, ShuttleState } from '../../hooks/useShuttleState';
 import { useShuttleKeyboardControls } from '../../hooks/useShuttleKeyboardControls';
 
 export default function TestKbdShuttle({ state }: any) {

@@ -16,9 +16,9 @@ const state = {
         ),
 };
 
-const CONTAINER_STYLES = {
+const CONTAINER_STYLES: React.CSSProperties = {
     display: 'flex',
-    'flex-direction': 'column',
+    flexDirection: 'column',
 };
 
 const INPUT_STYLES = { marginBottom: '0.75rem', padding: '0.25rem' };

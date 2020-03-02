@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { ShuttleReducer, ShuttleState } from '../Shuttle';
+import { ShuttleReducer } from '../Shuttle';
 import { useShuttleItemClick } from './useShuttleItemClick';
+import { ShuttleState } from './useShuttleState';
 
 import {
     getIndexFromItem,
@@ -19,12 +20,12 @@ enum KEYS {
     DOWN_ARROW = 40,
 }
 
-interface Options {
+type Options = {
     setShuttleState: (args: ShuttleReducer) => void;
     shuttleState: ShuttleState;
     useMeta?: boolean;
     useShift?: boolean;
-}
+};
 
 const handleShiftKeyboardControl = (
     selectionArray: number[],
@@ -56,7 +57,7 @@ const handleDefaultKeyboardControl = (
     selectionArray: number[],
     increment: boolean,
     shuttleItemParent: Element
-) => {
+): number => {
     let [index] = selectionArray;
     index = index + (increment ? -1 : 1);
 

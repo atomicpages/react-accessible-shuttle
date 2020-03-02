@@ -200,7 +200,7 @@ If you're new to state reducing, this might seem mind-bending, but remember that
 
 ```jsx
 import React from 'react';
-import { Shuttle, useShuttleState } from 'react-accessible-shuttle';
+import { Shuttle } from 'react-accessible-shuttle';
 
 class App extends React.Component {
     state = {

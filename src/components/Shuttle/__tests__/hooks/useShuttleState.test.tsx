@@ -11,7 +11,9 @@ describe('useShuttleState tests', () => {
                 },
                 // @ts-ignore
                 {
+                    // @ts-ignore
                     source: null,
+                    // @ts-ignore
                     target: null,
                 }
             )
@@ -31,6 +33,7 @@ describe('useShuttleState tests', () => {
                 // @ts-ignore
                 {
                     source: [],
+                    // @ts-ignore
                     target: null,
                 }
             )

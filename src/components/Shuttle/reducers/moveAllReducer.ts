@@ -1,17 +1,17 @@
-import { ShuttleState } from '../Shuttle';
+import { ShuttleState } from '../hooks/useShuttleState';
 
 // eslint-disable-next-line @typescript-eslint/class-name-casing
-export interface MOVE_SELECTION_REDUCER_ACTION {
+export type MOVE_SELECTION_REDUCER_ACTION = {
     type?: 'MOVE_ALL';
     from?: 'source' | 'target';
     to?: 'source' | 'target';
-}
+};
 
 /**
  * Compact an array safely and in-place. This function works
  * in conjunction with `shuttleAll`.
  */
-export const compact = (list: number[], source: any[]) => {
+export const compact = (list: number[], source: any[]): any[] => {
     // spread is overwhelmingly faster https://jsperf.com/array-allocation-perf/1
     const result = [...Array(list.length)];
     let pointer = 0;
@@ -29,7 +29,7 @@ export const compact = (list: number[], source: any[]) => {
  * Shuttle all items from one array to another array. Specify blacklisted item indexes
  * to prevent those from being moved.
  */
-export const shuttleAll = (from: any[], to: any[], disabled: Set<any>) => {
+export const shuttleAll = (from: any[], to: any[], disabled: Set<any>): any[] => {
     // this is way more optimal if there are no disabled items
     if (!disabled.size) {
         Array.prototype.push.apply(to, from);
@@ -51,7 +51,10 @@ export const shuttleAll = (from: any[], to: any[], disabled: Set<any>) => {
     return from;
 };
 
-export const moveAll = (state: ShuttleState, action: MOVE_SELECTION_REDUCER_ACTION = {}) => {
+export const moveAll = (
+    state: ShuttleState,
+    action: MOVE_SELECTION_REDUCER_ACTION = {}
+): ShuttleState => {
     if (action.type === 'MOVE_ALL') {
         if (!action.from || !action.to) {
             throw new Error(

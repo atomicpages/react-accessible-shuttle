@@ -1,4 +1,4 @@
-import { ShuttleState } from '../Shuttle';
+import { ShuttleState } from '../hooks/useShuttleState';
 
 export { move } from './moveSelectedReducer';
 export { moveAll } from './moveAllReducer';
@@ -20,8 +20,8 @@ export enum SHUTTLE_CONTROL_TYPES {
  */
 export const composeReducers = (reducers: { [key: string]: Function }) => (
     state: ShuttleState,
-    action: { [key: string]: any }
-) => {
+    action: Record<string, any>
+): ShuttleState => {
     const result = { ...state };
 
     for (const key in reducers) {
