@@ -158,9 +158,11 @@ export function useShuttleKeyboardControls({
                                     container
                                 );
 
-                                (shuttleItemParent.children[
-                                    payload.index[payload.index.length - 1]
-                                ] as HTMLElement).focus();
+                                (
+                                    shuttleItemParent.children[
+                                        payload.index[payload.index.length - 1]
+                                    ] as HTMLElement
+                                ).focus();
                             } else {
                                 payload.index = handleDefaultKeyboardControl(
                                     selectionArray,

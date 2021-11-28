@@ -20,7 +20,7 @@ describe('useShuttleState tests', () => {
         );
 
         expect(result.error).toBeDefined();
-        expect(result.error.message).toContain('Initial selection "source" must be an array');
+        expect(result.error?.message).toContain('Initial selection "source" must be an array');
     });
 
     it('should throw when selections source is misconfigured', () => {
@@ -40,7 +40,7 @@ describe('useShuttleState tests', () => {
         );
 
         expect(result.error).toBeDefined();
-        expect(result.error.message).toContain('Initial selection "target" must be an array');
+        expect(result.error?.message).toContain('Initial selection "target" must be an array');
     });
 
     it('should return state and a dispatch when defined', () => {

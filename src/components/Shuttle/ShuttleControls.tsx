@@ -115,7 +115,7 @@ export const ShuttleControls: React.FC<ShuttleControlsProps> = React.memo(
                         moveSelectedFromSource,
                         moveSelectedFromTarget,
                         moveAllFromTarget,
-                    })
+                    } as any)
                 ) : (
                     <>
                         <button

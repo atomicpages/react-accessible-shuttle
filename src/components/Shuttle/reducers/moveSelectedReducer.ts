@@ -1,6 +1,5 @@
 import { ShuttleState } from '../hooks/useShuttleState';
 
-// eslint-disable-next-line @typescript-eslint/class-name-casing
 export type MOVE_SELECTION_REDUCER_ACTION = {
     type?: 'MOVE_SELECTIONS';
     from?: 'source' | 'target';

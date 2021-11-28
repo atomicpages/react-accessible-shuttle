@@ -5,7 +5,7 @@ import { ShuttleContext } from './ShuttleContext';
 import { NUMBER_OF_CONTAINERS, SHUTTLE_CONTAINERS_ARRAY } from './globals';
 import { ShuttleState } from './hooks/useShuttleState';
 
-let id_int = 0; // eslint-disable-line @typescript-eslint/camelcase
+let id_int = 0;
 
 export type ShuttleContainerProps = {
     /**
@@ -14,9 +14,7 @@ export type ShuttleContainerProps = {
      */
     children: (
         store: ShuttleState,
-        getItemProps: (
-            index: number
-        ) => {
+        getItemProps: (index: number) => {
             'data-index': number;
             selected: boolean;
         }
@@ -40,7 +38,7 @@ export const ShuttleContainer: React.FC<ShuttleContainerProps> = React.memo(
 
             // mod needed for HMR updates
             const id = React.useRef(
-                SHUTTLE_CONTAINERS_ARRAY[Math.floor(id_int++ % NUMBER_OF_CONTAINERS)] // eslint-disable-line @typescript-eslint/camelcase
+                SHUTTLE_CONTAINERS_ARRAY[Math.floor(id_int++ % NUMBER_OF_CONTAINERS)]
             );
 
             /**
@@ -53,7 +51,7 @@ export const ShuttleContainer: React.FC<ShuttleContainerProps> = React.memo(
                 (index: number) => {
                     return {
                         'data-index': index,
-                        selected: shuttleState.selected[id.current].has(index),
+                        selected: (shuttleState.selected as any)[id.current].has(index),
                     };
                 },
                 [shuttleState]

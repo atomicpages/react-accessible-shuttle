@@ -12,7 +12,8 @@ module.exports = {
     ],
     rules: {
         '@typescript-eslint/explicit-function-return-type': 0,
-        '@typescript-eslint/ban-ts-ignore': 'warn',
+        '@typescript-eslint/ban-ts-comment': 'warn',
         '@typescript-eslint/no-this-alias': 'warn',
+        '@typescript-eslint/camelcase': 'off',
     },
 };
