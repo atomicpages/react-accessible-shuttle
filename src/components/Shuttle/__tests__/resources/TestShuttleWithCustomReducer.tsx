@@ -42,7 +42,7 @@ export default function TestShuttleWithCustomReducer() {
             <Shuttle.Container
                 data-testid="source__container"
                 onClick={() => {
-                    shuttle.setShuttleState({
+                    (shuttle.setShuttleState as any)({
                         type: 'SELECT_FIRST_ITEM',
                         container: 'source',
                     });

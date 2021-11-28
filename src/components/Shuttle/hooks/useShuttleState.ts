@@ -109,9 +109,10 @@ export function useShuttleState(
     },
     initialSelections?: InitialSelections,
     disabled?: DisabledSelections,
-    reducers: Record<string, Function> = {}
+    reducers: Record<string, React.Reducer<ShuttleState, any>> = {}
 ) {
     const [shuttleState, setShuttleState] = React.useReducer(
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         React.useCallback(
             composeReducers({ move, moveAll, selectItem, lazyLoad, ...reducers }),
             []
