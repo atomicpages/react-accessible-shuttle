@@ -7,6 +7,6 @@ export const SHUTTLE_CONTAINERS_ARRAY = ['source', 'target'];
  * in the DOM in the event `getItemProps()` is not passed to `Shuttle.Item`.
  */
 export enum SHUTTLE_CONTAINERS {
-    SOURCE = 'source',
-    TARGET = 'target',
+  SOURCE = 'source',
+  TARGET = 'target',
 }

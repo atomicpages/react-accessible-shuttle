@@ -1,4 +1,4 @@
 export type InitialArrayType<T> = {
-    source: T[];
-    target: T[];
+  source: T[];
+  target: T[];
 };
