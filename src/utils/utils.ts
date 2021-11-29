@@ -1,32 +1,11 @@
+import clsx from 'clsx';
 import { SHUTTLE_CONTAINERS } from '../components/Shuttle/globals';
 
 /**
  * A contrived implementation of classNames. This allows
  * react-accessible-shuttle to have zero dependencies.
  */
-export function classNames(...args: any[]): string {
-  let selectors = '';
-
-  for (let i = 0; i < args.length; i++) {
-    if (typeof args[i] === 'string') {
-      selectors += ` ${args[i]}`;
-    } else if (Array.isArray(args[i])) {
-      selectors += args[i].join(' ');
-    } else if (typeof args[i] === 'object') {
-      selectors += ' ';
-
-      selectors += Object.keys(args[i])
-        .filter(key => {
-          if (args[i][key]) {
-            return args[i][key];
-          }
-        })
-        .join(' ');
-    }
-  }
-
-  return selectors.trim();
-}
+export const classNames = clsx;
 
 /**
  * Small warn wrapper.

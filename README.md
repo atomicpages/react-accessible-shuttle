@@ -1,6 +1,6 @@
 # React Accessible Shuttle
 
-A tiny, zero dependency, shuttle (a.k.a list shuttle, dual listbox, etc.) implementation in React
+A tiny, single-dependency, shuttle (a.k.a list shuttle, dual listbox, etc.) implementation in React
 using hooks.
 
 <div align="center">

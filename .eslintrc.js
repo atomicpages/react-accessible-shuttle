@@ -9,6 +9,7 @@ module.exports = {
     '@djthoms/eslint-config',
     '@djthoms/eslint-config/react',
     '@djthoms/eslint-config/typescript',
+    'plugin:react/jsx-runtime',
   ],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 0,
@@ -16,4 +17,12 @@ module.exports = {
     '@typescript-eslint/no-this-alias': 'warn',
     '@typescript-eslint/camelcase': 'off',
   },
+  overrides: [
+    {
+      files: ['**/*.{ts,tsx}'],
+      rules: {
+        'no-unused-vars': 'off',
+      },
+    },
+  ],
 };

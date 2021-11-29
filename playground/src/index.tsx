@@ -1,7 +1,4 @@
-import { hot } from 'react-hot-loader/root';
-
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 
 import { Router, Link } from '@reach/router';
 
@@ -13,7 +10,7 @@ import { App as AsyncLoadingShuttle } from './examples/async-loading';
 
 import '../../src/styles/shuttle.scss';
 
-function Main() {
+function App() {
   return (
     <main>
       <p>Click on a pre-built example to begin</p>
@@ -34,6 +31,4 @@ function Main() {
   );
 }
 
-const App = hot(Main);
-
-ReactDOM.render(<App />, document.querySelector('#root'));
+render(<App />, document.getElementById('root'));

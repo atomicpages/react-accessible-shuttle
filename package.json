@@ -123,5 +123,8 @@
       "eslint --fix"
     ],
     "*.{md,yml,yaml}": "prettier --write"
+  },
+  "dependencies": {
+    "clsx": "^1.1.1"
   }
 }
