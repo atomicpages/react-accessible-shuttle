@@ -6,42 +6,42 @@ import { useAsyncState } from './useAsyncState';
 import { InitialArrayType } from '../types';
 
 export type ShuttleState = {
+  /**
+   * The source container data as an array.
+   */
+  source: any[];
+
+  /**
+   * The target container data as an array.
+   */
+  target: any[];
+
+  /**
+   * The selection indexes used for quickly applying classNames.
+   */
+  selected: {
     /**
-     * The source container data as an array.
+     * The source containers selections.
      */
-    source: any[];
+    source: Set<number>;
 
     /**
-     * The target container data as an array.
+     * The target container selections.
      */
-    target: any[];
+    target: Set<number>;
+  };
+
+  disabled: {
+    /**
+     * The source containers disabled items.
+     */
+    source: Set<any>;
 
     /**
-     * The selection indexes used for quickly applying classNames.
+     * The target container disabled items.
      */
-    selected: {
-        /**
-         * The source containers selections.
-         */
-        source: Set<number>;
-
-        /**
-         * The target container selections.
-         */
-        target: Set<number>;
-    };
-
-    disabled: {
-        /**
-         * The source containers disabled items.
-         */
-        source: Set<any>;
-
-        /**
-         * The target container disabled items.
-         */
-        target: Set<any>;
-    };
+    target: Set<any>;
+  };
 };
 
 export type InitialState = InitialArrayType<any> | Promise<InitialArrayType<any>>;
@@ -49,44 +49,44 @@ export type InitialSelections = InitialArrayType<number>;
 export type DisabledSelections = InitialArrayType<any>;
 
 export type InitArgs = {
-    source: any[];
-    target: any[];
-    selections: InitialSelections;
-    disabled: DisabledSelections;
+  source: any[];
+  target: any[];
+  selections: InitialSelections;
+  disabled: DisabledSelections;
 };
 
 export function init({
-    source = [],
-    target = [],
-    selections = {
-        source: [],
-        target: [],
-    },
-    disabled = {
-        source: [],
-        target: [],
-    },
+  source = [],
+  target = [],
+  selections = {
+    source: [],
+    target: [],
+  },
+  disabled = {
+    source: [],
+    target: [],
+  },
 }: InitArgs): ShuttleState {
-    if (!Array.isArray(selections.source)) {
-        throw new Error('Initial selection "source" must be an array');
-    }
+  if (!Array.isArray(selections.source)) {
+    throw new Error('Initial selection "source" must be an array');
+  }
 
-    if (!Array.isArray(selections.target)) {
-        throw new Error('Initial selection "target" must be an array');
-    }
+  if (!Array.isArray(selections.target)) {
+    throw new Error('Initial selection "target" must be an array');
+  }
 
-    return {
-        source,
-        target,
-        selected: {
-            source: toSet<number>(selections.source),
-            target: toSet<number>(selections.target),
-        },
-        disabled: {
-            source: toSet<any>(disabled.source),
-            target: toSet<any>(disabled.target),
-        },
-    };
+  return {
+    source,
+    target,
+    selected: {
+      source: toSet<number>(selections.source),
+      target: toSet<number>(selections.target),
+    },
+    disabled: {
+      source: toSet<any>(disabled.source),
+      target: toSet<any>(disabled.target),
+    },
+  };
 }
 
 /**
@@ -103,36 +103,33 @@ export function init({
  * @param reducers
  */
 export function useShuttleState(
-    initialState: InitialState = {
+  initialState: InitialState = {
+    source: [],
+    target: [],
+  },
+  initialSelections?: InitialSelections,
+  disabled?: DisabledSelections,
+  reducers: Record<string, React.Reducer<ShuttleState, any>> = {}
+) {
+  const [shuttleState, setShuttleState] = React.useReducer(
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    React.useCallback(composeReducers({ move, moveAll, selectItem, lazyLoad, ...reducers }), []),
+    {
+      ...initialState,
+      // @ts-ignore
+      disabled: disabled || {
         source: [],
         target: [],
+      },
+      selections: initialSelections || {
+        source: [],
+        target: [],
+      },
     },
-    initialSelections?: InitialSelections,
-    disabled?: DisabledSelections,
-    reducers: Record<string, React.Reducer<ShuttleState, any>> = {}
-) {
-    const [shuttleState, setShuttleState] = React.useReducer(
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        React.useCallback(
-            composeReducers({ move, moveAll, selectItem, lazyLoad, ...reducers }),
-            []
-        ),
-        {
-            ...initialState,
-            // @ts-ignore
-            disabled: disabled || {
-                source: [],
-                target: [],
-            },
-            selections: initialSelections || {
-                source: [],
-                target: [],
-            },
-        },
-        init
-    );
+    init
+  );
 
-    useAsyncState(initialState, setShuttleState);
+  useAsyncState(initialState, setShuttleState);
 
-    return { shuttleState, setShuttleState };
+  return { shuttleState, setShuttleState };
 }

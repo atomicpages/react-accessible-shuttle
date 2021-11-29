@@ -1,116 +1,127 @@
 {
-    "name": "react-accessible-shuttle",
-    "version": "0.5.0",
-    "description": "A tiny, zero dependency, shuttle (a.k.a list shuttle, dual listbox, etc.) implementation in React using hooks.",
-    "repository": {
-        "url": "https://github.com/atomicpages/react-accessible-shuttle"
-    },
-    "scripts": {
-        "test": "jest",
-        "test:fast": "jest --collectCoverage=false",
-        "build": "npm-run-all -p clean lint && npm-run-all build:css build:pika clean:css",
-        "build:css": "sass -s compressed --no-charset --embed-sources src/styles/** ./css/shuttle.css",
-        "build:pika": "pika build",
-        "build:test": "npm run clean && tsc src/index.ts --pretty --jsx react --esModuleInterop  --downLevelIteration --outDir pkg",
-        "clean": "rimraf pkg/",
-        "clean:css": "rimraf css/",
-        "version": "npm run build",
-        "lint": "eslint \"src/**/*.{ts,tsx}\""
-    },
-    "@pika/pack": {
-        "pipeline": [
-            [
-                "@pika/plugin-ts-standard-pkg",
-                {
-                    "excludes": "playground/**"
-                }
-            ],
-            [
-                "@pika/plugin-build-web"
-            ],
-            [
-                "@pika/plugin-build-node"
-            ],
-            [
-                "pika-plugin-legacy-browser",
-                {
-                    "name": "ReactShuttle",
-                    "minify": true,
-                    "external": [
-                        "react"
-                    ],
-                    "globals": {
-                        "react": "React"
-                    },
-                    "sourcemap": true
-                }
-            ],
-            [
-                "pika-plugin-typedefs-to-flow",
-                {
-                    "tolerateFailures": true
-                }
-            ],
-            [
-                "@pika/plugin-copy-assets",
-                {
-                    "files": [
-                        "css/"
-                    ]
-                }
-            ]
-        ]
-    },
-    "keywords": [
-        "shuttle",
-        "dual listbox",
-        "list shuttle",
-        "hooks"
+  "name": "react-accessible-shuttle",
+  "version": "0.5.0",
+  "description": "A tiny, zero dependency, shuttle (a.k.a list shuttle, dual listbox, etc.) implementation in React using hooks.",
+  "repository": {
+    "url": "https://github.com/atomicpages/react-accessible-shuttle"
+  },
+  "scripts": {
+    "preinstall": "npx check-node-version --npm '>=7'",
+    "prepare": "husky install",
+    "test": "jest",
+    "test:fast": "jest --collectCoverage=false",
+    "build": "npm-run-all -p clean lint && npm-run-all build:css build:pika clean:css",
+    "build:css": "sass -s compressed --no-charset --embed-sources src/styles/** ./css/shuttle.css",
+    "build:pika": "pika build",
+    "build:test": "npm run clean && tsc src/index.ts --pretty --jsx react --esModuleInterop  --downLevelIteration --outDir pkg",
+    "clean": "rimraf pkg/",
+    "clean:css": "rimraf css/",
+    "version": "npm run build",
+    "lint": "eslint 'src/**/*.{ts,tsx,js,json}'"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-ts-standard-pkg",
+        {
+          "excludes": "playground/**"
+        }
+      ],
+      [
+        "@pika/plugin-build-web"
+      ],
+      [
+        "@pika/plugin-build-node"
+      ],
+      [
+        "pika-plugin-legacy-browser",
+        {
+          "name": "ReactShuttle",
+          "minify": true,
+          "external": [
+            "react"
+          ],
+          "globals": {
+            "react": "React"
+          },
+          "sourcemap": true
+        }
+      ],
+      [
+        "pika-plugin-typedefs-to-flow",
+        {
+          "tolerateFailures": true
+        }
+      ],
+      [
+        "@pika/plugin-copy-assets",
+        {
+          "files": [
+            "css/"
+          ]
+        }
+      ]
+    ]
+  },
+  "keywords": [
+    "shuttle",
+    "dual listbox",
+    "list shuttle",
+    "hooks"
+  ],
+  "author": "Dennis Thompson",
+  "maintainers": [
+    "Dennis Thompson"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@djthoms/eslint-config": "^3.0.0",
+    "@djthoms/prettier-config": "^4.0.0",
+    "@pika/pack": "^0.5.0",
+    "@pika/plugin-build-node": "^0.9.2",
+    "@pika/plugin-build-umd": "^0.9.2",
+    "@pika/plugin-build-web": "^0.9.2",
+    "@pika/plugin-copy-assets": "^0.9.2",
+    "@pika/plugin-ts-standard-pkg": "^0.9.2",
+    "@testing-library/jest-dom": "^5.1.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@types/bluebird": "^3.5.29",
+    "@types/jest": "^27.0.3",
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "bluebird": "^3.7.2",
+    "coveralls": "^3.0.9",
+    "eslint": "^7.0.0",
+    "flowgen": "^1.10.0",
+    "husky": "^7.0.4",
+    "jest": "^27.3.1",
+    "lint-staged": "^12.1.2",
+    "npm-run-all": "^4.1.5",
+    "pika-plugin-legacy-browser": "^1.2.0",
+    "pika-plugin-typedefs-to-flow": "^0.0.3",
+    "prettier": "^2.5.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-test-renderer": "^17.0.2",
+    "rimraf": "^3.0.2",
+    "sass": "^1.26.2",
+    "ts-jest": "^27.0.7",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.0.0"
+  },
+  "prettier": "@djthoms/prettier-config",
+  "lint-staged": {
+    "*.{js,ts,tsx,json}": [
+      "prettier --write",
+      "eslint --fix"
     ],
-    "author": "Dennis Thompson",
-    "maintainers": [
-        "Dennis Thompson"
-    ],
-    "license": "MIT",
-    "peerDependencies": {
-        "react": ">=16.8.0",
-        "react-dom": ">=16.8.0"
-    },
-    "devDependencies": {
-        "@djthoms/eslint-config": "^3.0.0",
-        "@djthoms/prettier-config": "^3.0.0",
-        "@pika/pack": "^0.5.0",
-        "@pika/plugin-build-node": "^0.9.2",
-        "@pika/plugin-build-umd": "^0.9.2",
-        "@pika/plugin-build-web": "^0.9.2",
-        "@pika/plugin-copy-assets": "^0.9.2",
-        "@pika/plugin-ts-standard-pkg": "^0.9.2",
-        "@testing-library/jest-dom": "^5.1.1",
-        "@testing-library/react": "^12.1.2",
-        "@testing-library/react-hooks": "^7.0.2",
-        "@types/bluebird": "^3.5.29",
-        "@types/jest": "^27.0.3",
-        "@types/react": "^17.0.37",
-        "@types/react-dom": "^17.0.11",
-        "@typescript-eslint/eslint-plugin": "^5.4.0",
-        "@typescript-eslint/parser": "^5.4.0",
-        "bluebird": "^3.7.2",
-        "coveralls": "^3.0.9",
-        "eslint": "^7.0.0",
-        "flowgen": "^1.10.0",
-        "jest": "^27.3.1",
-        "npm-run-all": "^4.1.5",
-        "pika-plugin-legacy-browser": "^1.2.0",
-        "pika-plugin-typedefs-to-flow": "^0.0.3",
-        "prettier": "^2.5.0",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "react-test-renderer": "^17.0.2",
-        "rimraf": "^3.0.2",
-        "sass": "^1.26.2",
-        "ts-jest": "^27.0.7",
-        "ts-node": "^10.4.0",
-        "typescript": "^4.0.0"
-    },
-    "prettier": "@djthoms/prettier-config"
+    "*.{md,yml,yaml}": "prettier --write"
+  }
 }

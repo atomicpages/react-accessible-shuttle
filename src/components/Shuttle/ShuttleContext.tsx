@@ -2,8 +2,8 @@ import React from 'react';
 import { ShuttleState } from './hooks/useShuttleState';
 
 type ShuttleContextType = {
-    shuttleState: ShuttleState;
-    setShuttleState: React.Dispatch<Record<string, any>>;
+  shuttleState: ShuttleState;
+  setShuttleState: React.Dispatch<Record<string, any>>;
 };
 
 // @ts-ignore

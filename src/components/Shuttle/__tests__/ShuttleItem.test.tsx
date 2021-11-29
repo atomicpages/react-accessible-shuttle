@@ -5,49 +5,49 @@ import { ShuttleItem } from '../ShuttleItem';
 afterEach(cleanup);
 
 describe('ShuttleItem tests', () => {
-    it('should render without errors', () => {
-        const spy = jest.spyOn(global.console, 'warn');
+  it('should render without errors', () => {
+    const spy = jest.spyOn(global.console, 'warn');
 
-        expect(() => {
-            render(<ShuttleItem value="testing">Testing</ShuttleItem>);
-        }).not.toThrow();
+    expect(() => {
+      render(<ShuttleItem value="testing">Testing</ShuttleItem>);
+    }).not.toThrow();
 
-        expect(console.warn).toHaveBeenCalled();
+    expect(console.warn).toHaveBeenCalled();
 
-        spy.mockRestore();
-    });
+    spy.mockRestore();
+  });
 
-    it('should match the snapshot', () => {
-        const spy = jest.spyOn(global.console, 'warn');
-        const { container } = render(
-            <ShuttleItem data-index={1} value="foo">
-                Foo
-            </ShuttleItem>
-        );
+  it('should match the snapshot', () => {
+    const spy = jest.spyOn(global.console, 'warn');
+    const { container } = render(
+      <ShuttleItem data-index={1} value="foo">
+        Foo
+      </ShuttleItem>
+    );
 
-        expect(container).toMatchSnapshot();
-        expect(console.warn).not.toHaveBeenCalled();
+    expect(container).toMatchSnapshot();
+    expect(console.warn).not.toHaveBeenCalled();
 
-        spy.mockRestore();
-    });
+    spy.mockRestore();
+  });
 
-    it('should match the snapshot when disabled', () => {
-        const { container } = render(
-            <ShuttleItem data-index={1} disabled value="foo">
-                Foo
-            </ShuttleItem>
-        );
+  it('should match the snapshot when disabled', () => {
+    const { container } = render(
+      <ShuttleItem data-index={1} disabled value="foo">
+        Foo
+      </ShuttleItem>
+    );
 
-        expect(container).toMatchSnapshot();
-    });
+    expect(container).toMatchSnapshot();
+  });
 
-    it('should match the snapshot when selected', () => {
-        const { container } = render(
-            <ShuttleItem data-index={1} selected value="foo">
-                Foo
-            </ShuttleItem>
-        );
+  it('should match the snapshot when selected', () => {
+    const { container } = render(
+      <ShuttleItem data-index={1} selected value="foo">
+        Foo
+      </ShuttleItem>
+    );
 
-        expect(container).toMatchSnapshot();
-    });
+    expect(container).toMatchSnapshot();
+  });
 });

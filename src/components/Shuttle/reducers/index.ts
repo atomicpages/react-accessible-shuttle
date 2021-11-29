@@ -6,9 +6,9 @@ export { selectItem } from './selectItemReducer';
 export { lazyLoad } from './lazyLoadReducer';
 
 export enum SHUTTLE_CONTROL_TYPES {
-    MOVE_SELECTIONS = 'MOVE_SELECTIONS',
-    MOVE_ALL = 'MOVE_ALL',
-    SELECT_ITEM = 'SELECT_ITEM',
+  MOVE_SELECTIONS = 'MOVE_SELECTIONS',
+  MOVE_ALL = 'MOVE_ALL',
+  SELECT_ITEM = 'SELECT_ITEM',
 }
 
 /**
@@ -19,19 +19,17 @@ export enum SHUTTLE_CONTROL_TYPES {
  * @see useShuttleState for usage and other configuration docs.
  */
 export const composeReducers =
-    (reducers: { [key: string]: any }) =>
-    (state: ShuttleState, action: Record<string, any>): ShuttleState => {
-        const result = { ...state };
+  (reducers: { [key: string]: any }) =>
+  (state: ShuttleState, action: Record<string, any>): ShuttleState => {
+    const result = { ...state };
 
-        for (const key in reducers) {
-            if (typeof reducers[key] !== 'function') {
-                throw new Error(
-                    `Reducers must be functions. Saw ${typeof reducers[key]} for ${key}`
-                );
-            }
+    for (const key in reducers) {
+      if (typeof reducers[key] !== 'function') {
+        throw new Error(`Reducers must be functions. Saw ${typeof reducers[key]} for ${key}`);
+      }
 
-            Object.assign(result, reducers[key](result, action));
-        }
+      Object.assign(result, reducers[key](result, action));
+    }
 
-        return { ...result };
-    };
+    return { ...result };
+  };
