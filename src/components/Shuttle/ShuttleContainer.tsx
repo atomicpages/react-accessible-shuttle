@@ -5,8 +5,6 @@ import { ShuttleContext } from './ShuttleContext';
 import { NUMBER_OF_CONTAINERS, SHUTTLE_CONTAINERS_ARRAY } from './globals';
 import { ShuttleState } from './hooks/useShuttleState';
 
-let id_int = 0;
-
 export type ShuttleContainerProps = {
   /**
    * Child render function of the Shuttle Container.
@@ -34,11 +32,11 @@ export const ShuttleContainer: React.FC<ShuttleContainerProps> = React.memo(
   // eslint-disable-next-line react/display-name
   React.forwardRef<HTMLDivElement, ShuttleContainerProps>(
     ({ children, className, ...rest }, ref) => {
-      const { shuttleState } = React.useContext(ShuttleContext);
+      const { shuttleState, counter } = React.useContext(ShuttleContext);
 
       // mod needed for HMR updates
       const id = React.useRef(
-        SHUTTLE_CONTAINERS_ARRAY[Math.floor(id_int++ % NUMBER_OF_CONTAINERS)]
+        SHUTTLE_CONTAINERS_ARRAY[Math.floor(counter.current++ % NUMBER_OF_CONTAINERS)]
       );
 
       /**

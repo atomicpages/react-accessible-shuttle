@@ -56,10 +56,15 @@ export const Shuttle: React.FC<ShuttleProps> & Statics = ({
   children,
   ...rest
 }: ShuttleProps) => {
+  const counter = React.useRef(0);
   const { onClick: defaultClickHandler } = useShuttleItemClick({ setShuttleState, shuttleState });
 
   return (
-    <ShuttleContext.Provider value={{ shuttleState, setShuttleState }}>
+    <ShuttleContext.Provider
+      value={React.useMemo(
+        () => ({ shuttleState, setShuttleState, counter }),
+        [shuttleState, setShuttleState, counter]
+      )}>
       <div
         className={classNames(
           'shuttle',
